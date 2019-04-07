@@ -17,5 +17,7 @@ public class EditSGAActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 }
