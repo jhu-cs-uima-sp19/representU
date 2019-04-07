@@ -10,6 +10,8 @@ public class ManageIssuesActivity extends AppCompatActivity {
 
     Button cancel;
 
+    Button add;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,16 @@ public class ManageIssuesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        // Cancel button
+        add = (Button) findViewById(R.id.addIssue);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ManageIssuesActivity.this, AddIssueActivity.class);
+                startActivity(intent);
             }
         });
 
