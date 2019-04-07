@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "905667572341",
+    "firebase_url": "https://representu-ab61f.firebaseio.com",
+    "project_id": "representu-ab61f",
+    "storage_bucket": "representu-ab61f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905667572341:android:9c3152ffa59a43df",
+        "android_client_info": {
+          "package_name": "com.example.representuapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU6rrAYuJ8L8SK9vI1LEeLC-1QA2GUluU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905667572341-avbl6k5e0fj8d7mscu2frmo3ct1aq7ra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
