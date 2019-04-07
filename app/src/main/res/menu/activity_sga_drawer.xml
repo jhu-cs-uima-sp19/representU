@@ -5,27 +5,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:title="Feed"
+            android:title="@string/feed"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/sgaFeed"
             />
         <item
-            android:title="Manage Issues"
+            android:title="@string/manage"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/manageIssues"
             />
         <item
-            android:title="Edit SGA"
+            android:title="@string/edit_sga"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/editSGA"
             />
         <item
-            android:title="Settings"
+            android:title="@string/settings"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/settingsSGA"
             />
         <item
-            android:title="Logout"
-            android:id="@+id/logoutSGA"
+            android:title="@string/logout"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/logout"
             />
         <item
-            android:title="Change Password"
+            android:title="@string/change_pass"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/changePassword"
             />
     </group>

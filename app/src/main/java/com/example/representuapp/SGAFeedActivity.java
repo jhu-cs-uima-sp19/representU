@@ -81,7 +81,7 @@ public class SGAFeedActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.settingsSGA) {
 
-        } else if (id == R.id.logoutSGA) {
+        } else if (id == R.id.logout) {
 
         } else if (id == R.id.changePassword) {
 
