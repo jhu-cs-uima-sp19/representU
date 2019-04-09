@@ -13,7 +13,20 @@
           "package_name": "com.example.representuapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "905667572341-7hs9oqr28gqggf2asmu955oupdfon60p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.representuapp",
+            "certificate_hash": "1ca77079934e78bd4d793ecadb9241a92a255438"
+          }
+        },
+        {
+          "client_id": "905667572341-avbl6k5e0fj8d7mscu2frmo3ct1aq7ra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBU6rrAYuJ8L8SK9vI1LEeLC-1QA2GUluU"
