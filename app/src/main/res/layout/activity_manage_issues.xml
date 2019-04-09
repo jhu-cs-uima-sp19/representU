@@ -32,7 +32,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:background="@color/colorAccent"
-        android:text="Add Issue"
+        android:text="@string/add_issue"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toStartOf="@+id/exitIssues"
         app:layout_constraintHorizontal_bias="0.145"

@@ -13,6 +13,7 @@
     <string name="manage">Manage Issues</string>
     <string name="logout">Logout</string>
     <string name="login">Log in:</string>
+    <string name="add_issue">Add Issue</string>
     <string name="change_pass">Change Password</string>
     <!-- Strings related to login -->
     <string name="prompt_email">JHU Email</string>
