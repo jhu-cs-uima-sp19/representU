@@ -22,7 +22,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         // Cancel button
-        cancel = (Button) findViewById(R.id.cancelIssues);
+        cancel = (Button) findViewById(R.id.exitIssues);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
