@@ -83,6 +83,7 @@ public class SGAFeedActivity extends AppCompatActivity
             Intent intent = new Intent(SGAFeedActivity.this, SGASettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.logout) {
+            finish();
 
         } else if (id == R.id.changePassword) {
 

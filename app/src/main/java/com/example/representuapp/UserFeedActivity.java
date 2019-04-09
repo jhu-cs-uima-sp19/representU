@@ -88,6 +88,7 @@ public class UserFeedActivity extends AppCompatActivity
         } else if (id == R.id.settingsUser) {
 
         } else if (id == R.id.logout) {
+            finish();
 
         } else if (id == R.id.changePassword) {
 
