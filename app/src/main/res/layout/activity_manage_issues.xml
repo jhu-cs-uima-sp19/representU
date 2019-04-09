@@ -26,9 +26,23 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="139dp"
         android:layout_marginRight="139dp"
-        android:text="Add an Issue"
+        android:text="Add Issue"
         app:layout_constraintEnd_toStartOf="@+id/cancelIssues"
         app:layout_constraintHorizontal_bias="0.145"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/editIssue"
+        android:layout_width="177dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Edit Issue Placeholder Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addIssue" />
 </android.support.constraint.ConstraintLayout>

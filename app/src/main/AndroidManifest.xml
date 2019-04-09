@@ -13,8 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".EditIssueActivity" android:parentActivityName=".ManageIssuesActivity"
+            android:label="Edit Issue"
+            ></activity>
         <activity android:name=".AddIssueActivity" android:parentActivityName=".ManageIssuesActivity"
-            android:label="Add an Issue"
+            android:label="Add Issue"
             ></activity>
         <activity android:name=".EditSGAActivity" android:parentActivityName=".SGAFeedActivity"
             android:label="Meet Your SGA"/>
