@@ -9,6 +9,10 @@ public class Issue {
     public int votesYay;
     public int votesNay;
 
+    public Issue() {
+        // Default constructor required for calls to DataSnapshot.getValue(Issue.class)
+    }
+
     public Issue(String header, String sum) {
         this.idNum = UUID.randomUUID();
         this.title = header;
