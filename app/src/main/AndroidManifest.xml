@@ -24,10 +24,10 @@
         <activity android:name=".EditSGAActivity" android:parentActivityName=".SGAFeedActivity"
             android:label="Meet Your SGA"/>
         <activity android:name=".ManageIssuesActivity"
-            android:label="Manage Issues"/>
+            android:label="@string/manage"/>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

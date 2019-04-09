@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RepresentUApp</string>
+    <string name="app_name">RepresentU</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">JHED</string>
@@ -12,6 +12,7 @@
     <string name="edit_sga">Edit SGA</string>
     <string name="manage">Manage Issues</string>
     <string name="logout">Logout</string>
+    <string name="login">Log in:</string>
     <string name="change_pass">Change Password</string>
     <!-- Strings related to login -->
     <string name="prompt_email">JHU Email</string>
@@ -24,6 +25,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_user_feed">UserFeedActivity</string>
-    <string name="title_activity_sga">UserFeedActivity</string>
+    <string name="title_activity_user_feed">Your Feed</string>
+    <string name="title_activity_sga">Your Feed</string>
 </resources>
