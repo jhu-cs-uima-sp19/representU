@@ -60,7 +60,7 @@ public class SGAFeedActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true;
         }
 
@@ -80,8 +80,10 @@ public class SGAFeedActivity extends AppCompatActivity
             Intent intent = new Intent(SGAFeedActivity.this, EditSGAActivity.class);
             startActivity(intent);
         } else if (id == R.id.settingsSGA) {
-
+            Intent intent = new Intent(SGAFeedActivity.this, SGASettingsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.logout) {
+            finish();
 
         } else if (id == R.id.changePassword) {
 
