@@ -28,4 +28,7 @@
     </string>
     <string name="title_activity_user_feed">Your Feed</string>
     <string name="title_activity_sga">Your Feed</string>
+    <string name="saveButton">Add</string>
+    <string name="issue_title">Issue Title</string>
+    <string name="issue_summary">Issue Summary</string>
 </resources>
