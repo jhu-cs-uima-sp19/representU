@@ -1,8 +1,12 @@
 package com.example.representuapp;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 public class Issue {
+    public Instant createTime;
     public UUID idNum;
     public String title;
     public String summary;
@@ -19,6 +23,7 @@ public class Issue {
         this.summary = sum;
         this.votesYay = 0;
         this.votesNay = 0;
+        this.createTime = Instant.now();
     }
 
     public void changeTitle(String newTitle) {
@@ -35,5 +40,26 @@ public class Issue {
 
     public void addNay() {
         this.votesNay++;
+    }
+
+    /** Returns the creation time of this User. */
+    public Instant getCreationTime() {
+        return createTime;
+    }
+
+    /** Returns Instant time in MM/DD/YYYY HH:MM:SS timeFormat. */
+    public String timeFormat() {
+        Date myDate = Date.from(this.getCreationTime());
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        String formattedDate = formatter.format(myDate);
+        return formattedDate;
+    }
+
+    @Override
+    /** Compares Activities based on their creation time.
+     * Sorts latest first.
+     */
+    public int compareTo(Issue other) {
+        return -(this.getCreationTime().compareTo(other.getCreationTime()));
     }
 }
