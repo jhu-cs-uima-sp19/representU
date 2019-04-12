@@ -23,11 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 public class ManageIssuesActivity extends AppCompatActivity {
 
     Button cancel;
-
     Button add;
-
-    Button edit;
-
     ListView issuesList;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -62,17 +58,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
             }
         });
 
-        edit = (Button) findViewById(R.id.editIssue);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ManageIssuesActivity.this, EditIssueActivity.class);
-                startActivity(intent);
-            }
-        });
-
         issuesList = (ListView) findViewById(R.id.issuesList);
-
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayList);
         issuesList.setAdapter(adapter);
@@ -81,7 +67,6 @@ public class ManageIssuesActivity extends AppCompatActivity {
         dbRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
@@ -90,7 +75,6 @@ public class ManageIssuesActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
@@ -100,9 +84,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 }
-
             }
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
@@ -112,9 +94,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 }
-
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
@@ -125,19 +105,17 @@ public class ManageIssuesActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError dataError) {
-
             }
-
-
         });
 
         issuesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ManageIssuesActivity.this, EditIssueActivity.class);
+                String title = arrayList.get(position);
+                intent.putExtra("name", title);
                 startActivity(intent);
             }
         });
