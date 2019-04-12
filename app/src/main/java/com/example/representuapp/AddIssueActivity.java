@@ -8,9 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class AddIssueActivity extends AppCompatActivity {
 
@@ -37,6 +40,7 @@ public class AddIssueActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Issue issue = new Issue(issueTitle.getText().toString(), issueSum.getText().toString());
                 dbRef.child("issues").child(issue.idNum.toString()).child(issue.title).setValue(issue);
+                Toast.makeText(getApplicationContext(), "added item", LENGTH_SHORT).show();
                 finish();
             }
         });
