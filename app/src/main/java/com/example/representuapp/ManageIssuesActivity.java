@@ -16,11 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.FirebaseError;
-
-
-
 
 
 
@@ -69,78 +64,51 @@ public class ManageIssuesActivity extends AppCompatActivity {
         issuesList.setAdapter(adapter);
         issuesList.setClickable(true);
 
-        /*dbRef.addChildEventListener(new ChildEventListener() {
+        dbRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                DataSnapshot childDataSnapshot = dataSnapshot.child("issues");
-                for (DataSnapshot childsDataSnapshot : dataSnapshot.getChildren()) {
-
-                    Issue i = childsDataSnapshot.getValue(Issue.class);
-
-                    //String string = childsDataSnapshot.child("title").getValue(String.class);
-                    arrayList.add(i.title);
-                    adapter.notifyDataSetChanged();
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
+                        String string = childsDataSnapshot.child("title").getValue(String.class);
+                        arrayList.add(string);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                DataSnapshot childDataSnapshot = dataSnapshot.child("issues");
-                    for (DataSnapshot childsDataSnapshot : dataSnapshot.getChildren()) {
-
-                        Issue i = childsDataSnapshot.getValue(Issue.class);
-
-                        //String string = childsDataSnapshot.child("title").getValue(String.class);
-                        arrayList.add(i.title);
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
+                        String string = childsDataSnapshot.child("title").getValue(String.class);
+                        arrayList.add(string);
                         adapter.notifyDataSetChanged();
                     }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                DataSnapshot childDataSnapshot = dataSnapshot.child("issues");
-                for (DataSnapshot childsDataSnapshot : dataSnapshot.getChildren()) {
-
-                    Issue i = childsDataSnapshot.getValue(Issue.class);
-
-                    //String string = childsDataSnapshot.child("title").getValue(String.class);
-                    arrayList.add(i.title);
-                    adapter.notifyDataSetChanged();
                 }
             }
-
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
+                        String string = childsDataSnapshot.child("title").getValue(String.class);
+                        arrayList.add(string);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                DataSnapshot childDataSnapshot = dataSnapshot.child("issues");
-                for (DataSnapshot childsDataSnapshot : dataSnapshot.getChildren()) {
-
-                    Issue i = childsDataSnapshot.getValue(Issue.class);
-
-                    //String string = childsDataSnapshot.child("title").getValue(String.class);
-                    arrayList.add(i.title);
-                    adapter.notifyDataSetChanged();
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
+                        String string = childsDataSnapshot.child("title").getValue(String.class);
+                        arrayList.add(string);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
             @Override
             public void onCancelled(DatabaseError dataError) {
             }
-        });*/
-
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot childDS = dataSnapshot.child("issues");
-                for (DataSnapshot issueSnapshot: childDS.getChildren()) {
-                    Issue i = issueSnapshot.getValue(Issue.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) { }
-
-
         });
-
-
 
         issuesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
