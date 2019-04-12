@@ -58,6 +58,7 @@ public class AddIssueActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Issue issue = new Issue(issueTitle.getText().toString(), issueSum.getText().toString());
                 dbRef.child("issues").child(issue.idNum.toString()).child(issue.title).setValue(issue);
+                finish();
             }
         });
     }
