@@ -82,14 +82,10 @@ public class MainActivity extends AppCompatActivity {
         if ((username.equals("admin@jhu.edu")) && (password.equals("helloAdmin"))) {
             Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
             startActivity(intent);
-        }
-
-        if ((username.equals("user@jhu.edu")) && (password.equals("helloUser"))) {
+        } else if ((username.equals("user@jhu.edu")) && (password.equals("helloUser"))) {
             Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
             startActivity(intent);
-        }
-
-        if (username.endsWith("@jhu.edu")) {
+        } else if (username.endsWith("@jhu.edu")) {
             Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
             startActivity(intent);
         }
