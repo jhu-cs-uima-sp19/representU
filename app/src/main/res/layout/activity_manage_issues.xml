@@ -12,15 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/colorPrimary"
         android:text="EXIT"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/issuesList" />
 
     <Button
         android:id="@+id/addIssue"
@@ -28,7 +30,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
@@ -42,12 +44,14 @@
 
     <ListView
         android:id="@+id/issuesList"
-        android:layout_width="402dp"
-        android:layout_height="590dp"
-        android:background="@drawable/border"
-        android:divider="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:scrollbars="vertical"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="76dp" />
+        app:layout_constraintBottom_toTopOf="@+id/exitIssues"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addIssue" />
 </android.support.constraint.ConstraintLayout>
