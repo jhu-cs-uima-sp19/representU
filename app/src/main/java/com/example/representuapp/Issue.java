@@ -41,25 +41,25 @@ public class Issue {
     public void addNay() {
         this.votesNay++;
     }
-/*
+
     /** Returns the creation time of this User. */
-    /*public Instant getCreationTime() {
+    public Instant getCreationTime() {
         return createTime;
     }
 
     /** Returns Instant time in MM/DD/YYYY HH:MM:SS timeFormat. */
-   /* public String timeFormat() {
+    public String timeFormat() {
         Date myDate = Date.from(this.getCreationTime());
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         String formattedDate = formatter.format(myDate);
         return formattedDate;
     }
 
-    @Override
+//    @Override
     /** Compares Activities based on their creation time.
      * Sorts latest first.
-     *//*
-    public int compareTo(Issue other) {
-        return -(this.getCreationTime().compareTo(other.getCreationTime()));
-    }*/
+     */
+  //  public int compareTo(Issue other) {
+    //    return -(this.getCreationTime().compareTo(other.getCreationTime()));
+    //}
 }

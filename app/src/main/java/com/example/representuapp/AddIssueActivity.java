@@ -3,8 +3,6 @@ package com.example.representuapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,10 +36,15 @@ public class AddIssueActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Issue issue = new Issue(issueTitle.getText().toString(), issueSum.getText().toString());
-                dbRef.child("issues").child(issue.idNum.toString()).child(issue.title).setValue(issue);
-                Toast.makeText(getApplicationContext(), "added item", LENGTH_SHORT).show();
-                finish();
+                if((issueTitle.getText().toString()).equals(null) || (issueTitle.getText().toString()).equals("")
+                        || (issueSum.getText().toString()).equals(null) || (issueSum.getText().toString()).equals("") ) {
+                    Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
+                } else {
+                    Issue issue = new Issue(issueTitle.getText().toString(), issueSum.getText().toString());
+                    dbRef.child("issues").child(issue.idNum.toString()).child(issue.title).setValue(issue);
+                    Toast.makeText(getApplicationContext(), "Added Issue", LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
     }
