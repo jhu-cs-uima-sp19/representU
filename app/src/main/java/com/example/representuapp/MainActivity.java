@@ -12,6 +12,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * A login screen that offers login via email/password.
@@ -85,9 +88,11 @@ public class MainActivity extends AppCompatActivity {
         } else if ((username.equals("user@jhu.edu")) && (password.equals("helloUser"))) {
             Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
             startActivity(intent);
-        } else if (username.endsWith("@jhu.edu")) {
+        } else if (username.endsWith("@jhu.edu") && !(username.equals("admin@jhu.edu"))) {
             Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
             startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", LENGTH_SHORT).show();
         }
     }
 
