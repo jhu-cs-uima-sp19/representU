@@ -59,7 +59,7 @@ public class Issue {
     /** Compares Activities based on their creation time.
      * Sorts latest first.
      */
-  //  public int compareTo(Issue other) {
+    //  public int compareTo(Issue other) {
     //    return -(this.getCreationTime().compareTo(other.getCreationTime()));
     //}
 }
