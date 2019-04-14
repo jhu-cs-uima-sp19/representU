@@ -22,6 +22,8 @@ public class IssuesSGAActivity extends AppCompatActivity {
     public Integer yeaNum = 0;
     public Integer nayNum = 0;
     public TextView summary;
+    public String title;
+    public String idString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
