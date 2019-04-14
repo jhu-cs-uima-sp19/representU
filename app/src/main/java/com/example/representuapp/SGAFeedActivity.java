@@ -2,8 +2,12 @@ package com.example.representuapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,15 +17,90 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.SnapshotParser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 public class SGAFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference dbRef = database.getReference();
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private FirebaseRecyclerAdapter adapter;
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout root;
+        public TextView txtTitle;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            root = itemView.findViewById(R.id.list_root);
+            txtTitle = itemView.findViewById(R.id.issueTitle);
+        }
+
+        public void setTxtTitle(String string) {
+            txtTitle.setText(string);
+        }
+
+    }
+
+    private void fetch() {
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("issues");
+
+        FirebaseRecyclerOptions<Issue> options =
+                new FirebaseRecyclerOptions.Builder<Issue>()
+                        .setQuery(query, new SnapshotParser<Issue>() {
+                            @NonNull
+                            @Override
+                            public Issue parseSnapshot(@NonNull DataSnapshot snapshot) {
+                                //remember to grab ID num for issue page
+                                String title = "";
+                                String summary = "";
+                                for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
+                                    title = childsDataSnapshot.child("title").getValue(String.class);
+                                }
+                                return new Issue(title, summary);
+                            }
+                        })
+                        .build();
+
+        adapter = new FirebaseRecyclerAdapter<Issue, SGAFeedActivity.ViewHolder>(options) {
+            @Override
+            public SGAFeedActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.issue_textview, parent, false);
+
+                return new SGAFeedActivity.ViewHolder(view);
+            }
+
+
+            @Override
+            protected void onBindViewHolder(SGAFeedActivity.ViewHolder holder, final int position, Issue model) {
+                holder.setTxtTitle(model.title);
+                holder.root.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(SGAFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        };
+        recyclerView.setAdapter(adapter);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +118,8 @@ public class SGAFeedActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        loadIssues();
     }
 
     @Override
@@ -98,5 +179,34 @@ public class SGAFeedActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
+    public void loadIssues() {
+        recyclerView = (RecyclerView) findViewById(R.id.issueFeed);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        fetch();
+
+        // specify an adapter (see also next example)
+        //mAdapter = new FirebaseRecyclerAdapter(issueList);
+        //recyclerView.setAdapter(mAdapter);
     }
 }
