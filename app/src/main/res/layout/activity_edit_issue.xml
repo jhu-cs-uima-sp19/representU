@@ -60,7 +60,6 @@
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbars="vertical"
         android:singleLine="false"
-        android:text="ofsdofsdjdddddddddddddddddddddddddddddddddddddddddd"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintBottom_toTopOf="@+id/deleteEdit"
         app:layout_constraintEnd_toEndOf="parent"
