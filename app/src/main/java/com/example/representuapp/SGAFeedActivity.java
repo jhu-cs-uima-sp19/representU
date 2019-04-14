@@ -74,7 +74,7 @@ public class SGAFeedActivity extends AppCompatActivity
                                 for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
                                     title = childsDataSnapshot.child("title").getValue(String.class);
                                 }
-                                return new Issue(title, summary);
+                                return new Issue(title, summary, snapshot.getKey());
                             }
                         })
                         .build();

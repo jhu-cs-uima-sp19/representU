@@ -26,6 +26,15 @@ public class Issue {
         this.createTime = Instant.now();
     }
 
+    public Issue(String header, String sum, String idCopy) {
+        this.idNum = UUID.fromString(idCopy);
+        this.title = header;
+        this.summary = sum;
+        this.votesYay = 0;
+        this.votesNay = 0;
+        this.createTime = Instant.now();
+    }
+
     public void changeTitle(String newTitle) {
         this.summary = newTitle;
     }
