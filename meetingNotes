@@ -1,0 +1,59 @@
+4/3 - TA Meeting Notes
+Two people focus on the database (we will use firebase)
+README File should have usernames and passwords for testers to go in
+Download Sourcetree desktop application for easier git use
+Put presentations on GitHub, video, etc.
+She will cut off our presentations after 5 min.
+Blackboard: Presentation and Video
+The rest on GitHub
+
+4/6 - Team hack session
+Starting with login screen functionality
+Watched video tutorial on how to save usernames and passwords
+Created the User login and the Admin login together
+Connected firebase to Android Studio
+Peyton will create all the blank Activites on SGA side (Feed activity with Nav drawer,
+ Manage issue activity, Add issue activity, edit issue, etc.) and connect them with intents
+Mia will create a logo and edit color scheme, add JHU logo to Nav Header, edit Nav drawer
+ functionalities for both Admin and User
+Aubin will start to create an Issue object that will hold all our data for each Issue
+
+4/9 - TA Meeting / Stand Up Meeting
+
+Showed Muskaan our app thus far - good progress
+Updated our Project Board
+Stand-ups after TA left
+Mia presented logo, team approves
+Aubin showed us database and how it works
+Peyton showed us activities and user/admin flow
+Discussed next steps
+Aubin will finish Add Issue page, Peyton and Mia will finish Manage Issues
+How will we populate the feed? List View with recycle view?
+How to chronologically order them? Create a timestamp data point in Issue object?
+(timestamp not needed because data is accessed in the right order)
+
+4/11 - Virtual Stand-Up
+What do we need to do today/tomorrow?
+Finish Add Issue page and make sure database has the correct info (Aubin)
+Populate database with fake issues (Aubin)
+Once this is done, Manage issues page (Mia/Peyton)
+Put to feed if time (Mia/Peyton)
+Finish UI details (Mia/Peyton)
+
+4/12 - Mia and Peyton Meeting
+Solidified UI for Add issue / Edit Issue activities
+Checked for views on different screens and landscape view
+Edited constraints on activities that needed it
+Added warning pop up for Add Issue page, warns that you cannot add issue when Title
+ and Summary fields are not filled
+Added save button to activity bar in Edit issues page (functionality of button
+ for next sprint)
+
+4/14 - Mia and Aubin Meeting
+Aubin completed both User/Sga feed with RecyclerView and CardView
+Together, working on Issue activity and passing Issue object to them
+Discussing logic behind not allowing SGA to vote (OnClick method for Yay,Nay button
+ would just bring up statistics, would not alter data)
+Discussing logic behind not allowing users to vote twice
+Saving boolean to database for each user and each issue? -- Save for next sprint
+Once functionality is done, Mia will deal with UI and flexibility for screens
