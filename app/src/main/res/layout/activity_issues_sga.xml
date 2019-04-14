@@ -65,6 +65,7 @@
         android:minLines="5"
         android:text="TextView"
         android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
         android:textStyle="normal"
         app:autoSizeMinTextSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -34,7 +34,8 @@
             android:parentActivityName=".SGAFeedActivity" />
         <activity
             android:name=".ManageIssuesActivity"
-            android:label="@string/manage" />
+            android:label="@string/manage"
+            android:parentActivityName=".SGAFeedActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/login">

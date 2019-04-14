@@ -39,17 +39,9 @@ public class ManageIssuesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_issues);
 
         Intent intent = getIntent();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Cancel button
-        cancel = (Button) findViewById(R.id.exitIssues);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        // Cancel button
+        // Add button
         add = (Button) findViewById(R.id.addIssue);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
