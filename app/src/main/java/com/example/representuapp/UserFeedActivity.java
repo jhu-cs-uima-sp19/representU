@@ -68,8 +68,13 @@ public class UserFeedActivity extends AppCompatActivity
                             @NonNull
                             @Override
                             public Issue parseSnapshot(@NonNull DataSnapshot snapshot) {
-                                return new Issue(snapshot.child("title").toString(),
-                                        snapshot.child("summary").toString());
+                                //remember to grab ID num for issue page
+                                String title = "";
+                                String summary = "";
+                                for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
+                                    title = childsDataSnapshot.child("title").getValue(String.class);
+                                }
+                                return new Issue(title, summary);
                             }
                         })
                         .build();
