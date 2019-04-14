@@ -1,5 +1,6 @@
 package com.example.representuapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -90,12 +91,20 @@ public class UserFeedActivity extends AppCompatActivity
 
 
             @Override
-            protected void onBindViewHolder(ViewHolder holder, final int position, Issue model) {
+            protected void onBindViewHolder(ViewHolder holder, final int position, final Issue model) {
                 holder.setTxtTitle(model.title);
+                //editor.putString("idPass", model.idNum.toString());
+                //editor.putString("titlePass", model.title);
+                //editor.apply();
+                //editor.commit();
                 holder.root.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(UserFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SGAFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(UserFeedActivity.this, IssueVotingActivity.class);
+                        intent.putExtra("title", model.title);
+                        intent.putExtra("id", model.idNum.toString());
+                        startActivity(intent);
                     }
                 });
             }
