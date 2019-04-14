@@ -24,15 +24,20 @@ public class IssuesSGAActivity extends AppCompatActivity {
     public TextView summary;
     public String title;
     public String idString;
+    String name;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issues_sga);
         summary = findViewById(R.id.sga_issue_summary);
-        pref = this.getPreferences(0);
-        editor = pref.edit();
+        //pref = this.getPreferences(0);
+        //editor = pref.edit();
         Intent intent = getIntent();
+        name = intent.getStringExtra("title");
+        id = intent.getStringExtra("id");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         loadIssuePage();
     }
@@ -40,9 +45,10 @@ public class IssuesSGAActivity extends AppCompatActivity {
     public void loadIssuePage() {
         Button yeaButton = (Button) findViewById(R.id.yay_sga);
         Button nayButton = (Button) findViewById(R.id.nay_sga);
-        String idString = pref.getString("idPass", "");
-        String titleString = pref.getString("titlePass", "909090909090");
-        issues.child(idString).child(titleString).addValueEventListener(new ValueEventListener() {
+        //String idString = pref.getString("idPass", "");
+        //String titleString = pref.getString("titlePass", "909090909090");
+        //summary.setText(id);
+        issues.child(id).child(name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 summary.setText(snapshot.child("summary").getValue(String.class));
@@ -53,6 +59,6 @@ public class IssuesSGAActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        setTitle(titleString);
+        setTitle(name);
     }
 }

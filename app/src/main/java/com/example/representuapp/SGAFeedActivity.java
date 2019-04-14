@@ -90,17 +90,19 @@ public class SGAFeedActivity extends AppCompatActivity
 
 
             @Override
-            protected void onBindViewHolder(SGAFeedActivity.ViewHolder holder, final int position, Issue model) {
+            protected void onBindViewHolder(SGAFeedActivity.ViewHolder holder, final int position, final Issue model) {
                 holder.setTxtTitle(model.title);
-                editor.putString("idPass", model.idNum.toString());
-                editor.putString("titlePass", model.title.toString());
-                editor.apply();
-                editor.commit();
+                //editor.putString("idPass", model.idNum.toString());
+                //editor.putString("titlePass", model.title);
+                //editor.apply();
+                //editor.commit();
                 holder.root.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //Toast.makeText(SGAFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SGAFeedActivity.this, IssuesSGAActivity.class);
+                        intent.putExtra("title", model.title);
+                        intent.putExtra("id", model.idNum.toString());
                         startActivity(intent);
                     }
                 });
