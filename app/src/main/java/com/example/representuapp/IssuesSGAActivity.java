@@ -33,8 +33,8 @@ public class IssuesSGAActivity extends AppCompatActivity {
     }
 
     public void loadIssuePage() {
-        Button yeaButton = findViewById(R.id.yay_sga);
-        Button nayButton = findViewById(R.id.nay_sga);
+        Button yeaButton = (Button) findViewById(R.id.yay_sga);
+        Button nayButton = (Button) findViewById(R.id.nay_sga);
         String idString = pref.getString("idPass", "");
         String titleString = pref.getString("titlePass", "");
         issues.child(idString).child(titleString).addValueEventListener(new ValueEventListener() {
@@ -48,6 +48,6 @@ public class IssuesSGAActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        getActionBar().setTitle(titleString);
+        setTitle(titleString);
     }
 }
