@@ -13,18 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SGASettingsActivity" android:parentActivityName=".SGAFeedActivity"
-            android:label="Settings"/>
-        <activity android:name=".EditIssueActivity" android:parentActivityName=".ManageIssuesActivity"
+        <activity android:name=".IssuesSGAActivity"></activity>
+        <activity android:name=".IssueVotingActivity" />
+        <activity
+            android:name=".SGASettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".SGAFeedActivity" />
+        <activity
+            android:name=".EditIssueActivity"
             android:label="Edit Issue"
-            ></activity>
-        <activity android:name=".AddIssueActivity" android:parentActivityName=".ManageIssuesActivity"
+            android:parentActivityName=".ManageIssuesActivity" />
+        <activity
+            android:name=".AddIssueActivity"
             android:label="Add Issue"
-            ></activity>
-        <activity android:name=".EditSGAActivity" android:parentActivityName=".SGAFeedActivity"
-            android:label="Meet Your SGA"/>
-        <activity android:name=".ManageIssuesActivity"
-            android:label="@string/manage"/>
+            android:parentActivityName=".ManageIssuesActivity" />
+        <activity
+            android:name=".EditSGAActivity"
+            android:label="Meet Your SGA"
+            android:parentActivityName=".SGAFeedActivity" />
+        <activity
+            android:name=".ManageIssuesActivity"
+            android:label="@string/manage" />
         <activity
             android:name=".MainActivity"
             android:label="@string/login">
