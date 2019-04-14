@@ -1,5 +1,6 @@
 package com.example.representuapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class IssuesSGAActivity extends AppCompatActivity {
         summary = findViewById(R.id.sga_issue_summary);
         pref = this.getPreferences(0);
         editor = pref.edit();
+        Intent intent = getIntent();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         loadIssuePage();
     }
 
@@ -36,7 +39,7 @@ public class IssuesSGAActivity extends AppCompatActivity {
         Button yeaButton = (Button) findViewById(R.id.yay_sga);
         Button nayButton = (Button) findViewById(R.id.nay_sga);
         String idString = pref.getString("idPass", "");
-        String titleString = pref.getString("titlePass", "");
+        String titleString = pref.getString("titlePass", "909090909090");
         issues.child(idString).child(titleString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

@@ -99,7 +99,7 @@ public class SGAFeedActivity extends AppCompatActivity
                 holder.root.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(SGAFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SGAFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SGAFeedActivity.this, IssuesSGAActivity.class);
                         startActivity(intent);
                     }

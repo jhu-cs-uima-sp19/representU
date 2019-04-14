@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IssuesSGAActivity"></activity>
+        <activity android:name=".IssuesSGAActivity"
+            android:parentActivityName=".SGAFeedActivity"></activity>
         <activity android:name=".IssueVotingActivity" />
         <activity
             android:name=".SGASettingsActivity"
