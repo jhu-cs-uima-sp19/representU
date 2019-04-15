@@ -23,11 +23,13 @@ public class IssueVotingActivity extends AppCompatActivity {
     public SharedPreferences.Editor editor;
     public Integer yeaNum = 0;
     public Integer nayNum = 0;
+    public Button nayButton;
+    public Button yeaButton;
     public TextView summary;
     public String title;
     public String idString;
-    public boolean yeaVotedAlready = false;
-    public boolean nayVotedAlready = false;
+    //public boolean yeaVotedAlready = false;
+    //public boolean nayVotedAlready = false;
     String name;
     String id;
 
@@ -35,21 +37,40 @@ public class IssueVotingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_voting);
-        summary = findViewById(R.id.sga_issue_summary);
+        summary = findViewById(R.id.user_issue_summary);
         //pref = this.getPreferences(0);
         //editor = pref.edit();
         Intent intent = getIntent();
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
-
+        yeaButton = (Button) findViewById(R.id.yay_user);
+        nayButton = (Button) findViewById(R.id.nay_user);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        yeaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yeaNum++;
+                issues.child(id).child(name).child("votesYay").setValue(yeaNum);
+                Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        nayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nayNum++;
+                issues.child(id).child(name).child("votesNay").setValue(nayNum);
+                Toast.makeText(IssueVotingActivity.this,"You voted nay!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         loadIssuePage();
-        //voting();
+
     }
 
     public void loadIssuePage() {
-        Button yeaButton = (Button) findViewById(R.id.yay_user);
-        Button nayButton = (Button) findViewById(R.id.nay_user);
         //String idString = pref.getString("idPass", "");
         //String titleString = pref.getString("titlePass", "909090909090");
         //summary.setText(id);
@@ -66,10 +87,8 @@ public class IssueVotingActivity extends AppCompatActivity {
         });
         setTitle(name);
     }
-
+    /*
     public void voting() {
-        final Button yeaButton = (Button) findViewById(R.id.yay_user);
-        final Button nayButton = (Button) findViewById(R.id.nay_user);
 
         yeaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +100,7 @@ public class IssueVotingActivity extends AppCompatActivity {
                     yeaNum++;
                     yeaVotedAlready = !yeaVotedAlready;
                 }
+                yeaNum++;
                 issues.child(idString).child(title).child("votesYay").setValue(yeaNum);
                 Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
             }
@@ -90,17 +110,19 @@ public class IssueVotingActivity extends AppCompatActivity {
         nayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if voted
                 if (nayVotedAlready) {
                     nayNum--;
-                    nayVotedAlready = !nayVotedAlready;
+                    nayVotedAlready = false;
                 } else {
                     nayNum++;
-                    nayVotedAlready = !nayVotedAlready;
+                    nayVotedAlready = true;
                 }
+                nayNum++;
                 issues.child(idString).child(title).child("votesNay").setValue(nayNum);
                 Toast.makeText(IssueVotingActivity.this,"You voted nay!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    } */
 
 }

@@ -43,8 +43,6 @@ public class IssuesSGAActivity extends AppCompatActivity {
         yeaButton = (Button) findViewById(R.id.yay_sga);
         nayButton = (Button) findViewById(R.id.nay_sga);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //loadIssuePage();
-        //voting();
 
         yeaButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,10 +1,9 @@
 package com.example.representuapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -41,6 +39,8 @@ public class UserFeedActivity extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseRecyclerAdapter adapter;
+    public SharedPreferences pass;
+    public SharedPreferences.Editor editor;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
@@ -75,23 +75,23 @@ public class UserFeedActivity extends AppCompatActivity
                                 for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
                                     title = childsDataSnapshot.child("title").getValue(String.class);
                                 }
-                                return new Issue(title, summary);
+                                return new Issue(title, summary, snapshot.getKey());
                             }
                         })
                         .build();
 
-        adapter = new FirebaseRecyclerAdapter<Issue, ViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Issue, UserFeedActivity.ViewHolder>(options) {
             @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public UserFeedActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.issue_textview, parent, false);
 
-                return new ViewHolder(view);
+                return new UserFeedActivity.ViewHolder(view);
             }
 
 
             @Override
-            protected void onBindViewHolder(ViewHolder holder, final int position, final Issue model) {
+            protected void onBindViewHolder(UserFeedActivity.ViewHolder holder, final int position, final Issue model) {
                 holder.setTxtTitle(model.title);
                 //editor.putString("idPass", model.idNum.toString());
                 //editor.putString("titlePass", model.title);
@@ -120,6 +120,8 @@ public class UserFeedActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        pass = this.getPreferences(0);
+        editor = pass.edit();
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
