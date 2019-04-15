@@ -60,6 +60,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
         dbRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                arrayList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
@@ -70,6 +71,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                arrayList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
@@ -80,6 +82,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                arrayList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
@@ -90,6 +93,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
             }
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                arrayList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
@@ -102,6 +106,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError dataError) {
             }
         });
+
 
         issuesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
