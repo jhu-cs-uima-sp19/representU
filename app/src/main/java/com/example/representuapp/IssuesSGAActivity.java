@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.content.Context;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +41,7 @@ public class IssuesSGAActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         loadIssuePage();
+        //voting();
     }
 
     public void loadIssuePage() {
@@ -60,5 +62,39 @@ public class IssuesSGAActivity extends AppCompatActivity {
             }
         });
         setTitle(name);
+    }
+
+    public void voting() {
+        final Button yeaButton = (Button) findViewById(R.id.yay_sga);
+        final Button nayButton = (Button) findViewById(R.id.nay_sga);
+
+        yeaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int total = yeaNum + nayNum;
+                int percentage;
+                if (total == 0) {
+                    percentage = 0;
+                } else {
+                    percentage = (yeaNum * 100) / total;
+                }
+                yeaButton.setText("" + percentage + "/%");
+            }
+        });
+
+
+        nayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int total = yeaNum + nayNum;
+                int percentage;
+                if (total == 0) {
+                    percentage = 0;
+                } else {
+                    percentage = (nayNum * 100) / total;
+                }
+                nayButton.setText("" + percentage + "/%");
+            }
+        });
     }
 }
