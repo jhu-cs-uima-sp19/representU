@@ -27,6 +27,8 @@ public class IssuesSGAActivity extends AppCompatActivity {
     public String idString;
     String name;
     String id;
+    public Button yeaButton;
+    public Button nayButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +40,48 @@ public class IssuesSGAActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
-
+        yeaButton = (Button) findViewById(R.id.yay_sga);
+        nayButton = (Button) findViewById(R.id.nay_sga);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        loadIssuePage();
+        //loadIssuePage();
         //voting();
+
+        yeaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int total = (yeaNum + nayNum);
+                int percentage;
+                if (total == 0) {
+                    percentage = 0;
+                } else {
+                    percentage = (yeaNum * 100) / total;
+                }
+                String str = String.valueOf(percentage) + "%";
+                yeaButton.setText(str);
+            }
+        });
+
+        nayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int total = (yeaNum + nayNum);
+                int percentage;
+                if (total == 0) {
+                    percentage = 0;
+                } else {
+                    percentage = (nayNum * 100) / total;
+                }
+                String str = String.valueOf(percentage) + "%";
+                nayButton.setText(str);
+            }
+        });
+
+        loadIssuePage();
     }
 
     public void loadIssuePage() {
-        Button yeaButton = (Button) findViewById(R.id.yay_sga);
-        Button nayButton = (Button) findViewById(R.id.nay_sga);
+        yeaButton = (Button) findViewById(R.id.yay_sga);
+        nayButton = (Button) findViewById(R.id.nay_sga);
         //String idString = pref.getString("idPass", "");
         //String titleString = pref.getString("titlePass", "909090909090");
         //summary.setText(id);
@@ -64,37 +99,4 @@ public class IssuesSGAActivity extends AppCompatActivity {
         setTitle(name);
     }
 
-    public void voting() {
-        final Button yeaButton = (Button) findViewById(R.id.yay_sga);
-        final Button nayButton = (Button) findViewById(R.id.nay_sga);
-
-        yeaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int total = yeaNum + nayNum;
-                int percentage;
-                if (total == 0) {
-                    percentage = 0;
-                } else {
-                    percentage = (yeaNum * 100) / total;
-                }
-                yeaButton.setText("" + percentage + "/%");
-            }
-        });
-
-
-        nayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int total = yeaNum + nayNum;
-                int percentage;
-                if (total == 0) {
-                    percentage = 0;
-                } else {
-                    percentage = (nayNum * 100) / total;
-                }
-                nayButton.setText("" + percentage + "/%");
-            }
-        });
-    }
 }

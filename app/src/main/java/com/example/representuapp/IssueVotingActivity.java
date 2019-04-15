@@ -102,4 +102,5 @@ public class IssueVotingActivity extends AppCompatActivity {
             }
         });
     }
+
 }

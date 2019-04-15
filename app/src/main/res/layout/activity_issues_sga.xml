@@ -5,7 +5,7 @@
     android:id="@+id/summary_text"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IssueVotingActivity">
+    tools:context=".IssuesSGAActivity">
 
     <Button
         android:id="@+id/yay_sga"
@@ -60,11 +60,9 @@
         android:layout_marginBottom="8dp"
         android:drawableTop="@color/colorPrimaryDark"
         android:gravity="top|left"
-        android:inputType="textMultiLine"
         android:lines="10"
         android:minHeight="100dp"
         android:minLines="5"
-        android:text="TextView"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="normal"
