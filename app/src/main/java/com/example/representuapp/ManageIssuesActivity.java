@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.UUID;
+
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 
@@ -32,6 +34,10 @@ public class ManageIssuesActivity extends AppCompatActivity {
 
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> adapter;
+
+
+    ArrayList<String> idList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +67,13 @@ public class ManageIssuesActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 arrayList.clear();
+                idList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    String id = childDataSnapshot.getKey();
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
                         arrayList.add(string);
+                        idList.add(id);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -72,10 +81,13 @@ public class ManageIssuesActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 arrayList.clear();
+                idList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    String id = childDataSnapshot.getKey();
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
                         arrayList.add(string);
+                        idList.add(id);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -83,10 +95,13 @@ public class ManageIssuesActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 arrayList.clear();
+                idList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    String id = childDataSnapshot.getKey();
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
                         arrayList.add(string);
+                        idList.add(id);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -94,10 +109,13 @@ public class ManageIssuesActivity extends AppCompatActivity {
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                 arrayList.clear();
+                idList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    String id = childDataSnapshot.getKey();
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
                         arrayList.add(string);
+                        idList.add(id);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -113,7 +131,9 @@ public class ManageIssuesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ManageIssuesActivity.this, EditIssueActivity.class);
                 String title = arrayList.get(position);
+                String idNum = idList.get(position);
                 intent.putExtra("name", title);
+                intent.putExtra("id", idNum);
                 startActivity(intent);
             }
         });
