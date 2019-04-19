@@ -18,9 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-
-
-
+import com.google.firebase.database.ValueEventListener;
 
 
 public class ManageIssuesActivity extends AppCompatActivity {
@@ -30,7 +28,7 @@ public class ManageIssuesActivity extends AppCompatActivity {
     ListView issuesList;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference dbRef = database.getReference();
+    private DatabaseReference issues = database.getReference().child("issues");
 
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> adapter;
@@ -63,12 +61,12 @@ public class ManageIssuesActivity extends AppCompatActivity {
         issuesList.setAdapter(adapter);
         issuesList.setClickable(true);
 
-        dbRef.addChildEventListener(new ChildEventListener() {
+        issues.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot snapshot) {
                 arrayList.clear();
                 idList.clear();
-                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
                     String id = childDataSnapshot.getKey();
                     for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
                         String string = childsDataSnapshot.child("title").getValue(String.class);
@@ -77,51 +75,10 @@ public class ManageIssuesActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 }
+
             }
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                arrayList.clear();
-                idList.clear();
-                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    String id = childDataSnapshot.getKey();
-                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
-                        String string = childsDataSnapshot.child("title").getValue(String.class);
-                        arrayList.add(string);
-                        idList.add(id);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                arrayList.clear();
-                idList.clear();
-                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    String id = childDataSnapshot.getKey();
-                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
-                        String string = childsDataSnapshot.child("title").getValue(String.class);
-                        arrayList.add(string);
-                        idList.add(id);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                arrayList.clear();
-                idList.clear();
-                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    String id = childDataSnapshot.getKey();
-                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
-                        String string = childsDataSnapshot.child("title").getValue(String.class);
-                        arrayList.add(string);
-                        idList.add(id);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError dataError) {
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
 
