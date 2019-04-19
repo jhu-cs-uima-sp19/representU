@@ -92,12 +92,18 @@ public class EditIssueActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
             summary = desc.getText().toString();
-            issues.child(issueID).child(issueName).child("summary").setValue(summary);
             name = title.getText().toString();
-            issues.child(issueID).setValue(name);
-            issues.child(issueID).child(name).child("summary").setValue(summary);
-            issues.child(issueID).child(name).child("title").setValue(name);
-            finish();
+
+            if(summary.equals(null) || summary.equals("") || name.equals(null) || name.equals("") ) {
+                Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
+            } else {
+                issues.child(issueID).child(issueName).child("summary").setValue(summary);
+                issues.child(issueID).setValue(name);
+                issues.child(issueID).child(name).child("summary").setValue(summary);
+                issues.child(issueID).child(name).child("title").setValue(name);
+                finish();
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
