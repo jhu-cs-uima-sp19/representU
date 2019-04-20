@@ -2,6 +2,7 @@ package com.example.representuapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,24 +33,31 @@ public class IssueVotingActivity extends AppCompatActivity {
     //public boolean nayVotedAlready = false;
     String name;
     String id;
-
+    int colorPrimaryDark;
+    int colorAccentDark;
+    int white;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_voting);
         summary = findViewById(R.id.user_issue_summary);
-        //pref = this.getPreferences(0);
-        //editor = pref.edit();
         Intent intent = getIntent();
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
         yeaButton = (Button) findViewById(R.id.yay_user);
         nayButton = (Button) findViewById(R.id.nay_user);
+
+        //initialize colors
+        colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
+        colorAccentDark = ContextCompat.getColor(this, R.color.colorAccentDark);
+        white = ContextCompat.getColor(this, R.color.white);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         yeaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nayButton.setVisibility(View.GONE);
                 yeaNum++;
                 issues.child(id).child(name).child("votesYay").setValue(yeaNum);
                 Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
@@ -60,6 +68,7 @@ public class IssueVotingActivity extends AppCompatActivity {
         nayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                yeaButton.setVisibility(View.GONE);
                 nayNum++;
                 issues.child(id).child(name).child("votesNay").setValue(nayNum);
                 Toast.makeText(IssueVotingActivity.this,"You voted nay!", Toast.LENGTH_SHORT).show();
