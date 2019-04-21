@@ -1,10 +1,12 @@
 package com.example.representuapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import android.content.Context;
+import android.widget.Toast;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -39,6 +43,7 @@ public class SGAFeedActivity extends AppCompatActivity
     private FirebaseRecyclerAdapter adapter;
     public SharedPreferences pass;
     public SharedPreferences.Editor editor;
+    public AlertDialog.Builder alertDialogBuilder;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
@@ -122,6 +127,8 @@ public class SGAFeedActivity extends AppCompatActivity
         editor = pass.edit();
         setSupportActionBar(toolbar);
 
+        alertDialogBuilder = new AlertDialog.Builder(this);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -183,7 +190,27 @@ public class SGAFeedActivity extends AppCompatActivity
             Intent intent = new Intent(SGAFeedActivity.this, SGASettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.logout) {
-            finish();
+            //set message
+            alertDialogBuilder.setTitle(R.string.logout_confirm);
+            alertDialogBuilder.setCancelable(false);
+
+
+            alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Logging You Out", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+            alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "You Clicked CANCEL", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // show it
+            alertDialog.show();
 
         } else if (id == R.id.changePassword) {
 
