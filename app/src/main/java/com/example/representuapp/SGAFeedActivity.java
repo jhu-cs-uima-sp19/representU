@@ -1,5 +1,6 @@
 package com.example.representuapp;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,8 +8,10 @@ import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,20 +34,33 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class SGAFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    public RecyclerView.Adapter mAdapter;
+    public  RecyclerView.LayoutManager layoutManager;
     private FirebaseRecyclerAdapter adapter;
     public SharedPreferences pass;
     public SharedPreferences.Editor editor;
     public AlertDialog.Builder alertDialogBuilder;
+    public EditText new_pw;
+    public EditText new_pw_confirm;
+    public FirebaseDatabase database;
+    public DatabaseReference adminPassword;
+    public DatabaseReference adminUsername;
+    public String new_pass;
+    public String new_pass_confirm;
+    public String old_pw;
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
@@ -128,6 +145,9 @@ public class SGAFeedActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         alertDialogBuilder = new AlertDialog.Builder(this);
+        new_pw = new EditText(this);
+        new_pw_confirm = new EditText(this);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -195,7 +215,7 @@ public class SGAFeedActivity extends AppCompatActivity
             //define yes button
             alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "Logging You Out", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             });
@@ -203,7 +223,7 @@ public class SGAFeedActivity extends AppCompatActivity
             //define cancel button
             alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "You Clicked CANCEL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -211,6 +231,127 @@ public class SGAFeedActivity extends AppCompatActivity
             alertDialogBuilder.create().show();
 
         } else if (id == R.id.changePassword) {
+
+            alertDialogBuilder = new AlertDialog.Builder(this);
+
+            final EditText new_pw = new EditText(this);
+            final EditText new_pw_confirm = new EditText(this);
+            new_pw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            new_pw.setHint("New Password");
+            new_pw_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            new_pw_confirm.setHint("Confirm New Password");
+
+            LinearLayout ll = new LinearLayout(this);
+            ll.setOrientation(LinearLayout.VERTICAL);
+            ll.addView(new_pw);
+            ll.addView(new_pw_confirm);
+
+            alertDialogBuilder.setView(ll);
+            alertDialogBuilder.setTitle(R.string.cp_confirm).setCancelable(false);
+
+            database = FirebaseDatabase.getInstance();
+            adminPassword = database.getReference().child("adminPassword");
+
+            adminPassword.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    old_pw = snapshot.getValue(String.class);
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+
+            alertDialogBuilder.setPositiveButton("CHANGE PASSWORD", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Do nothing here because we override this button later to change the close behaviour.
+                            //However, we still need this because on older versions of Android unless we
+                            //pass a handler the button doesn't get instantiated
+                        }
+            });
+
+            alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                        }
+            });
+
+            final AlertDialog dialog = alertDialogBuilder.create();
+            dialog.show();
+
+            //Overriding the handler immediately after show
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    boolean wantToCloseDialog = false;
+                    new_pass = new_pw.getText().toString();
+                    new_pass_confirm = new_pw_confirm.getText().toString();
+
+                    //if both password & conformation are equal
+                    //if new password is diff than old password
+                    if (new_pass.equals("") | new_pass_confirm.equals("") | new_pass == null | new_pass_confirm == null){
+                        Toast.makeText(getApplicationContext(), "Fields Can't Be Empty", Toast.LENGTH_SHORT).show();
+                    }else if (new_pass.equals(new_pass_confirm) && !new_pass.equals(old_pw)) {
+                        adminPassword.setValue(new_pass);
+                        Toast.makeText(getApplicationContext(), "Password Changed", Toast.LENGTH_SHORT).show();
+                        //finish();
+                        wantToCloseDialog = true;
+                    } else if (!new_pass.equals(new_pass_confirm)){
+                        Toast.makeText(getApplicationContext(), "Passwords Don't Match! Try Again.", Toast.LENGTH_SHORT).show();
+                    } else if (new_pass.equals(old_pw)){
+                        Toast.makeText(getApplicationContext(), "New Password Must Not Equal Old Password! Try Again.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                        wantToCloseDialog = true;
+                    }
+
+                    //Do stuff, possibly set wantToCloseDialog to true then...
+                    if(wantToCloseDialog)
+                        dialog.dismiss();
+                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                }
+            });
+
+            /*
+
+            //define yes button
+            alertDialogBuilder.setPositiveButton("CHANGE PASSWORD", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    new_pass = new_pw.getText().toString();
+                    new_pass_confirm = new_pw_confirm.getText().toString();
+                    //if both password & conformation are equal
+                    //if new password is diff than old password
+                    if (new_pass.equals(new_pass_confirm) && !new_pass.equals(old_pw)) {
+                        adminPassword.setValue(new_pass);
+                        Toast.makeText(getApplicationContext(), "Password Changed", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else if (!new_pass.equals(new_pass_confirm)){
+                        Toast.makeText(getApplicationContext(), "Passwords Don't Match! Try Again.", Toast.LENGTH_SHORT).show();
+                    } else if (new_pass.equals(old_pw)){
+                        Toast.makeText(getApplicationContext(), "New Password Must Not Equal Old Password! Try Again.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            //define cancel button
+            alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            // create and show alert dialog
+            alertDialogBuilder.create().show();
+
+            */
 
         }
 
