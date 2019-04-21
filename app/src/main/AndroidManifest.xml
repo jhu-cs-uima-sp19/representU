@@ -13,9 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IssuesSGAActivity"
+        <activity
+            android:name=".UserStatisticsActivity"
+            android:label="@string/title_activity_user_statistics"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".IssueVotingActivity">
+        </activity>
+        <activity
+            android:name=".IssuesSGAActivity"
             android:parentActivityName=".SGAFeedActivity" />
-        <activity android:name=".IssueVotingActivity"
+        <activity
+            android:name=".IssueVotingActivity"
             android:parentActivityName=".UserFeedActivity" />
         <activity
             android:name=".SGASettingsActivity"
@@ -39,10 +47,11 @@
             android:parentActivityName=".SGAFeedActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/login"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:label="@string/login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -38,4 +38,5 @@
     <string name="issue_title">Issue Title</string>
     <string name="issue_summary">Issue Summary</string>
     <string name="summary">Summary</string>
+    <string name="title_activity_user_statistics">Issue Statistics</string>
 </resources>
