@@ -80,7 +80,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/colorAccent"
                 android:text="@string/action_sign_in"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
     </ScrollView>
