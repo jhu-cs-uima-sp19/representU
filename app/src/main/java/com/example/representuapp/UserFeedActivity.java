@@ -222,9 +222,9 @@ public class UserFeedActivity extends AppCompatActivity
             // create and show alert dialog
             alertDialogBuilder.create().show();
 
-        } else if (id == R.id.changePassword) {
+        } //else if (id == R.id.changePassword) {
 
-        }
+        //}
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

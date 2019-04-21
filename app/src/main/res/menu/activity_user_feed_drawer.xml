@@ -24,11 +24,6 @@
             android:textColor="@color/colorPrimary"
             android:id="@+id/logout"
             />
-        <item
-            android:title="@string/change_pass"
-            android:textColor="@color/colorPrimary"
-            android:id="@+id/changePassword"
-            />
     </group>
 
 </menu>
