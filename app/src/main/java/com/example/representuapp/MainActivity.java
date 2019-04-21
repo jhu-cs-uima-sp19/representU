@@ -1,6 +1,7 @@
 package com.example.representuapp;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -13,6 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -42,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
     // UI references.
     private AutoCompleteTextView emailView;
     private EditText passwordView;
-    private View progressView;
-    private View loginFormView;
     Button signInButton;
-
+    public String adminUsername;
+    public String adminPassword;
+    private FirebaseDatabase database;
+    private DatabaseReference pass;
+    private DatabaseReference usnm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +62,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.etEmail);
+
+        // Update Admin login
+        database = FirebaseDatabase.getInstance();
+        pass = database.getReference().child("adminPassword");
+        usnm = database.getReference().child("adminUsername");
+
+        pass.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                adminPassword = snapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        usnm.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                adminUsername = snapshot.getValue(String.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        //adminPassword = pass.toString();
+        //adminUsername = usnm.toString();
 
         passwordView = (EditText) findViewById(R.id.password);
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -74,20 +111,17 @@ public class MainActivity extends AppCompatActivity {
                 validate(emailView.getText().toString(), passwordView.getText().toString());
             }
         });
-
-        loginFormView = findViewById(R.id.login_form);
-        progressView = findViewById(R.id.login_progress);
     }
 
     private void validate(String username, String password) {
         //SGA and Admin login - launches SGA side of app
-        if ((username.equals("admin@jhu.edu")) && (password.equals("helloAdmin"))) {
+        if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
             Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
             startActivity(intent);
         } else if ((username.equals("user@jhu.edu")) && (password.equals("helloUser"))) {
             Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
             startActivity(intent);
-        } else if (username.endsWith("@jhu.edu") && !(username.equals("admin@jhu.edu"))) {
+        } else if (username.endsWith("@jhu.edu") && !(username.equals(adminUsername))) {
             Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
             startActivity(intent);
         } else {
