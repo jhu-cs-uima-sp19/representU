@@ -222,27 +222,7 @@ public class SGAFeedActivity extends AppCompatActivity
             Intent intent = new Intent(SGAFeedActivity.this, SGASettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.logout) {
-            //set message
-            alertDialogBuilder.setTitle(R.string.logout_confirm).setCancelable(false);
-
-            //define yes button
-            alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            });
-
-            //define cancel button
-            alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            // create and show alert dialog
-            alertDialogBuilder.create().show();
-
+            logout();
         } else if (id == R.id.changePassword) {
             changePass();
         }
@@ -264,6 +244,41 @@ public class SGAFeedActivity extends AppCompatActivity
         adapter.stopListening();
     }
 
+    public void logout() {
+        //set message
+        alertDialogBuilder = new AlertDialog.Builder(this);
+
+        TextView title = new TextView(this);
+        title.setText(R.string.logout_confirm);
+        //title.setTypeface(android.gra);
+        //title.setBackgroundColor(colorPrimary);
+        title.setTextColor(colorPrimary);
+        title.setTextSize(22);
+        title.setPaddingRelative(0,30,0,0);
+        title.setCompoundDrawablePadding(10);
+        title.setGravity(Gravity.CENTER);
+
+        alertDialogBuilder.setCustomTitle(title).setCancelable(false);
+
+        //define yes button
+        alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        //define cancel button
+        alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // create and show alert dialog
+        alertDialogBuilder.create().show();
+    }
+
     public void changePass() {
         alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -273,19 +288,19 @@ public class SGAFeedActivity extends AppCompatActivity
 
         new_pw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         new_pw.setHint("New Password");
-        new_pw.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+        new_pw.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
         new_pw.setTextSize(20);
         new_pw.setTextColor(colorPrimary);
 
         new_pw_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         new_pw_confirm.setHint("Confirm New Password");
-        new_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+        new_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
         new_pw_confirm.setTextColor(colorPrimary);
         new_pw_confirm.setTextSize(20);
 
         old_pw_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         old_pw_confirm.setHint("Confirm Old Password");
-        old_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+        old_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
         old_pw_confirm.setTextColor(colorPrimary);
         old_pw_confirm.setTextSize(20);
 
@@ -298,8 +313,8 @@ public class SGAFeedActivity extends AppCompatActivity
         TextView title = new TextView(this);
         title.setText(R.string.cp_title);
         //title.setTypeface(android.gra);
-        title.setBackgroundColor(colorPrimary);
-        title.setTextColor(white);
+        //title.setBackgroundColor(colorPrimary);
+        title.setTextColor(colorPrimary);
         title.setTextSize(24);
         title.setPaddingRelative(3,30,3,30);
         title.setCompoundDrawablePadding(10);
