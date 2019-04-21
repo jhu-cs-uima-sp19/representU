@@ -202,27 +202,25 @@ public class UserFeedActivity extends AppCompatActivity
 
         } else if (id == R.id.logout) {
             //set message
-            alertDialogBuilder.setTitle(R.string.logout_confirm);
-            alertDialogBuilder.setCancelable(false);
+            alertDialogBuilder.setTitle(R.string.logout_confirm).setCancelable(false);
 
-
+            //define yes button
             alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "Logging You Out", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             });
+
+            //define cancel button
             alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "You Clicked CANCEL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
                 }
             });
 
-            // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            // show it
-            alertDialog.show();
-
+            // create and show alert dialog
+            alertDialogBuilder.create().show();
 
         } else if (id == R.id.changePassword) {
 
