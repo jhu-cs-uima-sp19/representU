@@ -46,6 +46,8 @@ public class IssueVotingActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
         yeaButton = (Button) findViewById(R.id.yay_user);
         nayButton = (Button) findViewById(R.id.nay_user);
+        //TODO: if (user has voted yea) { nayButton.setVisibility(View.GONE); }
+        //TODO: if (user has voted nay) { yeaButton.setVisibility(View.GONE); }
 
         //initialize colors
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
@@ -57,7 +59,9 @@ public class IssueVotingActivity extends AppCompatActivity {
         yeaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: if user has voted Yea, unvote, nayButton.setVisibility(View.VISIBLE) and Toast.maketext("You unvoted")
                 nayButton.setVisibility(View.GONE);
+                //TODO: Save user name in database as hasVotedYea
                 yeaNum++;
                 issues.child(id).child(name).child("votesYay").setValue(yeaNum);
                 Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
@@ -68,7 +72,9 @@ public class IssueVotingActivity extends AppCompatActivity {
         nayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: if user has voted Nay, unvote, yeaButton.setVisibility(View.VISIBLE) and Toast.maketext("You unvoted")
                 yeaButton.setVisibility(View.GONE);
+                //TODO: Save user name in database as hasVotedNay
                 nayNum++;
                 issues.child(id).child(name).child("votesNay").setValue(nayNum);
                 Toast.makeText(IssueVotingActivity.this,"You voted nay!", Toast.LENGTH_SHORT).show();
