@@ -46,7 +46,7 @@ public class UserFeedActivity extends AppCompatActivity
     public SharedPreferences pass;
     public SharedPreferences.Editor editor;
     public AlertDialog.Builder alertDialogBuilder;
-    public EditText et;
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
