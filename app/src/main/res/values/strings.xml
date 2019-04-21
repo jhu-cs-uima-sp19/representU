@@ -10,8 +10,9 @@
     <string name="feed">Your Feed</string>
     <string name="meet_sga">Meet Your SGA</string>
     <string name="edit_sga">Edit SGA</string>
+    <string name="logout_confirm">Are you sure you want to log out?</string>
     <string name="manage">Manage Issues</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Log out</string>
     <string name="login">Sign In</string>
     <string name="add_issue">Add Issue</string>
     <string name="change_pass">Change Password</string>
