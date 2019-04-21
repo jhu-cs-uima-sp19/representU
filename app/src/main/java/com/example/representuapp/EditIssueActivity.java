@@ -1,7 +1,9 @@
 package com.example.representuapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,19 +23,18 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class EditIssueActivity extends AppCompatActivity {
 
-
     EditText title;
     EditText desc;
-
 
     String summary;
     String name;
     String issueName;
     String issueID;
 
-
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference issues = database.getReference().child("issues");
+
+    public AlertDialog.Builder alertDialogBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +66,28 @@ public class EditIssueActivity extends AppCompatActivity {
 
 
         Button delete = findViewById(R.id.deleteEdit);
+        alertDialogBuilder = new AlertDialog.Builder(this);
 
         delete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                issues.child(issueID).removeValue();
-                Toast.makeText(getApplicationContext(), "Issue Deleted", LENGTH_SHORT).show();
-                finish();
+                //set message
+                alertDialogBuilder.setTitle(R.string.delete_confirm).setCancelable(false);
+
+                alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        issues.child(issueID).removeValue();
+                        Toast.makeText(getApplicationContext(), "Issue Deleted", LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // create and show alert dialog
+                alertDialogBuilder.create().show();
             }
         });
 
