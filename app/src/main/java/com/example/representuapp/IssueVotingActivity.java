@@ -65,6 +65,7 @@ public class IssueVotingActivity extends AppCompatActivity {
                 yeaNum++;
                 issues.child(id).child(name).child("votesYay").setValue(yeaNum);
                 Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
+
             }
         });
 
