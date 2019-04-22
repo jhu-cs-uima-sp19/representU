@@ -1,7 +1,11 @@
 package com.example.representuapp;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,11 +16,14 @@ public class Issue {
     public String summary;
     public int votesYay;
     public int votesNay;
+    public ArrayList<Comment> comments; //lists of comments made by users
+    public ArrayList<String> userList; //users that have voted on this issue.
 
     public Issue() {
         // Default constructor required for calls to DataSnapshot.getValue(Issue.class)
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Issue(String header, String sum) {
         this.idNum = UUID.randomUUID();
         this.title = header;
@@ -26,6 +33,7 @@ public class Issue {
         this.createTime = Instant.now();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Issue(String header, String sum, String idCopy) {
         this.idNum = UUID.fromString(idCopy);
         this.title = header;
@@ -51,15 +59,25 @@ public class Issue {
         this.votesNay++;
     }
 
+    public void addUser(String userName) {
+        userList.add(userName);
+    }
+
+    public void addComments(Comment e) {
+        comments.add(e);
+    }
+
     /** Returns the creation time of this User. */
     public Instant getCreationTime() {
         return createTime;
     }
 
     /** Returns Instant time in MM/DD/YYYY HH:MM:SS timeFormat. */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String timeFormat() {
         Date myDate = Date.from(this.getCreationTime());
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat formatter;
+        formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         String formattedDate = formatter.format(myDate);
         return formattedDate;
     }
