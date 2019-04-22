@@ -114,6 +114,8 @@ public class UserFeedActivity extends AppCompatActivity
                         Intent intent = new Intent(UserFeedActivity.this, IssueVotingActivity.class);
                         intent.putExtra("title", model.title);
                         intent.putExtra("id", model.idNum.toString());
+                        intent.putExtra("yea", model.votesYay);
+                        intent.putExtra("nay", model.votesNay);
                         startActivity(intent);
                     }
                 });
