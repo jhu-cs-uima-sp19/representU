@@ -18,6 +18,7 @@ public class Issue {
     public int votesNay;
     public ArrayList<Comment> comments; //lists of comments made by users
     public ArrayList<String> userList; //users that have voted on this issue.
+    public boolean archived;
 
     public Issue() {
         // Default constructor required for calls to DataSnapshot.getValue(Issue.class)
@@ -31,6 +32,7 @@ public class Issue {
         this.votesYay = 0;
         this.votesNay = 0;
         this.createTime = Instant.now();
+        this.archived = false;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
