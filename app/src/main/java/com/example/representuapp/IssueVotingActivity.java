@@ -44,6 +44,8 @@ public class IssueVotingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
+        yeaNum = intent.getIntExtra("yea", 0);
+        nayNum = intent.getIntExtra("nay", 0);
         yeaButton = (Button) findViewById(R.id.yay_user);
         nayButton = (Button) findViewById(R.id.nay_user);
         //TODO: if (user has voted yea) { nayButton.setVisibility(View.GONE); }
@@ -64,6 +66,16 @@ public class IssueVotingActivity extends AppCompatActivity {
                 //TODO: Save user name in database as hasVotedYea
                 yeaNum++;
                 issues.child(id).child(name).child("votesYay").setValue(yeaNum);
+
+                // Starts stats activity and sends title, id, votes for/against, and how the user voted
+                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                intent.putExtra("title", name);
+                intent.putExtra("id", id);
+                intent.putExtra("yea", yeaNum);
+                intent.putExtra("nay", nayNum);
+                intent.putExtra("voted", "yea");
+                startActivity(intent);
+
                 Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
 
             }
@@ -78,6 +90,16 @@ public class IssueVotingActivity extends AppCompatActivity {
                 //TODO: Save user name in database as hasVotedNay
                 nayNum++;
                 issues.child(id).child(name).child("votesNay").setValue(nayNum);
+
+                // Starts stats activity and sends title, id, votes for/against, and how the user voted
+                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                intent.putExtra("title", name);
+                intent.putExtra("id", id);
+                intent.putExtra("yea", yeaNum);
+                intent.putExtra("nay", nayNum);
+                intent.putExtra("voted", "nay");
+                startActivity(intent);
+
                 Toast.makeText(IssueVotingActivity.this,"You voted nay!", Toast.LENGTH_SHORT).show();
             }
         });
