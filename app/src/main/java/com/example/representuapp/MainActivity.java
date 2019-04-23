@@ -21,6 +21,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 /**
@@ -34,13 +38,77 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+
+    private Map<String, String> USERS = new Map<String, String>() {
+        @Override
+        public int size() {
+            return USERS.size();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean containsKey(Object username) {
+            for (Map.Entry<String,String> entry : USERS.entrySet()) {
+                if (entry.getKey().equals(username)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public boolean containsValue(Object password) {
+            for (Map.Entry<String,String> entry : USERS.entrySet()) {
+                if (entry.getValue().equals(password)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public String put(String username, String password) {
+            if (username == null || password == null) {
+                return null;
+            }
+            for (Map.Entry<String,String> entry : USERS.entrySet()) {
+                if (entry.getKey().equals(username)) {
+                    entry.setValue(password);
+                    return password;
+                }
+            }
+            USERS.put(username, password);
+            return password;
+        }
+
+        @Override
+        public String get(Object username) {
+            if (username == null) { return null; }
+            for (Map.Entry<String,String> entry : USERS.entrySet()) {
+                if (entry.getKey().equals(username)) {
+                    String password = entry.getValue();
+                    return password;
+                }
+            }
+            return null;
+        }
+
+        // Functions not implemented
+        public boolean equals(Map<String, String> map) { return false; }
+        public Set keySet() { return null; }
+        public int hashCode() { return 0; }
+        public String remove(Object username) { return null; }
+        public Collection<String> values() { return null; }
+        public Set entrySet() { return null; }
+        public void putAll(Map<? extends String, ? extends String> hi) {}
+        public void clear() {}
     };
+
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -53,8 +121,12 @@ public class MainActivity extends AppCompatActivity {
     public String adminUsername;
     public String adminPassword;
     private FirebaseDatabase database;
-    private DatabaseReference pass;
-    private DatabaseReference usnm;
+    private DatabaseReference a_pass;
+    private DatabaseReference a_usnm;
+    private DatabaseReference user_login;
+    String userUsername;
+    String userPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +134,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Set up the login form.
         emailView = (AutoCompleteTextView) findViewById(R.id.etEmail);
+        passwordView = (EditText) findViewById(R.id.password);
+
+        //USERS.put("mboloix1@jhu.edu","mb");
+        //USERS.put("pbaur1@jhu.edu","pb");
+        //USERS.put("alohier1@jhu.edu","al");
+        //USERS.put("user@jhu.edu","helloUser");
 
         // Update Admin login
         database = FirebaseDatabase.getInstance();
-        pass = database.getReference().child("adminPassword");
-        usnm = database.getReference().child("adminUsername");
+        a_pass = database.getReference().child("adminPassword");
+        a_usnm = database.getReference().child("adminUsername");
+        user_login = database.getReference().child("users");
 
-        pass.addValueEventListener(new ValueEventListener() {
+        a_pass.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 adminPassword = snapshot.getValue(String.class);
@@ -78,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        usnm.addValueEventListener(new ValueEventListener() {
+        a_usnm.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 adminUsername = snapshot.getValue(String.class);
@@ -88,10 +167,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //adminPassword = pass.toString();
-        //adminUsername = usnm.toString();
+        user_login.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
+                    userUsername = childDataSnapshot.getKey();
+                    userPassword = childDataSnapshot.getValue(String.class);
+                    USERS.put(userUsername, userPassword);
+                }
 
-        passwordView = (EditText) findViewById(R.id.password);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -115,17 +205,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void validate(String username, String password) {
         //SGA and Admin login - launches SGA side of app
-        if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
-            Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
-            startActivity(intent);
-        } else if ((username.equals("user@jhu.edu")) && (password.equals("helloUser"))) {
-            Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
-            startActivity(intent);
-        } else if (username.endsWith("@jhu.edu") && !(username.equals(adminUsername))) {
-            Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
-            startActivity(intent);
+        if (username == null || password == null) {
+            Toast.makeText(getApplicationContext(), "Username and/or Password fields CANNOT be empty!", Toast.LENGTH_LONG).show();
+            emailView.setTextColor(getResources().getColor(R.color.red));
+            passwordView.setTextColor(getResources().getColor(R.color.red));
         } else {
-            Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", LENGTH_SHORT).show();
+            emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+            if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
+                Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
+                Toast.makeText(getApplicationContext(), "Welcome Admin!", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            } else if (USERS.containsKey(username) && USERS.get(username).equals(password)) {
+                Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
+                Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            } else {
+                emailView.setTextColor(getResources().getColor(R.color.red));
+                passwordView.setTextColor(getResources().getColor(R.color.red));
+                Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", LENGTH_SHORT).show();
+            }
         }
     }
 
