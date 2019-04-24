@@ -68,6 +68,7 @@ public class SGAFeedActivity extends AppCompatActivity
     int white;
     int colorPrimary;
     int colorAccent;
+    String JHED;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
@@ -147,6 +148,8 @@ public class SGAFeedActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sga_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Intent intent = getIntent();
+        JHED = intent.getStringExtra("JHED");
         pass = this.getPreferences(0);
         editor = pass.edit();
         setSupportActionBar(toolbar);

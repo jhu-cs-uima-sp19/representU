@@ -36,12 +36,15 @@ public class IssueVotingActivity extends AppCompatActivity {
     int colorPrimaryDark;
     //int colorAccentDark = ContextCompat.getColor(this, R.color.colorAccentDark);
     int white;
+    String JHED;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_voting);
         summary = findViewById(R.id.user_issue_summary);
         Intent intent = getIntent();
+        JHED = intent.getStringExtra("JHED");
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
         yeaNum = intent.getIntExtra("yea", 0);

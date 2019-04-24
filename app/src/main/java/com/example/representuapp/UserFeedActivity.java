@@ -51,6 +51,7 @@ public class UserFeedActivity extends AppCompatActivity
     int white;
     int colorPrimary;
     int colorAccent;
+    String JHED;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
@@ -116,6 +117,7 @@ public class UserFeedActivity extends AppCompatActivity
                         intent.putExtra("id", model.idNum.toString());
                         intent.putExtra("yea", model.votesYay);
                         intent.putExtra("nay", model.votesNay);
+                        intent.putExtra("JHED", JHED);
                         startActivity(intent);
                     }
                 });
@@ -132,6 +134,8 @@ public class UserFeedActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Intent intent = getIntent();
+        JHED = intent.getStringExtra("JHED");
         pass = this.getPreferences(0);
         editor = pass.edit();
         setSupportActionBar(toolbar);

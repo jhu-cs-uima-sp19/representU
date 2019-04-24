@@ -1,10 +1,10 @@
 package com.example.representuapp;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,54 +21,45 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * A login screen that offers login via email/password.
- * -- implements LoaderCallbacks<Cursor> --
  */
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    //private UserLoginTask mAuthTask = null;
-
-    // UI references.
     private AutoCompleteTextView emailView;
     private EditText passwordView;
     Button signInButton;
     public String adminUsername;
     public String adminPassword;
     private FirebaseDatabase database;
-    private DatabaseReference pass;
-    private DatabaseReference usnm;
+    private DatabaseReference a_pass;
+    private DatabaseReference a_usnm;
+    private DatabaseReference user_login;
+    String userUsername;
+    String userPassword;
+    final HashMap USERS = new HashMap();
+    String JHED;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Set up the login form.
-        emailView = (AutoCompleteTextView) findViewById(R.id.etEmail);
+        emailView = findViewById(R.id.etEmail);
+        passwordView = findViewById(R.id.etPassword);
+
 
         // Update Admin login
         database = FirebaseDatabase.getInstance();
-        pass = database.getReference().child("adminPassword");
-        usnm = database.getReference().child("adminUsername");
+        a_pass = database.getReference().child("adminPassword");
+        a_usnm = database.getReference().child("adminUsername");
+        user_login = database.getReference().child("users");
 
-        pass.addValueEventListener(new ValueEventListener() {
+        a_pass.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 adminPassword = snapshot.getValue(String.class);
@@ -78,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        usnm.addValueEventListener(new ValueEventListener() {
+        a_usnm.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 adminUsername = snapshot.getValue(String.class);
@@ -88,10 +79,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //adminPassword = pass.toString();
-        //adminUsername = usnm.toString();
+        user_login.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot users : snapshot.getChildren()) {
+                    Log.d("children", snapshot.getChildren().toString());
+                    userUsername = users.child("username").getValue(String.class);
+                    userPassword = users.child("password").getValue(String.class);
+                    USERS.put(userUsername, userPassword);
+                    Log.d("userUsername", userUsername);
+                    Log.d("userPassword", userPassword);
+                }
+                Log.d("hashmap yay", USERS.toString());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
-        passwordView = (EditText) findViewById(R.id.password);
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -108,24 +113,49 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //attemptLogin();
+                Log.d("get_key", emailView.getText().toString());
+                Log.d("get_val", passwordView.getText().toString());
                 validate(emailView.getText().toString(), passwordView.getText().toString());
             }
         });
     }
 
     private void validate(String username, String password) {
-        //SGA and Admin login - launches SGA side of app
-        if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
+        if (username == null || password == null) {
+            //username and password cant be null
+            Toast.makeText(getApplicationContext(), "Username and/or Password fields CANNOT be empty!", Toast.LENGTH_LONG).show();
+            emailView.setTextColor(getResources().getColor(R.color.red));
+            passwordView.setTextColor(getResources().getColor(R.color.red));
+        } else if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
+            emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            //SGA and Admin login - launches SGA side of app
             Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
-            startActivity(intent);
-        } else if ((username.equals("user@jhu.edu")) && (password.equals("helloUser"))) {
-            Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
-            startActivity(intent);
-        } else if (username.endsWith("@jhu.edu") && !(username.equals(adminUsername))) {
-            Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
+            JHED = username.replace("@jhu.edu","");
+            intent.putExtra("JHED", JHED);
+            Toast.makeText(getApplicationContext(), "Welcome Admin!", Toast.LENGTH_LONG).show();
             startActivity(intent);
         } else {
-            Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", LENGTH_SHORT).show();
+            emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            username = username.replace("@jhu.edu","");
+            if (USERS.get(username) == null) {
+                emailView.setTextColor(getResources().getColor(R.color.red));
+                passwordView.setTextColor(getResources().getColor(R.color.red));
+                Toast.makeText(getApplicationContext(), "Username is Incorrect", Toast.LENGTH_LONG).show();
+                //if login had admin credentials
+            } else if (USERS.get(username).getValue().equals(password)) {
+                Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
+                JHED = username;
+                intent.putExtra("JHED", JHED);
+                Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();
+                startActivity(intent);
+            } else {
+                //if username, password combo doesn't work
+                emailView.setTextColor(getResources().getColor(R.color.red));
+                passwordView.setTextColor(getResources().getColor(R.color.red));
+                Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

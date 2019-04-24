@@ -14,11 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SGAMemberActivity"
+            android:label="@string/title_activity_sgamember"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MeetYourSGAActivity"
+            android:label="@string/title_activity_meet_your_sga"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".UserStatisticsActivity"
             android:label="@string/title_activity_user_statistics"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".IssueVotingActivity">
-        </activity>
+            android:parentActivityName=".IssueVotingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IssuesSGAActivity"
             android:parentActivityName=".SGAFeedActivity" />
