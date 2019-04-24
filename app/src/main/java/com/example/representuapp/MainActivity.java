@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     String userUsername;
     String userPassword;
     final HashMap USERS = new HashMap();
+    String JHED;
 
 
     @Override
@@ -130,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
             passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
             //SGA and Admin login - launches SGA side of app
             Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
+            JHED = username.replace("@jhu.edu","");
+            intent.putExtra("JHED", JHED);
             Toast.makeText(getApplicationContext(), "Welcome Admin!", Toast.LENGTH_LONG).show();
             startActivity(intent);
         } else {
@@ -143,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
                 //if login had admin credentials
             } else if (USERS.get(username).getValue().equals(password)) {
                 Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
+                JHED = username;
+                intent.putExtra("JHED", JHED);
                 Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();
                 startActivity(intent);
             } else {
