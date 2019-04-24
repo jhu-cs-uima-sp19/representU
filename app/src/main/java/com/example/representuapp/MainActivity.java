@@ -120,36 +120,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void validate(String username, String password) {
-        username = username.replace("@jhu.edu","");
-        //SGA and Admin login - launches SGA side of app
         if (username == null || password == null) {
+            //username and password cant be null
             Toast.makeText(getApplicationContext(), "Username and/or Password fields CANNOT be empty!", Toast.LENGTH_LONG).show();
             emailView.setTextColor(getResources().getColor(R.color.red));
             passwordView.setTextColor(getResources().getColor(R.color.red));
+        } else if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
+            emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            //SGA and Admin login - launches SGA side of app
+            Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
+            Toast.makeText(getApplicationContext(), "Welcome Admin!", Toast.LENGTH_LONG).show();
+            startActivity(intent);
         } else {
             emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
             passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-            //if given username is not in USERS
+            username = username.replace("@jhu.edu","");
             if (USERS.get(username) == null) {
                 emailView.setTextColor(getResources().getColor(R.color.red));
                 passwordView.setTextColor(getResources().getColor(R.color.red));
-                Toast.makeText(getApplicationContext(), "Username is Incorrect", LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Username is Incorrect", Toast.LENGTH_LONG).show();
                 //if login had admin credentials
-            } else if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
-                Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
-                Toast.makeText(getApplicationContext(), "Welcome Admin!", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-                //if username, password combo works
             } else if (USERS.get(username).getValue().equals(password)) {
                 Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
-                Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();
                 startActivity(intent);
             } else {
                 //if username, password combo doesn't work
                 emailView.setTextColor(getResources().getColor(R.color.red));
                 passwordView.setTextColor(getResources().getColor(R.color.red));
-                Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", Toast.LENGTH_LONG).show();
             }
         }
     }
