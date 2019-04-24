@@ -34,7 +34,7 @@ public class IssueVotingActivity extends AppCompatActivity {
     String name;
     String id;
     int colorPrimaryDark;
-    //int colorAccentDark = ContextCompat.getColor(this, R.color.colorAccentDark);
+    int colorAccentDark;
     int white;
     String JHED;
 
@@ -56,6 +56,7 @@ public class IssueVotingActivity extends AppCompatActivity {
 
         //initialize colors
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
+        colorAccentDark = ContextCompat.getColor(this, R.color.colorAccentDark);
         white = ContextCompat.getColor(this, R.color.white);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -107,7 +108,6 @@ public class IssueVotingActivity extends AppCompatActivity {
         });
 
         loadIssuePage();
-        loadComments();
 
     }
 
@@ -128,11 +128,6 @@ public class IssueVotingActivity extends AppCompatActivity {
         });
         setTitle(name);
     }
-
-    public void loadComments() {
-
-    }
-
     /*
     public void voting() {
 
