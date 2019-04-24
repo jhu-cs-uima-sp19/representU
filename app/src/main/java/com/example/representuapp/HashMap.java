@@ -42,8 +42,9 @@ public class HashMap {
     public Entry get(String k) {
         int hash = Math.abs(mod(k.hashCode(), SIZE[index]));
         Entry e = table[hash];
-
-        if (e.collided && !e.key.equals(k)) {
+        if (e == null) {
+            return null;
+        }else if (e.collided && !e.key.equals(k)) {
             //split for loops for efficiency
             for (int i = hash; i < SIZE[index]; i++) {
                 if (table[i].key.equals(k)) {
