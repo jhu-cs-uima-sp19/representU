@@ -16,8 +16,9 @@ public class Issue {
     public String summary;
     public int votesYay;
     public int votesNay;
-    public ArrayList<Comment> comments; //lists of comments made by users
-    public ArrayList<String> userList; //users that have voted on this issue.
+    public ArrayList<Comment> comments; // lists of comments made by users
+    public ArrayList<String> usersYay; // Users that voted yay
+    public ArrayList<String> usersNay; // Users that voted nay
     public boolean archived;
 
     public Issue() {
@@ -53,20 +54,26 @@ public class Issue {
         this.summary = newSummary;
     }
 
-    public void addYay() {
+    public void addYay(String userName) {
         this.votesYay++;
+        this.addUser(usersYay, userName);
     }
 
-    public void addNay() {
+    public void addNay(String userName) {
         this.votesNay++;
+        this.addUser(usersNay, userName);
     }
 
-    public void addUser(String userName) {
+    public void addUser(ArrayList<String> userList, String userName) {
         userList.add(userName);
     }
 
     public void addComments(Comment e) {
         comments.add(e);
+    }
+
+    public void archiveMe() {
+        this.archived = !this.archived;
     }
 
     /** Returns the creation time of this User. */
