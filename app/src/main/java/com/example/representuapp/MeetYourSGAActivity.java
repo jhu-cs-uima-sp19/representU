@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class MeetYourSGAActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
     RecyclerView rv_cards;
     SGAMembersAdapter SGAMembersAdapter;
     ArrayList<SGAMember> SGAMembers;

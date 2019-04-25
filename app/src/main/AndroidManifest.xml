@@ -14,9 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".EditMemberActivity"
+            android:parentActivityName=".EditSGAActivity" />
+        <activity
             android:name=".SGAMemberActivity"
             android:label="@string/title_activity_sgamember"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"

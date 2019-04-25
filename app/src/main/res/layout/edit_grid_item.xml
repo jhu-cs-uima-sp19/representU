@@ -14,21 +14,13 @@
             android:background="@color/colorPrimary">
 
             <TextView
-                android:id="@+id/people"
+                android:id="@+id/peopleEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/position"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="24sp"
+                android:textColor="@color/white"/>
 
         </RelativeLayout>
 

@@ -13,13 +13,13 @@ import android.content.Intent;
 import android.widget.Toast;
 
 
-public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.SingleItemRowHolder> {
+public class EditSGAAdapter extends RecyclerView.Adapter<EditSGAAdapter.SingleItemRowHolder> {
 
     private ArrayList<SGAMember> itemsList;
     private Activity mContext;
     int layout;
 
-    public SGAMembersAdapter(Activity context, ArrayList<SGAMember> itemsList, int layout) {
+    public EditSGAAdapter(Activity context, ArrayList<SGAMember> itemsList, int layout) {
         this.itemsList = itemsList;
         this.mContext = context;
         this.layout = layout;
@@ -55,7 +55,6 @@ public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.Si
         TextView text2;
 
 
-
         public SingleItemRowHolder(View view) {
             super(view);
 
@@ -66,7 +65,7 @@ public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.Si
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), SGAMemberActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditMemberActivity.class);
                     v.getContext().startActivity(intent);
                 }
             });
