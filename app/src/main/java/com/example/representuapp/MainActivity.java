@@ -29,35 +29,30 @@ import static android.widget.Toast.LENGTH_SHORT;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private AutoCompleteTextView emailView;
-    private EditText passwordView;
+    AutoCompleteTextView emailView;
+    EditText passwordView;
     Button signInButton;
+
     public String adminUsername;
     public String adminPassword;
-    private FirebaseDatabase database;
-    private DatabaseReference a_pass;
-    private DatabaseReference a_usnm;
-    private DatabaseReference user_login;
-    String userUsername;
-    String userPassword;
+    public String userUsername;
+    public String userPassword;
     final HashMap USERS = new HashMap();
-    String JHED;
-
+    public String JHED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Set up the login form.
+
         emailView = findViewById(R.id.etEmail);
         passwordView = findViewById(R.id.etPassword);
+        signInButton = findViewById(R.id.btnLogin);
 
-
-        // Update Admin login
-        database = FirebaseDatabase.getInstance();
-        a_pass = database.getReference().child("adminPassword");
-        a_usnm = database.getReference().child("adminUsername");
-        user_login = database.getReference().child("users");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference a_pass = database.getReference().child("adminPassword");
+        DatabaseReference a_usnm = database.getReference().child("adminUsername");
+        DatabaseReference user_login = database.getReference().child("users");
 
         a_pass.addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,14 +78,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot users : snapshot.getChildren()) {
-                    Log.d("children", snapshot.getChildren().toString());
                     userUsername = users.child("username").getValue(String.class);
                     userPassword = users.child("password").getValue(String.class);
                     USERS.put(userUsername, userPassword);
-                    Log.d("userUsername", userUsername);
-                    Log.d("userPassword", userPassword);
                 }
-                Log.d("hashmap yay", USERS.toString());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -100,21 +91,13 @@ public class MainActivity extends AppCompatActivity {
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
-                    return true;
-                }
-                return false;
+                return (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL);
             }
         });
 
-        signInButton = (Button) findViewById(R.id.btnLogin);
         signInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //attemptLogin();
-                Log.d("get_key", emailView.getText().toString());
-                Log.d("get_val", passwordView.getText().toString());
                 validate(emailView.getText().toString(), passwordView.getText().toString());
             }
         });
@@ -127,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
             emailView.setTextColor(getResources().getColor(R.color.red));
             passwordView.setTextColor(getResources().getColor(R.color.red));
         } else if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
+            //SGA and Admin - launches SGA side of app
             emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
             passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
-            //SGA and Admin login - launches SGA side of app
             Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
             JHED = username.replace("@jhu.edu","");
             intent.putExtra("JHED", JHED);
@@ -138,15 +121,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
             passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
-            username = username.replace("@jhu.edu","");
-            if (USERS.get(username) == null) {
+            JHED = username.replace("@jhu.edu","");
+            if (USERS.get(JHED) == null) {
                 emailView.setTextColor(getResources().getColor(R.color.red));
                 passwordView.setTextColor(getResources().getColor(R.color.red));
                 Toast.makeText(getApplicationContext(), "Username is Incorrect", Toast.LENGTH_LONG).show();
                 //if login had admin credentials
-            } else if (USERS.get(username).getValue().equals(password)) {
+            } else if (USERS.get(JHED).getValue().equals(password)) {
                 Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
-                JHED = username;
                 intent.putExtra("JHED", JHED);
                 Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();
                 startActivity(intent);
