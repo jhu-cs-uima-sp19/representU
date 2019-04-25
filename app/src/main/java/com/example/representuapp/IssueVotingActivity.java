@@ -66,28 +66,17 @@ public class IssueVotingActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //votedYayList = (ArrayList<String>) issues.child(id).getClass().getField("usersNay");
-        //votedNayList = (ArrayList<String>) snapshot.child("usersNay").getValue();
-        //issues.child(id).child(name).child("votesYay").setValue(yeaNum);
-
         yeaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: if user has voted Yea, unvote, nayButton.setVisibility(View.VISIBLE) and Toast.maketext("You unvoted")
-                //hasVotedYay = checkVotedYay(JHED);
 
                 if (hasVotedYay) {
-                    //have both button visible
-                    //nayButton.setVisibility(View.VISIBLE);
-                    //yeaButton.setVisibility(View.VISIBLE);
                     yeaNum--;
                     issues.child(id).child(name).child("votesYay").setValue(yeaNum);
                     votedYayList.remove(JHED);
                     issues.child(id).child(name).child("usersYay").setValue(votedYayList);
                     Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
                 } else {
-                    //nayButton.setVisibility(View.GONE);
-                    //yeaButton.setVisibility(View.VISIBLE);
                     yeaNum++;
                     issues.child(id).child(name).child("votesYay").setValue(yeaNum);
                     votedYayList.add(JHED);
@@ -110,19 +99,13 @@ public class IssueVotingActivity extends AppCompatActivity {
         nayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //hasVotedNay = checkVotedNay(JHED);
                 if (hasVotedNay) {
-                    //have both button visible
-                    //nayButton.setVisibility(View.VISIBLE);
-                    //yeaButton.setVisibility(View.VISIBLE);
                     nayNum--;
                     issues.child(id).child(name).child("votesNay").setValue(nayNum);
                     votedNayList.remove(JHED);
                     issues.child(id).child(name).child("usersNay").setValue(votedNayList);
                     Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
                 } else {
-                    //yeaButton.setVisibility(View.GONE);
-                    //nayButton.setVisibility(View.VISIBLE);
                     nayNum++;
                     issues.child(id).child(name).child("votesNay").setValue(nayNum);
                     votedNayList.add(JHED);
@@ -170,28 +153,17 @@ public class IssueVotingActivity extends AppCompatActivity {
                     votedYayList.add(" ");
                     issues.child(id).child(name).child("usersYay").setValue(votedYayList);
                 }
-                Log.d("v_yaylist_afterNULL", votedYayList.toString());
-                Log.d("v_naylist_afterNULL", votedNayList.toString());
-                //GenericTypeIndicator<ArrayList<Comment>> gti =new GenericTypeIndicator<ArrayList<Comment>>(){};
-                //commentsList = snapshot.child("comments").getValue(gti);
                 hasVotedNay = checkVotedNay(JHED);
                 hasVotedYay = checkVotedYay(JHED);
 
                 //Check that visibility makes sense.
-                //TODO: REMOVE FIRST IF
-
-                if (hasVotedYay && hasVotedNay) {
-                    Log.d("v_", "TRUE / TRUE");
-                } else if (hasVotedYay) {
-                    Log.d("v_", "TRUE / FALSE");
+                if (hasVotedYay) {
                     nayButton.setVisibility(View.GONE);
                     yeaButton.setVisibility(View.VISIBLE);
                 } else if(hasVotedNay) {
-                    Log.d("v_", "FALSE / TRUE");
                     nayButton.setVisibility(View.VISIBLE);
                     yeaButton.setVisibility(View.GONE);
                 } else {
-                    Log.d("v_", "FALSE / FALSE");
                     nayButton.setVisibility(View.VISIBLE);
                     yeaButton.setVisibility(View.VISIBLE);
                 }
@@ -203,38 +175,7 @@ public class IssueVotingActivity extends AppCompatActivity {
 
         setTitle(name);
     }
-/*
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        issues.child(id).child(name).child("usersNay").setValue(votedNayList);
-        issues.child(id).child(name).child("usersYay").setValue(votedYayList);
-        issues.child(id).child(name).child("votesNay").setValue(nayNum);
-        issues.child(id).child(name).child("votesYay").setValue(yeaNum);
-    }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        checkVotedNay(JHED);
-        checkVotedYay(JHED);
-        issues.child(id).child(name).child("usersNay").setValue(votedNayList);
-        issues.child(id).child(name).child("usersYay").setValue(votedYayList);
-        issues.child(id).child(name).child("votesNay").setValue(nayNum);
-        issues.child(id).child(name).child("votesYay").setValue(yeaNum);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkVotedNay(JHED);
-        checkVotedYay(JHED);
-        issues.child(id).child(name).child("usersNay").setValue(votedNayList);
-        issues.child(id).child(name).child("usersYay").setValue(votedYayList);
-        issues.child(id).child(name).child("votesNay").setValue(nayNum);
-        issues.child(id).child(name).child("votesYay").setValue(yeaNum);
-    }
-*/
     public void loadComments() {
     }
 
