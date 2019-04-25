@@ -52,9 +52,9 @@ public class EditIssueActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        title = (EditText) findViewById(R.id.editTitle);
+        title = (EditText) findViewById(R.id.edit_issue_title_);
 
-        desc = (EditText) findViewById(R.id.editDesc);
+        desc = (EditText) findViewById(R.id.edit_issue_summary);
 
         issues.child(issueID).child(issueName).addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,7 +70,7 @@ public class EditIssueActivity extends AppCompatActivity {
         setTitle(issueName);
 
 
-        Button delete = findViewById(R.id.deleteEdit);
+        Button delete = findViewById(R.id.deleteButton);
         alertDialogBuilder = new AlertDialog.Builder(this);
 
         TextView title = new TextView(this);

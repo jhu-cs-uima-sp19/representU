@@ -38,6 +38,7 @@
     <string name="issue_title">Issue Title</string>
     <string name="issue_summary">Issue Summary</string>
     <string name="summary">Summary</string>
+    <string name="delete">Delete</string>
     <string name="title_activity_user_statistics">Issue Statistics</string>
     <string name="title_activity_meet_your_sga">MeetYourSGAActivity</string>
     <string name="title_activity_sgamember">SGAMemberActivity</string>

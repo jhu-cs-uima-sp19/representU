@@ -52,9 +52,9 @@ public class Issue {
         this.summary = sum;
         this.votesYay = 0;
         this.votesNay = 0;
-        this.usersNay = new ArrayList<String>(10);
-        this.usersYay = new ArrayList<String>(10);
-        this.comments = new ArrayList<Comment>(10);
+        this.usersNay = new ArrayList<>();
+        this.usersYay = new ArrayList<>();
+        this.comments = new ArrayList<>();
         this.createTime = Instant.now();
         this.archived = false;
         //Firebase wont add an empty arrayList, adding empty strings
