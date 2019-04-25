@@ -66,6 +66,9 @@ public class EditSGAAdapter extends RecyclerView.Adapter<EditSGAAdapter.SingleIt
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), EditMemberActivity.class);
+                    String name = text.getText().toString();
+                    String position = text2.getText().toString();
+                    intent.putExtra("name", name);
                     v.getContext().startActivity(intent);
                 }
             });

@@ -19,7 +19,7 @@
         <activity
             android:name=".SGAMemberActivity"
             android:label="@string/title_activity_sgamember"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".MeetYourSGAActivity" />
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"

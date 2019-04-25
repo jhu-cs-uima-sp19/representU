@@ -18,6 +18,7 @@ public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.Si
     private ArrayList<SGAMember> itemsList;
     private Activity mContext;
     int layout;
+    String bio;
 
     public SGAMembersAdapter(Activity context, ArrayList<SGAMember> itemsList, int layout) {
         this.itemsList = itemsList;
@@ -41,6 +42,7 @@ public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.Si
         holder.text.setText(item.getName());
         holder.text2.setTag(i);
         holder.text2.setText(item.getPosition());
+        bio = item.getBio();
 
     }
 
@@ -67,6 +69,11 @@ public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.Si
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), SGAMemberActivity.class);
+                    String name = text.getText().toString();
+                    String position = text2.getText().toString();
+                    intent.putExtra("name", name);
+                    intent.putExtra("pos", position);
+                    intent.putExtra("bio", bio);
                     v.getContext().startActivity(intent);
                 }
             });

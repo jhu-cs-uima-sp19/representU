@@ -1,29 +1,39 @@
 package com.example.representuapp;
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.os.Bundle;
+import android.content.Intent;
+import android.widget.TextView;
 
 public class SGAMemberActivity extends AppCompatActivity {
+
+    String name;
+    String position;
+    String bio;
+
+    TextView memName;
+    TextView memPos;
+    TextView memBio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sgamember);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Intent i = getIntent();
+        name = i.getStringExtra("name");
+        position = i.getStringExtra("pos");
+        bio = i.getStringExtra("bio");
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        memName = (TextView) findViewById(R.id.memberName);
+        memPos = (TextView) findViewById(R.id.position);
+        memBio = (TextView) findViewById(R.id.biography);
+
+        memName.setText(name);
+        memPos.setText(position);
+        memBio.setText(bio);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Meet " + name);
     }
-
 }
