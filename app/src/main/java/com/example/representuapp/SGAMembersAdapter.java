@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.app.Activity;
 import android.widget.TextView;
+import android.content.Intent;
+
 import android.widget.Toast;
 
 
@@ -35,8 +37,8 @@ public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.Si
 
         SGAMember item = itemsList.get(i);
 
-        holder.tv_languages.setTag(i);
-        holder.tv_languages.setText(item.getName());
+        holder.text.setTag(i);
+        holder.text.setText(item.getName());
 
     }
 
@@ -47,24 +49,20 @@ public class SGAMembersAdapter extends RecyclerView.Adapter<SGAMembersAdapter.Si
 
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
-        protected TextView tv_languages;
+        TextView text;
 
 
         public SingleItemRowHolder(View view) {
             super(view);
 
-            this.tv_languages = (TextView) view.findViewById(R.id.tv_languages);
+            this.text = (TextView) view.findViewById(R.id.people);
 
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
-                    int position = Integer.parseInt(tv_languages.getTag().toString());
-
-                    Toast.makeText(v.getContext(), tv_languages.getText(), Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(v.getContext(), SGAMemberActivity.class);
+                    v.getContext().startActivity(intent);
                 }
             });
 

@@ -14,7 +14,7 @@ public class MeetYourSGAActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView rv_cards;
     SGAMembersAdapter SGAMembersAdapter;
-    ArrayList<SGAMember> languageModels;
+    ArrayList<SGAMember> SGAMembers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,46 +22,31 @@ public class MeetYourSGAActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meet_your_sga);
         Intent i = getIntent();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Meet Your SGA");
+
         init();
-
-
     }
 
     private void init() {
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //setTitle("Languages");
 
-        //initialisation of recycler view
+
         rv_cards = (RecyclerView) findViewById(R.id.rv_cards);
-
-        //setting layout manager .Here in GridLayoutManager constructor you need to specify the number
-        //of coloms in you want in grid .Here it is 2
-
         rv_cards.setLayoutManager(new GridLayoutManager(MeetYourSGAActivity.this, 2));
         rv_cards.addItemDecoration(new Divider(10));
 
 
-        languageModels = new ArrayList<>();
+        SGAMembers = new ArrayList<>();
 
-        //adding few datas into array list
 
-        languageModels.add(new SGAMember("1","Android"));
-        languageModels.add(new SGAMember("2","C++"));
-        languageModels.add(new SGAMember("3","C"));
-        languageModels.add(new SGAMember("4","Python"));
-        languageModels.add(new SGAMember("5","Java Script"));
-        languageModels.add(new SGAMember("6","Java"));
-        languageModels.add(new SGAMember("7","Sql"));
-        languageModels.add(new SGAMember("8","PHP"));
-        languageModels.add(new SGAMember("9","MySql"));
-        languageModels.add(new SGAMember("10","Asp.Net"));
+        SGAMembers.add(new SGAMember("Suzy","Pres"));
+        SGAMembers.add(new SGAMember("John","VP"));
+        SGAMembers.add(new SGAMember("Adam","Secretary"));
+        SGAMembers.add(new SGAMember("Kate","Treasurer"));
 
-        //initialisation of recycler adapter
-        SGAMembersAdapter = new SGAMembersAdapter(MeetYourSGAActivity.this, languageModels, R.layout.grid_item);
-
-        //setting adapter to recycler
+        SGAMembersAdapter = new SGAMembersAdapter(MeetYourSGAActivity.this, SGAMembers, R.layout.grid_item);
         rv_cards.setAdapter(SGAMembersAdapter);
+
     }
 
 }

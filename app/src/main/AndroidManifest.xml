@@ -20,7 +20,7 @@
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".UserFeedActivity" />
         <activity
             android:name=".UserStatisticsActivity"
             android:label="@string/title_activity_user_statistics"
