@@ -7,18 +7,22 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+
+
 public class Issue {
-    public Instant createTime;
-    public UUID idNum;
+    public String idNum;
     public String title;
     public String summary;
     public int votesYay;
     public int votesNay;
-    public ArrayList<Comment> comments; //lists of comments made by users
-    public ArrayList<String> userList; //users that have voted on this issue.
-    public boolean archived;
+    private Instant createTime;
+    private List<Comment> comments; // lists of comments made by users
+    private List<String> usersYay; // Users that voted yay
+    private List<String> usersNay; // Users that voted nay
+    private boolean archived;
 
     public Issue() {
         // Default constructor required for calls to DataSnapshot.getValue(Issue.class)
@@ -26,23 +30,36 @@ public class Issue {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Issue(String header, String sum) {
-        this.idNum = UUID.randomUUID();
+        this.idNum = UUID.randomUUID().toString();
         this.title = header;
         this.summary = sum;
         this.votesYay = 0;
         this.votesNay = 0;
+        this.usersNay = new ArrayList<>();
+        this.usersYay = new ArrayList<>();
+        this.comments = new ArrayList<>();
         this.createTime = Instant.now();
         this.archived = false;
+        //Firebase wont add an empty arrayList, adding empty strings
+        this.usersNay.add("");
+        this.usersYay.add("");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Issue(String header, String sum, String idCopy) {
-        this.idNum = UUID.fromString(idCopy);
+        this.idNum = UUID.fromString(idCopy).toString();
         this.title = header;
         this.summary = sum;
         this.votesYay = 0;
         this.votesNay = 0;
+        this.usersNay = new ArrayList<String>(10);
+        this.usersYay = new ArrayList<String>(10);
+        this.comments = new ArrayList<Comment>(10);
         this.createTime = Instant.now();
+        this.archived = false;
+        //Firebase wont add an empty arrayList, adding empty strings
+        this.usersNay.add("");
+        this.usersYay.add("");
     }
 
     public void changeTitle(String newTitle) {
@@ -53,16 +70,32 @@ public class Issue {
         this.summary = newSummary;
     }
 
-    public void addYay() {
+    public void addYay(String userName) {
         this.votesYay++;
+        this.usersYay.add(userName);
     }
 
-    public void addNay() {
+    public void addNay(String userName) {
         this.votesNay++;
+        this.usersNay.add(userName);
     }
 
-    public void addUser(String userName) {
-        userList.add(userName);
+    public void deleteYay(String userName) {
+        this.votesYay--;
+        this.usersYay.remove(userName);
+    }
+
+    public void deleteNay(String userName) {
+        this.votesNay--;
+        this.usersNay.remove(userName);
+    }
+
+    public List<String> getUsersYay(){
+        return this.usersYay;
+    }
+
+    public List<String> getUsersNay(){
+        return this.usersNay;
     }
 
     public void addComments(Comment e) {
@@ -70,7 +103,7 @@ public class Issue {
     }
 
     /** Returns the creation time of this User. */
-    public Instant getCreationTime() {
+    private Instant getCreationTime() {
         return createTime;
     }
 
@@ -84,13 +117,5 @@ public class Issue {
         return formattedDate;
     }
 
-//    @Override
-    /** Compares Activities based on their creation time.
-     * Sorts latest first.
-     */
-
-  //  public int compareTo(Issue other) {
-    //    return -(this.getCreationTime().compareTo(other.getCreationTime()));
-    //}
 }
 
