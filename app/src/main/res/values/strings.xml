@@ -32,6 +32,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="stats_intro">Here are this issue\'s statistics at a glance!</string>
     <string name="title_activity_user_feed">Your Feed</string>
     <string name="title_activity_sga">Your Feed</string>
     <string name="saveButton">Add</string>

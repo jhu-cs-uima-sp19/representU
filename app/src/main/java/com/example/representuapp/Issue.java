@@ -16,6 +16,8 @@ public class Issue {
     public String idNum;
     public String title;
     public String summary;
+    //public String whyVoteYay;
+    //public String whyVoteNay;
     public int votesYay;
     public int votesNay;
     private Instant createTime;
@@ -32,6 +34,8 @@ public class Issue {
     public Issue(String header, String sum) {
         this.idNum = UUID.randomUUID().toString();
         this.title = header;
+        //this.whyVoteNay = whyVoteNay;
+        //this.whyVoteYay = whyVoteYay;
         this.summary = sum;
         this.votesYay = 0;
         this.votesNay = 0;
@@ -49,6 +53,8 @@ public class Issue {
     public Issue(String header, String sum, String idCopy) {
         this.idNum = UUID.fromString(idCopy).toString();
         this.title = header;
+        //this.whyVoteNay = whyVoteNay;
+        //this.whyVoteYay = whyVoteYay;
         this.summary = sum;
         this.votesYay = 0;
         this.votesNay = 0;
