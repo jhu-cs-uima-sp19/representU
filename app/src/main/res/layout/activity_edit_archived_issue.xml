@@ -7,7 +7,7 @@
     android:scrollbars="vertical">
 
     <Button
-        android:id="@+id/deleteEdit"
+        android:id="@+id/deleteArchive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,11 +21,11 @@
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/archive"
-        app:layout_constraintTop_toBottomOf="@+id/editDesc" />
+        app:layout_constraintStart_toEndOf="@+id/unarchive"
+        app:layout_constraintTop_toBottomOf="@+id/archiveDesc" />
 
     <EditText
-        android:id="@+id/editTitle"
+        android:id="@+id/archiveTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,14 +37,14 @@
         android:gravity="left"
         android:inputType="textPersonName"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintBottom_toTopOf="@+id/archiveSum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/archiveName" />
 
     <EditText
-        android:id="@+id/editDesc"
+        android:id="@+id/archiveDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -63,27 +63,27 @@
         android:singleLine="false"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/deleteEdit"
+        app:layout_constraintBottom_toTopOf="@+id/deleteArchive"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/archiveSum" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/archiveName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Title"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTitle"
+        app:layout_constraintBottom_toTopOf="@+id/archiveTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/archiveSum"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
@@ -94,13 +94,13 @@
         android:text="Summary"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/editDesc"
+        app:layout_constraintBottom_toTopOf="@+id/archiveDesc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/archiveTitle" />
 
     <Button
-        android:id="@+id/archive"
+        android:id="@+id/unarchive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -109,9 +109,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-        android:text="archive"
+        android:text="unarchive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteEdit"
+        app:layout_constraintEnd_toStartOf="@+id/deleteArchive"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDesc" />
+        app:layout_constraintTop_toBottomOf="@+id/archiveDesc" />
 </android.support.constraint.ConstraintLayout>

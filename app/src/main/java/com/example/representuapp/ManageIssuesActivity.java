@@ -66,31 +66,33 @@ public class ManageIssuesActivity extends AppCompatActivity {
         issuesList.setAdapter(adapter);
         issuesList.setClickable(true);
 
-        //archives = (ListView) findViewById(R.id.archiveList);
+        archives = (ListView) findViewById(R.id.archiveList);
 
-        //archAdapt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, archiveList);
-        //archives.setAdapter(archAdapt);
-        //archives.setClickable(true);
+        archAdapt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, archiveList);
+        archives.setAdapter(archAdapt);
+        archives.setClickable(true);
 
         issues.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 arrayList.clear();
                 idList.clear();
+                archiveList.clear();
+                archivedIDs.clear();
                 for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
                     String id = childDataSnapshot.getKey();
-                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
-                        String string = childsDataSnapshot.child("title").getValue(String.class);
-                        /*if (childsDataSnapshot.child("archived").getValue(boolean.class)) {
+                    //for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
+                        String string = childDataSnapshot.child("title").getValue(String.class);
+                        if (childDataSnapshot.child("archived").getValue(boolean.class)) {
                             archiveList.add(string);
                             archivedIDs.add(id);
                             archAdapt.notifyDataSetChanged();
-                        } else {*/
+                        } else {
                             arrayList.add(string);
                             idList.add(id);
                             adapter.notifyDataSetChanged();
-                        //}
-                    }
+                        }
+                    //}
                 }
 
             }
@@ -112,16 +114,16 @@ public class ManageIssuesActivity extends AppCompatActivity {
             }
         });
 
-        /*archives.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        archives.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ManageIssuesActivity.this, EditIssueActivity.class);
+                Intent intent = new Intent(ManageIssuesActivity.this, EditArchivedIssueActivity.class);
                 String title = archiveList.get(position);
                 String idNum = archivedIDs.get(position);
                 intent.putExtra("name", title);
                 intent.putExtra("id", idNum);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 }
