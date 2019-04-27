@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class EditIssueActivity extends AppCompatActivity {
+public class EditArchivedIssueActivity extends AppCompatActivity {
 
     EditText title;
     EditText desc;
@@ -44,7 +44,7 @@ public class EditIssueActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_issue);
+        setContentView(R.layout.activity_edit_archived_issue);
 
         Intent intent = getIntent();
         issueName = getIntent().getStringExtra("name");
@@ -52,9 +52,9 @@ public class EditIssueActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        title = (EditText) findViewById(R.id.edit_issue_title_);
+        title = (EditText) findViewById(R.id.archiveTitle);
 
-        desc = (EditText) findViewById(R.id.edit_issue_summary);
+        desc = (EditText) findViewById(R.id.archiveDesc);
 
         issues.child(issueID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,7 +70,7 @@ public class EditIssueActivity extends AppCompatActivity {
         setTitle(issueName);
 
 
-        Button delete = findViewById(R.id.deleteButton);
+        Button delete = findViewById(R.id.deleteArchive);
         alertDialogBuilder = new AlertDialog.Builder(this);
 
         TextView title = new TextView(this);
@@ -106,11 +106,11 @@ public class EditIssueActivity extends AppCompatActivity {
             }
         });
 
-        Button archive = findViewById(R.id.archive);
+        Button unarchive = findViewById(R.id.unarchive);
 
-        archive.setOnClickListener(new View.OnClickListener() {
+        unarchive.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                issues.child(issueID).child("archived").setValue(true);
+                issues.child(issueID).child("archived").setValue(false);
                 finish();
             }
         });
