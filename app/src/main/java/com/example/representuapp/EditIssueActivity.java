@@ -56,7 +56,7 @@ public class EditIssueActivity extends AppCompatActivity {
 
         desc = (EditText) findViewById(R.id.edit_issue_summary);
 
-        issues.child(issueID).addValueEventListener(new ValueEventListener() {
+        issues.child(issueID).child(issueName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 desc.setText(snapshot.child("summary").getValue(String.class));
@@ -106,16 +106,6 @@ public class EditIssueActivity extends AppCompatActivity {
             }
         });
 
-        Button archive = findViewById(R.id.archive);
-
-        archive.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                issues.child(issueID).child("archived").setValue(true);
-                finish();
-            }
-        });
-
-
     }
 
     @Override
@@ -134,8 +124,10 @@ public class EditIssueActivity extends AppCompatActivity {
             if(summary.equals(null) || summary.equals("") || name.equals(null) || name.equals("") ) {
                 Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
             } else {
-                issues.child(issueID).child("summary").setValue(summary);
-                issues.child(issueID).child("title").setValue(name);
+                issues.child(issueID).child(issueName).child("summary").setValue(summary);
+                issues.child(issueID).setValue(name);
+                issues.child(issueID).child(name).child("summary").setValue(summary);
+                issues.child(issueID).child(name).child("title").setValue(name);
                 finish();
             }
 

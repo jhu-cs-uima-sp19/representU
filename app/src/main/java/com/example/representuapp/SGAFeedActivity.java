@@ -101,9 +101,9 @@ public class SGAFeedActivity extends AppCompatActivity
                                 //remember to grab ID num for issue page
                                 String title = "";
                                 String summary = "";
-                                //for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
-                                    title = snapshot.child("title").getValue(String.class);
-                                //}
+                                for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
+                                    title = childsDataSnapshot.child("title").getValue(String.class);
+                                }
                                 return new Issue(title, summary, snapshot.getKey());
                             }
                         })

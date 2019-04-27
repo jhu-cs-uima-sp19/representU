@@ -14,16 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".EditMemberActivity"
-            android:parentActivityName=".EditSGAActivity" />
-        <activity
             android:name=".SGAMemberActivity"
             android:label="@string/title_activity_sgamember"
-            android:parentActivityName=".MeetYourSGAActivity" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"
-            android:parentActivityName=".UserFeedActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UserStatisticsActivity"
             android:label="@string/title_activity_user_statistics"
@@ -42,10 +39,6 @@
         <activity
             android:name=".EditIssueActivity"
             android:label="Edit Issue"
-            android:parentActivityName=".ManageIssuesActivity" />
-        <activity
-            android:name=".EditArchivedIssueActivity"
-            android:label="Edit Archived Issue"
             android:parentActivityName=".ManageIssuesActivity" />
         <activity
             android:name=".AddIssueActivity"
