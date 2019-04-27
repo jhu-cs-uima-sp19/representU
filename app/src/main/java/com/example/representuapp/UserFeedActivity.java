@@ -212,8 +212,7 @@ public class UserFeedActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.meet_your_sga) {
-            Intent intent = new Intent(UserFeedActivity.this, MeetYourSGAActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.settingsUser) {
 
         } else if (id == R.id.logout) {
