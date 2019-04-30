@@ -83,7 +83,7 @@ public class IssuesSGAActivity extends AppCompatActivity {
         //String idString = pref.getString("idPass", "");
         //String titleString = pref.getString("titlePass", "909090909090");
         //summary.setText(id);
-        issues.child(id).child(name).addValueEventListener(new ValueEventListener() {
+        issues.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 summary.setText(snapshot.child("summary").getValue(String.class));

@@ -1,6 +1,8 @@
 package com.example.representuapp;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,13 +37,14 @@ public class AddIssueActivity extends AppCompatActivity {
         Button saveButton = findViewById(R.id.saveButton);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View v) {
                 if((issueTitle.getText().toString()).equals(null) || (issueTitle.getText().toString()).equals("")
                         || (issueSum.getText().toString()).equals(null) || (issueSum.getText().toString()).equals("") ) {
                     Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
                 } else {
                     Issue issue = new Issue(issueTitle.getText().toString(), issueSum.getText().toString());
-                    dbRef.child("issues").child(issue.idNum.toString()).child(issue.title).setValue(issue);
+                    dbRef.child("issues").child(issue.idNum.toString()).setValue(issue);
                     Toast.makeText(getApplicationContext(), "Added Issue", LENGTH_SHORT).show();
                     finish();
                 }
