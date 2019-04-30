@@ -13,7 +13,7 @@
     <string name="logout_confirm">Are you sure you want to log out?</string>
     <string name="manage">Manage Issues</string>
     <string name="logout">Log out</string>
-    <string name="login">Sign In</string>
+    <string name="login">Welcome to RepresentU!</string>
     <string name="add_issue">Add Issue</string>
     <string name="change_pass">Change Password</string>
     <string name="yay">Yea</string>
@@ -32,12 +32,14 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="stats_intro">This issue\'s statistics:</string>
     <string name="title_activity_user_feed">Your Feed</string>
     <string name="title_activity_sga">Your Feed</string>
     <string name="saveButton">Add</string>
     <string name="issue_title">Issue Title</string>
     <string name="issue_summary">Issue Summary</string>
     <string name="summary">Summary</string>
+    <string name="delete">Delete</string>
     <string name="title_activity_user_statistics">Issue Statistics</string>
     <string name="title_activity_meet_your_sga">MeetYourSGAActivity</string>
     <string name="title_activity_sgamember">SGAMemberActivity</string>

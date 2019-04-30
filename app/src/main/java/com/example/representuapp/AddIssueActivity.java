@@ -34,7 +34,7 @@ public class AddIssueActivity extends AppCompatActivity {
     public void saveIssue() {
         final EditText issueTitle = findViewById(R.id.issue_title);
         final EditText issueSum = findViewById(R.id.issue_summary);
-        Button saveButton = findViewById(R.id.saveButton);
+        Button saveButton = findViewById(R.id.addButton);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)

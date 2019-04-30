@@ -77,19 +77,6 @@
         app:layout_constraintVertical_chainStyle="packed">
 
         <Button
-            android:id="@+id/nay_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
-            android:text="@string/nay"
-            android:textColor="@color/colorAccent"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/yay_user"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/yay_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,6 +84,19 @@
             android:background="@color/colorAccent"
             android:text="@string/yay"
             android:textColor="@color/colorPrimary"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yay_user"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/nay_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="@string/nay"
+            android:textColor="@color/colorAccent"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/yay_user"
