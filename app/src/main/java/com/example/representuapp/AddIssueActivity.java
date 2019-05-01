@@ -41,7 +41,7 @@ public class AddIssueActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
                 } else {
                     Issue issue = new Issue(issueTitle.getText().toString(), issueSum.getText().toString());
-                    dbRef.child("issues").child(issue.idNum.toString()).setValue(issue);
+                    dbRef.child("issues").child(issue.idNum.toString()).child(issue.title).setValue(issue);
                     Toast.makeText(getApplicationContext(), "Added Issue", LENGTH_SHORT).show();
                     finish();
                 }
