@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class MeetYourSGAActivity extends AppCompatActivity {
 
     RecyclerView rv_cards;
-    EditSGAAdapter SGAMembersAdapter;
+    SGAMembersAdapter SGAMembersAdapter;
     ArrayList<SGAMember> SGAMembers;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -43,7 +43,7 @@ public class MeetYourSGAActivity extends AppCompatActivity {
 
 
         rv_cards = (RecyclerView) findViewById(R.id.rv_cards);
-        rv_cards.setLayoutManager(new GridLayoutManager(EditSGAActivity.this, 2));
+        rv_cards.setLayoutManager(new GridLayoutManager(MeetYourSGAActivity.this, 2));
         rv_cards.addItemDecoration(new Divider(40));
 
 
@@ -71,32 +71,9 @@ public class MeetYourSGAActivity extends AppCompatActivity {
             }
         });
 
-        SGAMembersAdapter = new EditSGAAdapter(EditSGAActivity.this, SGAMembers, R.layout.grid_item);
+        SGAMembersAdapter = new SGAMembersAdapter(MeetYourSGAActivity.this, SGAMembers, R.layout.grid_item);
         rv_cards.setAdapter(SGAMembersAdapter);
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_sga, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            Intent intent = new Intent(EditSGAActivity.this, AddMemberActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 }
