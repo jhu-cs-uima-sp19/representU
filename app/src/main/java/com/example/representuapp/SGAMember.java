@@ -1,14 +1,28 @@
 package com.example.representuapp;
 
+import java.util.UUID;
+
 public class SGAMember {
     String name;
     String position;
     String bio;
+    String idNum;
+
+
+    public SGAMember(String name, String position, String bio) {
+        this.name = name;
+        this.position = position;
+        this.bio = bio;
+        this.idNum = UUID.randomUUID().toString();
+    }
 
     public SGAMember(String name, String position) {
         this.name = name;
         this.position = position;
         this.bio = "empty";
+    }
+
+    public SGAMember() {
     }
 
     public String getName() {
