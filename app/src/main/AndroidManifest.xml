@@ -12,15 +12,22 @@
         android:roundIcon="@drawable/repu_icon"
         android:allowBackup="true"
         android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".AddMemberActivity"
+            android:parentActivityName=".EditSGAActivity" />
+        <activity
+            android:name=".EditMemberActivity"
+            android:parentActivityName=".EditSGAActivity" />
         <activity
             android:name=".SGAMemberActivity"
             android:label="@string/title_activity_sgamember"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".MeetYourSGAActivity" />
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".UserFeedActivity" />
         <activity
             android:name=".UserStatisticsActivity"
             android:label="@string/title_activity_user_statistics"

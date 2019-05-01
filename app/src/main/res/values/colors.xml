@@ -7,4 +7,5 @@
     <color name="white">#ffffff</color>
     <color name="red">#FCF70303</color>
     <color name="textBox">#9AE2E2E2</color>
+    <color name="dark_grey">#9A6D6D6D</color>
 </resources>
