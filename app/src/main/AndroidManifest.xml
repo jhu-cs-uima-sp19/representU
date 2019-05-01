@@ -12,6 +12,7 @@
         android:roundIcon="@drawable/repu_icon"
         android:allowBackup="true"
         android:supportsRtl="true"
+        android:windowSoftInputMode="adjustResize"
         android:theme="@style/AppTheme">
         <activity
             android:name=".AddMemberActivity"
