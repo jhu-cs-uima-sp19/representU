@@ -142,7 +142,6 @@ public class IssueVotingActivity extends AppCompatActivity {
                 GenericTypeIndicator<ArrayList<String>> gti =new GenericTypeIndicator<ArrayList<String>>(){};
                 votedYayList = snapshot.child("usersYay").getValue(gti);
                 votedNayList = snapshot.child("usersNay").getValue(gti);
-
                 if (votedNayList == null) {
                     votedNayList = new ArrayList<>();
                     votedYayList.add(" ");

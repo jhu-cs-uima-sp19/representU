@@ -62,7 +62,9 @@
         <activity
             android:name=".MainActivity"
             android:gravity="center_horizontal"
-            android:label="@string/login">
+            android:label="@string/login"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <tools:validation testUrl="http://www.representu-app.com" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
