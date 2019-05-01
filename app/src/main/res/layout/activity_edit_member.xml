@@ -116,7 +116,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="32dp"
         android:background="@color/colorAccent"
-        android:text="Delete"
+        android:text="remove"
         android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

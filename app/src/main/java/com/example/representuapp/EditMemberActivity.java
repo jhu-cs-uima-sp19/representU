@@ -1,12 +1,18 @@
 package com.example.representuapp;
 
+import android.content.DialogInterface;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -26,8 +32,14 @@ public class EditMemberActivity extends AppCompatActivity {
     EditText memBio;
     Button deleteButton;
 
+    int colorPrimary;
+
+
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference members = database.getReference().child("SGA");
+
+
+    public AlertDialog.Builder alertDialogBuilder;
 
 
     @Override
@@ -51,6 +63,43 @@ public class EditMemberActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Edit " + name);
+
+
+        deleteButton = findViewById(R.id.deleteButtonEdit);
+        alertDialogBuilder = new AlertDialog.Builder(this);
+
+        TextView title = new TextView(this);
+        title.setText(R.string.remove_confirm);
+        //title.setTypeface(android.gra);
+        //title.setBackgroundColor(colorPrimary);
+        colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
+        title.setTextColor(colorPrimary);
+        title.setTextSize(22);
+        title.setPaddingRelative(0,30,0,0);
+        title.setCompoundDrawablePadding(10);
+        title.setGravity(Gravity.CENTER);
+        alertDialogBuilder.setCustomTitle(title).setCancelable(false);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        members.child(id).removeValue();
+                        Toast.makeText(getApplicationContext(), "Member Removed", LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // create and show alert dialog
+                alertDialogBuilder.create().show();
+            }
+        });
     }
 
     @Override
