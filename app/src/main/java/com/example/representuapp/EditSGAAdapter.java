@@ -41,6 +41,9 @@ public class EditSGAAdapter extends RecyclerView.Adapter<EditSGAAdapter.SingleIt
         holder.text.setText(item.getName());
         holder.text2.setTag(i);
         holder.text2.setText(item.getPosition());
+        holder.id = item.idNum;
+        holder.bio = item.bio;
+
 
     }
 
@@ -53,7 +56,8 @@ public class EditSGAAdapter extends RecyclerView.Adapter<EditSGAAdapter.SingleIt
 
         TextView text;
         TextView text2;
-
+        String id;
+        String bio;
 
         public SingleItemRowHolder(View view) {
             super(view);
@@ -69,6 +73,12 @@ public class EditSGAAdapter extends RecyclerView.Adapter<EditSGAAdapter.SingleIt
                     String name = text.getText().toString();
                     String position = text2.getText().toString();
                     intent.putExtra("name", name);
+                    intent.putExtra("pos", position);
+                    intent.putExtra("id", id);
+                    intent.putExtra("bio", bio);
+
+
+
                     v.getContext().startActivity(intent);
                 }
             });
