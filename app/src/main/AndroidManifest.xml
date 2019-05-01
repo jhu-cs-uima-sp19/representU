@@ -16,14 +16,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".AddMemberActivity"
-            android:parentActivityName=".EditSGAActivity" />
+            android:parentActivityName=".EditSGAActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".EditMemberActivity"
-            android:parentActivityName=".EditSGAActivity" />
+            android:parentActivityName=".EditSGAActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SGAMemberActivity"
             android:label="@string/title_activity_sgamember"
-            android:parentActivityName=".MeetYourSGAActivity" />
+            android:parentActivityName=".MeetYourSGAActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"
@@ -32,7 +38,9 @@
             android:name=".UserStatisticsActivity"
             android:label="@string/title_activity_user_statistics"
             android:parentActivityName=".IssueVotingActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".IssuesSGAActivity"
             android:parentActivityName=".SGAFeedActivity" />
@@ -46,15 +54,19 @@
         <activity
             android:name=".EditIssueActivity"
             android:label="Edit Issue"
-            android:parentActivityName=".ManageIssuesActivity" />
+            android:parentActivityName=".ManageIssuesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddIssueActivity"
             android:label="Add Issue"
-            android:parentActivityName=".ManageIssuesActivity" />
+            android:parentActivityName=".ManageIssuesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditSGAActivity"
             android:label="Meet Your SGA"
-            android:parentActivityName=".SGAFeedActivity" />
+            android:parentActivityName=".SGAFeedActivity"/>
         <activity
             android:name=".ManageIssuesActivity"
             android:label="@string/manage"
