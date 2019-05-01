@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AlertDialogLayout;
@@ -95,15 +97,14 @@ public class SGAFeedActivity extends AppCompatActivity
         FirebaseRecyclerOptions<Issue> options =
                 new FirebaseRecyclerOptions.Builder<Issue>()
                         .setQuery(query, new SnapshotParser<Issue>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @NonNull
                             @Override
                             public Issue parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 //remember to grab ID num for issue page
                                 String title = "";
                                 String summary = "";
-                                for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
-                                    title = childsDataSnapshot.child("title").getValue(String.class);
-                                }
+                                title = snapshot.child("title").getValue(String.class);
                                 return new Issue(title, summary, snapshot.getKey());
                             }
                         })
@@ -209,6 +210,7 @@ public class SGAFeedActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -282,6 +284,7 @@ public class SGAFeedActivity extends AppCompatActivity
         alertDialogBuilder.create().show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void changePass() {
         alertDialogBuilder = new AlertDialog.Builder(this);
 

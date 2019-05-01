@@ -3,8 +3,10 @@ package com.example.representuapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,15 +79,14 @@ public class UserFeedActivity extends AppCompatActivity
         FirebaseRecyclerOptions<Issue> options =
                 new FirebaseRecyclerOptions.Builder<Issue>()
                         .setQuery(query, new SnapshotParser<Issue>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @NonNull
                             @Override
                             public Issue parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 //remember to grab ID num for issue page
                                 String title = "";
                                 String summary = "";
-                                for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
-                                    title = childsDataSnapshot.child("title").getValue(String.class);
-                                }
+                                title = snapshot.child("title").getValue(String.class);
                                 return new Issue(title, summary, snapshot.getKey());
                             }
                         })
