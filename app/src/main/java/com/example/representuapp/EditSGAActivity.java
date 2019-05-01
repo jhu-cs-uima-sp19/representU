@@ -44,7 +44,7 @@ public class EditSGAActivity extends AppCompatActivity {
 
         rv_cards = (RecyclerView) findViewById(R.id.rv_cardsEDIT);
         rv_cards.setLayoutManager(new GridLayoutManager(EditSGAActivity.this, 2));
-        rv_cards.addItemDecoration(new Divider(10));
+        rv_cards.addItemDecoration(new Divider(40));
 
 
         ArrayList<String> SGANames = new ArrayList<>();
