@@ -36,7 +36,7 @@
         android:layout_marginRight="16dp"
         android:drawableTop="@color/colorPrimaryDark"
         android:gravity="top|left"
-        android:lines="10"
+        android:lines="100"
         android:minHeight="100dp"
         android:minLines="5"
         android:text="@string/summary"
