@@ -75,15 +75,15 @@ public class IssueVotingActivity extends AppCompatActivity {
 
                 if (hasVotedYay) {
                     yeaNum--;
-                    issues.child(id).child(name).child("votesYay").setValue(yeaNum);
+                    issues.child(id).child("votesYay").setValue(yeaNum);
                     votedYayList.remove(JHED);
-                    issues.child(id).child(name).child("usersYay").setValue(votedYayList);
+                    issues.child(id).child("usersYay").setValue(votedYayList);
                     Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
                 } else {
                     yeaNum++;
-                    issues.child(id).child(name).child("votesYay").setValue(yeaNum);
+                    issues.child(id).child("votesYay").setValue(yeaNum);
                     votedYayList.add(JHED);
-                    issues.child(id).child(name).child("usersYay").setValue(votedYayList);
+                    issues.child(id).child("usersYay").setValue(votedYayList);
                     Toast.makeText(IssueVotingActivity.this, "You voted Yea!", Toast.LENGTH_SHORT).show();
 
                     // Starts stats activity and sends title, id, votes for/against, and how the user voted
@@ -104,15 +104,15 @@ public class IssueVotingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (hasVotedNay) {
                     nayNum--;
-                    issues.child(id).child(name).child("votesNay").setValue(nayNum);
+                    issues.child(id).child("votesNay").setValue(nayNum);
                     votedNayList.remove(JHED);
-                    issues.child(id).child(name).child("usersNay").setValue(votedNayList);
+                    issues.child(id).child("usersNay").setValue(votedNayList);
                     Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
                 } else {
                     nayNum++;
-                    issues.child(id).child(name).child("votesNay").setValue(nayNum);
+                    issues.child(id).child("votesNay").setValue(nayNum);
                     votedNayList.add(JHED);
-                    issues.child(id).child(name).child("usersNay").setValue(votedNayList);
+                    issues.child(id).child("usersNay").setValue(votedNayList);
                     Toast.makeText(IssueVotingActivity.this, "You voted Nay!", Toast.LENGTH_SHORT).show();
 
                     // Starts stats activity and sends title, id, votes for/against, and how the user voted
@@ -134,7 +134,7 @@ public class IssueVotingActivity extends AppCompatActivity {
 
     public void loadIssuePage() {
 
-        issues.child(id).child(name).addValueEventListener(new ValueEventListener() {
+        issues.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 summary.setText(snapshot.child("summary").getValue(String.class));
@@ -146,13 +146,13 @@ public class IssueVotingActivity extends AppCompatActivity {
                 if (votedNayList == null) {
                     votedNayList = new ArrayList<>();
                     votedYayList.add(" ");
-                    issues.child(id).child(name).child("usersNay").setValue(votedNayList);
+                    issues.child(id).child("usersNay").setValue(votedNayList);
 
                 }
                 if (votedYayList == null) {
                     votedYayList = new ArrayList<>();
                     votedYayList.add(" ");
-                    issues.child(id).child(name).child("usersYay").setValue(votedYayList);
+                    issues.child(id).child("usersYay").setValue(votedYayList);
                 }
                 hasVotedNay = checkVotedNay(JHED);
                 hasVotedYay = checkVotedYay(JHED);
