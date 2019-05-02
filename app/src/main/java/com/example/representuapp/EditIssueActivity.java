@@ -126,6 +126,7 @@ public class EditIssueActivity extends AppCompatActivity {
             } else {
                 issues.child(issueID).child("summary").setValue(summary);
                 issues.child(issueID).child("title").setValue(name);
+                Toast.makeText(getApplicationContext(), "Edits Saved", LENGTH_SHORT).show();
                 finish();
             }
 
