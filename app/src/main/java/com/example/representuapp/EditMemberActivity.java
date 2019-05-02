@@ -124,7 +124,7 @@ public class EditMemberActivity extends AppCompatActivity {
                 members.child(id).child("name").setValue(name);
                 members.child(id).child("position").setValue(pos);
                 members.child(id).child("bio").setValue(bio);
-                Toast.makeText(getApplicationContext(), "Edits Saved", LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Edit Saved", LENGTH_SHORT).show();
                 finish();
             }
 
