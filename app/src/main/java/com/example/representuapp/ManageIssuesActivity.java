@@ -68,12 +68,11 @@ public class ManageIssuesActivity extends AppCompatActivity {
                 idList.clear();
                 for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
                     String id = childDataSnapshot.getKey();
-                    for (DataSnapshot childsDataSnapshot : childDataSnapshot.getChildren()) {
-                        String string = childsDataSnapshot.child("title").getValue(String.class);
-                        arrayList.add(string);
-                        idList.add(id);
-                        adapter.notifyDataSetChanged();
-                    }
+                    String string = childDataSnapshot.child("title").getValue(String.class);
+                    arrayList.add(string);
+                    idList.add(id);
+                    adapter.notifyDataSetChanged();
+
                 }
 
             }
