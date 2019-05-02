@@ -128,8 +128,6 @@ public class EditIssueActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
             } else {
                 issues.child(issueID).child("summary").setValue(summary);
-                issues.child(issueID).setValue(name);
-                issues.child(issueID).child("summary").setValue(summary);
                 issues.child(issueID).child("title").setValue(name);
                 finish();
             }
