@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTitle(R.string.login);
+
         emailView = findViewById(R.id.etEmail);
         passwordView = findViewById(R.id.etPassword);
         signInButton = findViewById(R.id.btnLogin);

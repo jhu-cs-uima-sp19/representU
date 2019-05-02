@@ -54,6 +54,7 @@ public class IssueVotingActivity extends AppCompatActivity {
         summary = findViewById(R.id.user_issue_summary);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
+        Log.d("JHED", JHED);
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
         yeaNum = intent.getIntExtra("yea", 0);

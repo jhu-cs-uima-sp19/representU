@@ -60,7 +60,7 @@
         android:layout_marginBottom="8dp"
         android:drawableTop="@color/colorPrimaryDark"
         android:gravity="top|left"
-        android:lines="10"
+        android:lines="100"
         android:minHeight="100dp"
         android:minLines="5"
         android:textColor="@color/colorPrimaryDark"
