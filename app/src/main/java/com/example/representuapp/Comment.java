@@ -11,6 +11,7 @@ import java.util.Date;
 public class Comment {
     public String userName;
     public String mainText;
+    //public String issueID;
     public Instant createTime = Instant.now();
 
     public Comment(String name, String text) {

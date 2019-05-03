@@ -21,7 +21,7 @@ public class Issue {
     public int votesYay;
     public int votesNay;
     private Instant createTime;
-    private List<Comment> comments; // lists of comments made by users
+    //private List<Comment> comments; // lists of comments made by users
     private List<String> usersYay; // Users that voted yay
     private List<String> usersNay; // Users that voted nay
     private boolean archived;
@@ -41,12 +41,13 @@ public class Issue {
         this.votesNay = 0;
         this.usersNay = new ArrayList<>();
         this.usersYay = new ArrayList<>();
-        this.comments = new ArrayList<>();
+        //this.comments = new ArrayList<>();
         this.createTime = Instant.now();
         this.archived = false;
         //Firebase wont add an empty arrayList, adding empty strings
         this.usersNay.add("");
         this.usersYay.add("");
+        //this.comments.add(new Comment("", ""));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -60,12 +61,13 @@ public class Issue {
         this.votesNay = 0;
         this.usersNay = new ArrayList<>();
         this.usersYay = new ArrayList<>();
-        this.comments = new ArrayList<>();
+        //this.comments = new ArrayList<>();
         this.createTime = Instant.now();
         this.archived = false;
         //Firebase wont add an empty arrayList, adding empty strings
         this.usersNay.add("");
         this.usersYay.add("");
+        //this.comments.add(new Comment("", ""));
     }
 
     public void changeTitle(String newTitle) {
@@ -104,9 +106,9 @@ public class Issue {
         return this.usersNay;
     }
 
-    public void addComments(Comment e) {
-        comments.add(e);
-    }
+    //public void addComments(Comment e) {
+      //  comments.add(e);
+    //}
 
     /** Returns the creation time of this User. */
     private Instant getCreationTime() {

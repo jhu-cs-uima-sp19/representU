@@ -45,19 +45,25 @@ public class AddCommentActivity extends AppCompatActivity {
         final EditText comMainText = findViewById(R.id.mainText);
         Button saveButton = findViewById(R.id.postButton);
 
+
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if((comMainText.getText().toString()).equals(null) || (comMainText.getText().toString()).equals("") ) {
                     Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
                 } else {
-                    dbRef.child("issues").child(idString).child("comments").addValueEventListener(new ValueEventListener() {
+                    dbRef.child("comments").child(idString).child("comments").addValueEventListener(new ValueEventListener() {
                         @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             comments = snapshot.getValue(ArrayList.class);
+                            if (comments == null) {
+                                comments = new ArrayList<>();
+                                comments.add(new Comment("", ""));
+                            }
                             Comment newCom = new Comment(JHED, comMainText.getText().toString());
                             comments.add(newCom);
-                            dbRef.child("issues").child(idString).child("comments").setValue(comments);
+                            dbRef.child("comments").child(idString).child("comments").setValue(comments);
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {

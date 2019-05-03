@@ -151,7 +151,7 @@ public class IssueVotingActivity extends AppCompatActivity {
     private void fetch() {
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
-                .child("issues")
+                .child("comments")
                 .child(id)
                 .child("comments");
 
