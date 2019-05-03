@@ -106,6 +106,15 @@ public class EditIssueActivity extends AppCompatActivity {
             }
         });
 
+        Button archive = findViewById(R.id.archive);
+
+        archive.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                issues.child(issueID).child("archived").setValue(true);
+                finish();
+            }
+        });
+
     }
 
     @Override

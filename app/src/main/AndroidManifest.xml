@@ -58,6 +58,12 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".EditArchivedIssueActivity"
+            android:label="Edit Archived Issue"
+            android:parentActivityName=".ManageIssuesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".AddIssueActivity"
             android:label="Add Issue"
             android:parentActivityName=".ManageIssuesActivity"

@@ -72,6 +72,8 @@ public class ManageIssuesActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 arrayList.clear();
                 idList.clear();
+                archiveList.clear();
+                archivedIDs.clear();
                 for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
                     String id = childDataSnapshot.getKey();
                     String string = childDataSnapshot.child("title").getValue(String.class);
