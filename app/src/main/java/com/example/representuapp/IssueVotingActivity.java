@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,10 +166,10 @@ public class IssueVotingActivity extends AppCompatActivity {
                                 //remember to grab ID num for issue page
                                 String comName = "";
                                 String comText = "";
-                                for (DataSnapshot childsDataSnapshot : snapshot.getChildren()) {
-                                    comName = childsDataSnapshot.getValue(Comment.class).userName;
-                                    comText = childsDataSnapshot.getValue(Comment.class).mainText;
-                                }
+                                comName = snapshot.child("userName").getValue(String.class);
+                                Log.d("comName:", comName);
+                                comText = snapshot.child("mainText").getValue(String.class);
+                                Log.d("comText:", comText);
                                 return new Comment(comName, comText);
                             }
                         })
@@ -178,7 +179,7 @@ public class IssueVotingActivity extends AppCompatActivity {
             @Override
             public IssueVotingActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.issue_textview, parent, false);
+                        .inflate(R.layout.comment_textview, parent, false);
 
                 return new IssueVotingActivity.ViewHolder(view);
             }
@@ -255,45 +256,6 @@ public class IssueVotingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         fetch();
 
-
     }
-
-    /*
-    public void voting() {
-
-        yeaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (yeaVotedAlready) {
-                    yeaNum--;
-                    yeaVotedAlready = !yeaVotedAlready;
-                } else {
-                    yeaNum++;
-                    yeaVotedAlready = !yeaVotedAlready;
-                }
-                yeaNum++;
-                issues.child(idString).child(title).child("votesYay").setValue(yeaNum);
-                Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        nayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //if voted
-                if (nayVotedAlready) {
-                    nayNum--;
-                    nayVotedAlready = false;
-                } else {
-                    nayNum++;
-                    nayVotedAlready = true;
-                }
-                nayNum++;
-                issues.child(idString).child(title).child("votesNay").setValue(nayNum);
-                Toast.makeText(IssueVotingActivity.this,"You voted nay!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    } */
 
 }
