@@ -121,13 +121,14 @@ public class MainActivity extends AppCompatActivity {
             emailView.setTextColor(getResources().getColor(R.color.red));
             passwordView.setTextColor(getResources().getColor(R.color.red));
         } else if ((username.equals(adminUsername)) && (password.equals(adminPassword))) {
-            SharedPreferences.Editor peditor = myPrefs.edit();
-            peditor.putString("JHED", username);
-            peditor.commit();
-
             //SGA and Admin - launches SGA side of app
             emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
             passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+            SharedPreferences.Editor peditor = myPrefs.edit();
+            peditor.putString("JHED", JHED);
+            peditor.commit();
+
             Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
             JHED = username.replace("@jhu.edu","");
             intent.putExtra("JHED", JHED);
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 //if login had admin credentials
             } else if (USERS.get(JHED).getValue().equals(password)) {
                 SharedPreferences.Editor peditor = myPrefs.edit();
-                peditor.putString("JHED", username);
+                peditor.putString("JHED", JHED);
                 peditor.commit();
 
                 Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
