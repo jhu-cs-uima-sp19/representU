@@ -1,6 +1,9 @@
 package com.example.representuapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -40,10 +43,16 @@ public class MainActivity extends AppCompatActivity {
     final HashMap USERS = new HashMap();
     public String JHED;
 
+    private SharedPreferences myPrefs;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Context context = getApplicationContext();  // app level storage
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         setTitle(R.string.login);
 
@@ -115,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
             //SGA and Admin - launches SGA side of app
             emailView.setTextColor(getResources().getColor(R.color.colorPrimary));
             passwordView.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+            SharedPreferences.Editor peditor = myPrefs.edit();
+            peditor.putString("JHED", JHED);
+            peditor.commit();
+
             Intent intent = new Intent(MainActivity.this, SGAFeedActivity.class);
             JHED = username.replace("@jhu.edu","");
             intent.putExtra("JHED", JHED);
@@ -130,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Username is Incorrect", Toast.LENGTH_LONG).show();
                 //if login had admin credentials
             } else if (USERS.get(JHED).getValue().equals(password)) {
+                SharedPreferences.Editor peditor = myPrefs.edit();
+                peditor.putString("JHED", JHED);
+                peditor.commit();
+
                 Intent intent = new Intent(MainActivity.this, UserFeedActivity.class);
                 intent.putExtra("JHED", JHED);
                 Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_LONG).show();

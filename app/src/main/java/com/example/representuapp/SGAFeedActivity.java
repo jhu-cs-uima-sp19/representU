@@ -70,6 +70,9 @@ public class SGAFeedActivity extends AppCompatActivity
     int colorAccent;
     String JHED;
 
+    private SharedPreferences myPrefs;
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
         public TextView txtTitle;
@@ -148,6 +151,11 @@ public class SGAFeedActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
+
+        Context context = getApplicationContext();  // app level storage
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        JHED = myPrefs.getString("JHED", "admin");
+
         pass = this.getPreferences(0);
         editor = pass.edit();
         setSupportActionBar(toolbar);

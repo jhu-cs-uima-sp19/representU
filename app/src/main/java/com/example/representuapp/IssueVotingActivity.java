@@ -1,7 +1,9 @@
 package com.example.representuapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,6 +49,9 @@ public class IssueVotingActivity extends AppCompatActivity {
     int white;
     String JHED;
 
+    private SharedPreferences myPrefs;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,11 @@ public class IssueVotingActivity extends AppCompatActivity {
         summary = findViewById(R.id.user_issue_summary);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
+
+        Context context = getApplicationContext();  // app level storage
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        JHED = myPrefs.getString("JHED", "user");
+
         Log.d("JHED", JHED);
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");

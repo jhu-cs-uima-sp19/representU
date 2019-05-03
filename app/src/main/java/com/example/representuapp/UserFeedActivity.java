@@ -1,9 +1,11 @@
 package com.example.representuapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -45,13 +47,13 @@ public class UserFeedActivity extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseRecyclerAdapter adapter;
-    public SharedPreferences pass;
-    public SharedPreferences.Editor editor;
     public AlertDialog.Builder alertDialogBuilder;
     int white;
     int colorPrimary;
     int colorAccent;
     String JHED;
+
+    private SharedPreferences myPrefs;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
@@ -134,8 +136,11 @@ public class UserFeedActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
-        pass = this.getPreferences(0);
-        editor = pass.edit();
+
+        Context context = getApplicationContext();  // app level storage
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        JHED = myPrefs.getString("JHED", "user");
+
         setSupportActionBar(toolbar);
 
         white = ContextCompat.getColor(this, R.color.white);
@@ -151,6 +156,9 @@ public class UserFeedActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView JH = headerView.findViewById(R.id.jhed);
+        JH.setText(JHED);
 
         loadIssues();
 
