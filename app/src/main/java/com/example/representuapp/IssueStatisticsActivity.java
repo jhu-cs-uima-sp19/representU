@@ -3,29 +3,18 @@ package com.example.representuapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -39,8 +28,6 @@ public class IssueStatisticsActivity extends AppCompatActivity {
     BarChart chart;
     ArrayList<BarEntry> BARENTRY;
     ArrayList<String> BarEntryLabels;
-    ArrayList<String> yList;
-    ArrayList<String> nList;
     BarDataSet Bardataset;
     BarData BARDATA;
     TextView youVotedX;
@@ -58,37 +45,19 @@ public class IssueStatisticsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        issueTitle = intent.getStringExtra("title");
+        issueTitle = intent.getStringExtra("name");
         id = intent.getStringExtra("id");
         nayNum = intent.getIntExtra("nayNum", 0);
         yeaNum = intent.getIntExtra("yeaNum", 0);
-        //nayNum = Integer.parseInt(nay);
-        //yeaNum = Integer.parseInt(yea);
-        Log.d("n_id", id);
-
-//        issues.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                yeaNum = dataSnapshot.child(id).child("votesYay").getValue(Integer.class);
-//                nayNum = dataSnapshot.child(id).child("votesNay").getValue(Integer.class);
-//                GenericTypeIndicator<ArrayList<String>> gti =new GenericTypeIndicator<ArrayList<String>>(){};
-//                yList = dataSnapshot.child(id).child("usersYea").getValue(gti);
-//                nList = dataSnapshot.child(id).child("usersNay").getValue(gti);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
 
 
-        Log.d("n_yea", Integer.toString(yeaNum));
-        Log.d("n_nay", Integer.toString(nayNum));
-        //Log.d("n_yeaList", yList.toString());
-        //Log.d("n_nayList", nList.toString());
 
-        youVotedX = findViewById(R.id.statistics_text);
+        youVotedX = findViewById(R.id.statistics_title);
         youVotedX.setText(issueTitle);
+        youVotedX = findViewById(R.id.votes_nay);
+        youVotedX.setText("Nay: " + nayNum);
+        youVotedX = findViewById(R.id.votes_yay);
+        youVotedX.setText("Yay: " + yeaNum);
 
         int colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
 

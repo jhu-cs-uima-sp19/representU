@@ -35,8 +35,6 @@ public class ManageIssuesActivity extends AppCompatActivity {
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> adapter;
     ArrayList<String> idList = new ArrayList<>();
-    ArrayList<Integer> yeaList = new ArrayList<>();
-    ArrayList<Integer> nayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
