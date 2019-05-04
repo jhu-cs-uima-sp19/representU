@@ -224,6 +224,9 @@ public class SGAFeedActivity extends AppCompatActivity
         if (id == R.id.manageIssues) {
             Intent intent = new Intent(SGAFeedActivity.this, ManageIssuesActivity.class);
             startActivity(intent);
+        } else if (id == R.id.stats) {
+            Intent intent = new Intent(SGAFeedActivity.this, SGAStatisticsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.editSGA) {
             Intent intent = new Intent(SGAFeedActivity.this, EditSGAActivity.class);
             startActivity(intent);
