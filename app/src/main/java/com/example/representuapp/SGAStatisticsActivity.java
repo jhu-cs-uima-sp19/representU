@@ -1,37 +1,31 @@
 package com.example.representuapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import java.util.ArrayList;
-import java.util.UUID;
-
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 
-public class ManageIssuesActivity extends AppCompatActivity {
+public class SGAStatisticsActivity extends AppCompatActivity {
 
-    Button cancel;
-    Button add;
     ListView issuesList;
-
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference issues = database.getReference().child("issues");
-
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> adapter;
     ArrayList<String> idList = new ArrayList<>();
@@ -41,11 +35,10 @@ public class ManageIssuesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_issues);
-
-        Intent intent = getIntent();
+        setContentView(R.layout.activity_sgastatistics);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         issuesList = (ListView) findViewById(R.id.issuesList);
 
@@ -58,12 +51,17 @@ public class ManageIssuesActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 arrayList.clear();
                 idList.clear();
-
+                yeaList.clear();
+                nayList.clear();
                 for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
                     String id = childDataSnapshot.getKey();
                     String string = childDataSnapshot.child("title").getValue(String.class);
+                    int yeaNum = childDataSnapshot.child("votesYay").getValue(Integer.class);
+                    int nayNum = childDataSnapshot.child("votesNay").getValue(Integer.class);
                     arrayList.add(string);
                     idList.add(id);
+                    yeaList.add(yeaNum);
+                    nayList.add(nayNum);
                     adapter.notifyDataSetChanged();
                 }
 
@@ -77,37 +75,19 @@ public class ManageIssuesActivity extends AppCompatActivity {
         issuesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ManageIssuesActivity.this, EditIssueActivity.class);
+                Intent intent = new Intent(SGAStatisticsActivity.this, IssueStatisticsActivity.class);
                 String title = arrayList.get(position);
                 String idNum = idList.get(position);
+                Integer yeaNum = yeaList.get(position);
+                Integer nayNum = nayList.get(position);
                 intent.putExtra("name", title);
                 intent.putExtra("id", idNum);
+                intent.putExtra("yeaNum", yeaNum);
+                intent.putExtra("nayNum", nayNum);
                 startActivity(intent);
             }
         });
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_sga, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            Intent intent = new Intent(ManageIssuesActivity.this, AddIssueActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

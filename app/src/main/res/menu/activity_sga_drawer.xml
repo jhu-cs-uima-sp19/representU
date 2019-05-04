@@ -15,6 +15,11 @@
             android:id="@+id/manageIssues"
             />
         <item
+            android:title="@string/statistics"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/stats"
+            />
+        <item
             android:title="@string/edit_sga"
             android:textColor="@color/colorPrimary"
             android:id="@+id/editSGA"

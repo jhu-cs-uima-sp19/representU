@@ -64,7 +64,6 @@ public class IssueVotingActivity extends AppCompatActivity {
         myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         JHED = myPrefs.getString("JHED", "user");
 
-        Log.d("JHED", JHED);
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
         yeaNum = intent.getIntExtra("yea", 0);
