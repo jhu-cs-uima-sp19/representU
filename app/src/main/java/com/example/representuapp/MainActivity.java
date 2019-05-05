@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public String userPassword;
     final HashMap USERS = new HashMap();
     public String JHED;
+    DatabaseReference connectedRef;
+    boolean connected;
 
     private SharedPreferences myPrefs;
 
@@ -64,6 +66,20 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference a_pass = database.getReference().child("adminPassword");
         DatabaseReference a_usnm = database.getReference().child("adminUsername");
         DatabaseReference user_login = database.getReference().child("users");
+
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
 
         a_pass.addValueEventListener(new ValueEventListener() {
             @Override
@@ -99,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         passwordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -109,12 +126,17 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate(emailView.getText().toString(), passwordView.getText().toString());
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                } else {
+                    validate(emailView.getText().toString(), passwordView.getText().toString());
+                }
             }
         });
     }
 
     private void validate(String username, String password) {
+
         if (username == null || password == null) {
             //username and password cant be null
             Toast.makeText(getApplicationContext(), "Username and/or Password fields CANNOT be empty!", Toast.LENGTH_LONG).show();
