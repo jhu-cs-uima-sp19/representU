@@ -59,6 +59,8 @@ public class SGAFeedActivity extends AppCompatActivity
     public FirebaseDatabase database;
     public DatabaseReference adminPassword;
     public DatabaseReference adminUsername;
+    DatabaseReference connectedRef;
+    boolean connected;
     public String new_pass;
     public String new_pass_confirm;
     public String old_pass_confirm;
@@ -180,11 +182,28 @@ public class SGAFeedActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
         loadIssues();
     }
 
     @Override
     public void onBackPressed() {
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -195,6 +214,9 @@ public class SGAFeedActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        }
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sga, menu);
         return true;
@@ -202,6 +224,9 @@ public class SGAFeedActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        }
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -220,6 +245,10 @@ public class SGAFeedActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        }
 
         if (id == R.id.manageIssues) {
             Intent intent = new Intent(SGAFeedActivity.this, ManageIssuesActivity.class);
@@ -292,118 +321,123 @@ public class SGAFeedActivity extends AppCompatActivity
     }
 
     public void changePass() {
-        alertDialogBuilder = new AlertDialog.Builder(this);
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        } else {
 
-        final EditText new_pw = new EditText(this);
-        final EditText old_pw_confirm = new EditText(this);
-        final EditText new_pw_confirm = new EditText(this);
+            alertDialogBuilder = new AlertDialog.Builder(this);
 
-        new_pw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        new_pw.setHint("New Password");
-        new_pw.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
-        new_pw.setTextSize(20);
-        new_pw.setTextColor(colorPrimary);
+            final EditText new_pw = new EditText(this);
+            final EditText old_pw_confirm = new EditText(this);
+            final EditText new_pw_confirm = new EditText(this);
 
-        new_pw_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        new_pw_confirm.setHint("Confirm New Password");
-        new_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
-        new_pw_confirm.setTextColor(colorPrimary);
-        new_pw_confirm.setTextSize(20);
+            new_pw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            new_pw.setHint("New Password");
+            new_pw.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
+            new_pw.setTextSize(20);
+            new_pw.setTextColor(colorPrimary);
 
-        old_pw_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        old_pw_confirm.setHint("Confirm Old Password");
-        old_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
-        old_pw_confirm.setTextColor(colorPrimary);
-        old_pw_confirm.setTextSize(20);
+            new_pw_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            new_pw_confirm.setHint("Confirm New Password");
+            new_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
+            new_pw_confirm.setTextColor(colorPrimary);
+            new_pw_confirm.setTextSize(20);
 
-        LinearLayout ll = new LinearLayout(this);
-        ll.setOrientation(LinearLayout.VERTICAL);
-        ll.addView(old_pw_confirm);
-        ll.addView(new_pw);
-        ll.addView(new_pw_confirm);
+            old_pw_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            old_pw_confirm.setHint("Confirm Old Password");
+            old_pw_confirm.setTextAppearance(R.style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle);
+            old_pw_confirm.setTextColor(colorPrimary);
+            old_pw_confirm.setTextSize(20);
 
-        TextView title = new TextView(this);
-        title.setText(R.string.cp_title);
-        //title.setTypeface(android.gra);
-        //title.setBackgroundColor(colorPrimary);
-        title.setTextColor(colorPrimary);
-        title.setTextSize(24);
-        title.setPaddingRelative(3,30,3,30);
-        title.setCompoundDrawablePadding(10);
-        title.setGravity(Gravity.CENTER);
+            LinearLayout ll = new LinearLayout(this);
+            ll.setOrientation(LinearLayout.VERTICAL);
+            ll.addView(old_pw_confirm);
+            ll.addView(new_pw);
+            ll.addView(new_pw_confirm);
 
-        alertDialogBuilder.setView(ll);
-        //alertDialogBuilder.setTh
-        alertDialogBuilder.setCustomTitle(title).setCancelable(false);
+            TextView title = new TextView(this);
+            title.setText(R.string.cp_title);
+            //title.setTypeface(android.gra);
+            //title.setBackgroundColor(colorPrimary);
+            title.setTextColor(colorPrimary);
+            title.setTextSize(24);
+            title.setPaddingRelative(3, 30, 3, 30);
+            title.setCompoundDrawablePadding(10);
+            title.setGravity(Gravity.CENTER);
 
-        database = FirebaseDatabase.getInstance();
-        adminPassword = database.getReference().child("adminPassword");
+            alertDialogBuilder.setView(ll);
+            //alertDialogBuilder.setTh
+            alertDialogBuilder.setCustomTitle(title).setCancelable(false);
 
-        adminPassword.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                old_pw = snapshot.getValue(String.class);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+            database = FirebaseDatabase.getInstance();
+            adminPassword = database.getReference().child("adminPassword");
 
-
-        alertDialogBuilder.setPositiveButton("CHANGE PASSWORD", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Do nothing here because we override this button later to change the close behaviour.
-                //However, we still need this because on older versions of Android unless we
-                //pass a handler the button doesn't get instantiated
-            }
-        });
-
-        alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        final AlertDialog dialog = alertDialogBuilder.create();
-        dialog.show();
-
-        //Overriding the handler immediately after show
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                boolean wantToCloseDialog = false;
-                new_pass = new_pw.getText().toString();
-                new_pass_confirm = new_pw_confirm.getText().toString();
-                old_pass_confirm = old_pw_confirm.getText().toString();
-
-                if (!old_pass_confirm.equals(old_pw)){
-                    Toast.makeText(getApplicationContext(), "Incorrect Current Password", Toast.LENGTH_SHORT).show();
-                } else if (new_pass.equals("") | new_pass_confirm.equals("") | new_pass == null | new_pass_confirm == null){
-                    Toast.makeText(getApplicationContext(), "Fields Can't Be Empty", Toast.LENGTH_SHORT).show();
-                } else if (new_pass.equals(new_pass_confirm) && !new_pass.equals(old_pw)) {
-                    adminPassword.setValue(new_pass);
-                    Toast.makeText(getApplicationContext(), "Password Changed", Toast.LENGTH_SHORT).show();
-                    //finish();
-                    wantToCloseDialog = true;
-                } else if (!new_pass.equals(new_pass_confirm)){
-                    Toast.makeText(getApplicationContext(), "Passwords Don't Match! Try Again.", Toast.LENGTH_SHORT).show();
-                } else if (new_pass.equals(old_pw)){
-                    Toast.makeText(getApplicationContext(), "New Password Must Not Equal Old Password! Try Again.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
-                    wantToCloseDialog = true;
+            adminPassword.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    old_pw = snapshot.getValue(String.class);
                 }
 
-                //Do stuff, possibly set wantToCloseDialog to true then...
-                if(wantToCloseDialog)
-                    dialog.dismiss();
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
 
+
+            alertDialogBuilder.setPositiveButton("CHANGE PASSWORD", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Do nothing here because we override this button later to change the close behaviour.
+                    //However, we still need this because on older versions of Android unless we
+                    //pass a handler the button doesn't get instantiated
+                }
+            });
+
+            alertDialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            final AlertDialog dialog = alertDialogBuilder.create();
+            dialog.show();
+
+            //Overriding the handler immediately after show
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    boolean wantToCloseDialog = false;
+                    new_pass = new_pw.getText().toString();
+                    new_pass_confirm = new_pw_confirm.getText().toString();
+                    old_pass_confirm = old_pw_confirm.getText().toString();
+
+                    if (!old_pass_confirm.equals(old_pw)) {
+                        Toast.makeText(getApplicationContext(), "Incorrect Current Password", Toast.LENGTH_SHORT).show();
+                    } else if (new_pass.equals("") | new_pass_confirm.equals("") | new_pass == null | new_pass_confirm == null) {
+                        Toast.makeText(getApplicationContext(), "Fields Can't Be Empty", Toast.LENGTH_SHORT).show();
+                    } else if (new_pass.equals(new_pass_confirm) && !new_pass.equals(old_pw)) {
+                        adminPassword.setValue(new_pass);
+                        Toast.makeText(getApplicationContext(), "Password Changed", Toast.LENGTH_SHORT).show();
+                        //finish();
+                        wantToCloseDialog = true;
+                    } else if (!new_pass.equals(new_pass_confirm)) {
+                        Toast.makeText(getApplicationContext(), "Passwords Don't Match! Try Again.", Toast.LENGTH_SHORT).show();
+                    } else if (new_pass.equals(old_pw)) {
+                        Toast.makeText(getApplicationContext(), "New Password Must Not Equal Old Password! Try Again.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                        wantToCloseDialog = true;
+                    }
+
+                    //Do stuff, possibly set wantToCloseDialog to true then...
+                    if (wantToCloseDialog)
+                        dialog.dismiss();
+                }
+            });
+        }
     }
 
     public void loadIssues() {
@@ -416,6 +450,11 @@ public class SGAFeedActivity extends AppCompatActivity
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        }
+
         fetch();
 
         // specify an adapter (see also next example)

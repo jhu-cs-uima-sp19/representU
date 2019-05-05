@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +24,8 @@ public class MeetYourSGAActivity extends AppCompatActivity {
     RecyclerView rv_cards;
     SGAMembersAdapter SGAMembersAdapter;
     ArrayList<SGAMember> SGAMembers;
+    DatabaseReference connectedRef;
+    boolean connected;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference members = database.getReference().child("SGA");
@@ -35,6 +38,20 @@ public class MeetYourSGAActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Meet Your SGA");
+
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
 
         init();
     }
@@ -50,6 +67,9 @@ public class MeetYourSGAActivity extends AppCompatActivity {
         ArrayList<String> SGANames = new ArrayList<>();
         SGAMembers = new ArrayList<>();
 
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        }
 
         members.addValueEventListener(new ValueEventListener() {
             @Override
