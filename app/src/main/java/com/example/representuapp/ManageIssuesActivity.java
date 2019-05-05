@@ -59,9 +59,6 @@ public class ManageIssuesActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 connected = snapshot.getValue(Boolean.class);
-                if (!connected) {
-                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-                }
             }
             @Override
             public void onCancelled(DatabaseError error) {

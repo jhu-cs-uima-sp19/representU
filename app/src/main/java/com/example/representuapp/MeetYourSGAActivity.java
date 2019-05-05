@@ -39,20 +39,6 @@ public class MeetYourSGAActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Meet Your SGA");
 
-        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-        connectedRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                connected = snapshot.getValue(Boolean.class);
-                if (!connected) {
-                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
-
         init();
     }
 
@@ -66,10 +52,6 @@ public class MeetYourSGAActivity extends AppCompatActivity {
 
         ArrayList<String> SGANames = new ArrayList<>();
         SGAMembers = new ArrayList<>();
-
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
 
         members.addValueEventListener(new ValueEventListener() {
             @Override

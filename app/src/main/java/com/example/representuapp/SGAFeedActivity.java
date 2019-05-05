@@ -97,6 +97,17 @@ public class SGAFeedActivity extends AppCompatActivity
                 .getReference()
                 .child("issues");
 
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
         FirebaseRecyclerOptions<Issue> options =
                 new FirebaseRecyclerOptions.Builder<Issue>()
                         .setQuery(query, new SnapshotParser<Issue>() {
@@ -111,6 +122,7 @@ public class SGAFeedActivity extends AppCompatActivity
                             }
                         })
                         .build();
+
 
         adapter = new FirebaseRecyclerAdapter<Issue, SGAFeedActivity.ViewHolder>(options) {
             @Override
@@ -132,6 +144,7 @@ public class SGAFeedActivity extends AppCompatActivity
                 holder.root.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         //Toast.makeText(SGAFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SGAFeedActivity.this, IssuesSGAActivity.class);
                         intent.putExtra("title", model.title);
@@ -150,6 +163,7 @@ public class SGAFeedActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sga_feed);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
@@ -182,28 +196,11 @@ public class SGAFeedActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-        connectedRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                connected = snapshot.getValue(Boolean.class);
-                if (!connected) {
-                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
-
         loadIssues();
     }
 
     @Override
     public void onBackPressed() {
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -214,9 +211,6 @@ public class SGAFeedActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sga, menu);
         return true;
@@ -224,9 +218,6 @@ public class SGAFeedActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -246,9 +237,6 @@ public class SGAFeedActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
 
         if (id == R.id.manageIssues) {
             Intent intent = new Intent(SGAFeedActivity.this, ManageIssuesActivity.class);
@@ -321,9 +309,6 @@ public class SGAFeedActivity extends AppCompatActivity
     }
 
     public void changePass() {
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        } else {
 
             alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -372,7 +357,8 @@ public class SGAFeedActivity extends AppCompatActivity
             database = FirebaseDatabase.getInstance();
             adminPassword = database.getReference().child("adminPassword");
 
-            adminPassword.addValueEventListener(new ValueEventListener() {
+
+        adminPassword.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     old_pw = snapshot.getValue(String.class);
@@ -409,6 +395,9 @@ public class SGAFeedActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
 
+                    if (!connected) {
+                        Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                    }
                     boolean wantToCloseDialog = false;
                     new_pass = new_pw.getText().toString();
                     new_pass_confirm = new_pw_confirm.getText().toString();
@@ -437,7 +426,6 @@ public class SGAFeedActivity extends AppCompatActivity
                         dialog.dismiss();
                 }
             });
-        }
     }
 
     public void loadIssues() {
@@ -450,11 +438,6 @@ public class SGAFeedActivity extends AppCompatActivity
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
-
         fetch();
 
         // specify an adapter (see also next example)

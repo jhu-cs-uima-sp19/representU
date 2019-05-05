@@ -137,6 +137,21 @@ public class UserFeedActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
+
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
@@ -164,20 +179,6 @@ public class UserFeedActivity extends AppCompatActivity
         TextView JH = headerView.findViewById(R.id.jhed);
         JH.setText(JHED);
 
-        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-        connectedRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                connected = snapshot.getValue(Boolean.class);
-                if (!connected) {
-                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
-
         loadIssues();
 
         alertDialogBuilder = new AlertDialog.Builder(this);
@@ -198,9 +199,6 @@ public class UserFeedActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -218,9 +216,6 @@ public class UserFeedActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -291,10 +286,6 @@ public class UserFeedActivity extends AppCompatActivity
     }
 
     public void loadIssues() {
-        if (!connected) {
-            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
-        }
-
         recyclerView = (RecyclerView) findViewById(R.id.issueFeed);
 
         // use this setting to improve performance if you know that changes
