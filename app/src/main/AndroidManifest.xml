@@ -19,7 +19,7 @@
             android:name=".IssueStatisticsActivity"
             android:label="@string/title_activity_issue_statistics"
             android:parentActivityName=".SGAStatisticsActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".SGAStatisticsActivity"
             android:label="@string/title_activity_sgastatistics"
@@ -28,19 +28,15 @@
         <activity
             android:name=".AddMemberActivity"
             android:configChanges="orientation"
-            android:parentActivityName=".EditSGAActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".EditSGAActivity" />
         <activity
             android:name=".EditMemberActivity"
             android:configChanges="orientation"
-            android:parentActivityName=".EditSGAActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".EditSGAActivity" />
         <activity
             android:name=".SGAMemberActivity"
-            android:configChanges="orientation"
             android:label="@string/title_activity_sgamember"
-            android:parentActivityName=".MeetYourSGAActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".MeetYourSGAActivity"/>
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"
@@ -50,7 +46,6 @@
             android:configChanges="orientation"
             android:label="@string/title_activity_user_statistics"
             android:parentActivityName=".IssueVotingActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IssuesSGAActivity"
@@ -66,14 +61,12 @@
             android:name=".EditIssueActivity"
             android:configChanges="orientation"
             android:label="Edit Issue"
-            android:parentActivityName=".ManageIssuesActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".ManageIssuesActivity"/>
         <activity
             android:name=".AddIssueActivity"
             android:configChanges="orientation"
             android:label="Add Issue"
-            android:parentActivityName=".ManageIssuesActivity"
-            android:screenOrientation="portrait" />
+            android:parentActivityName=".ManageIssuesActivity"/>
         <activity
             android:name=".EditSGAActivity"
             android:label="Meet Your SGA"
@@ -85,8 +78,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
-            android:gravity="center_horizontal"
-            android:screenOrientation="portrait">
+            android:gravity="center_horizontal">
             <tools:validation testUrl="http://www.representu-app.com" />
 
             <intent-filter>
