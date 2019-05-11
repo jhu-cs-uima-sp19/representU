@@ -39,6 +39,7 @@ public class SGAStatisticsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Statistics");
 
         issuesList = (ListView) findViewById(R.id.issuesList);
 
