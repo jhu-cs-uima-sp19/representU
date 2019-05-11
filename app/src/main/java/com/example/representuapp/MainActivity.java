@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,9 +63,23 @@ public class MainActivity extends AppCompatActivity {
         setTitle(R.string.login);
 
         emailView = findViewById(R.id.etEmail);
+        emailView.setFitsSystemWindows(true);
+        emailView.setCursorVisible(false);
         passwordView = findViewById(R.id.etPassword);
+        passwordView.setFitsSystemWindows(true);
         signInButton = findViewById(R.id.btnLogin);
         image = findViewById(R.id.imageView2);
+        image.setVisibility(View.VISIBLE);
+        showSoftKeyboard(signInButton);
+
+        emailView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                image.setVisibility(View.GONE);
+                emailView.setCursorVisible(true);
+                passwordView.setCursorVisible(true);
+            }
+        });
 
 //        if (getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL)){
 //            // on a large screen device ...
@@ -201,6 +216,14 @@ public class MainActivity extends AppCompatActivity {
                 passwordView.setTextColor(getResources().getColor(R.color.red));
                 Toast.makeText(getApplicationContext(), "Username and/or Password is Incorrect", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
     }
 
