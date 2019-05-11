@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class EditArchivedIssueActivity extends AppCompatActivity {
@@ -37,7 +39,8 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
     int colorPrimary;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference issues = database.getReference().child("archives");
+    private DatabaseReference dbRef = database.getReference();
+    private DatabaseReference archives = dbRef.child("archived");
 
     public AlertDialog.Builder alertDialogBuilder;
 
@@ -56,7 +59,7 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
 
         desc = (EditText) findViewById(R.id.archiveDesc);
 
-        issues.child(issueID).addValueEventListener(new ValueEventListener() {
+        archives.child(issueID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 desc.setText(snapshot.child("summary").getValue(String.class));
@@ -90,7 +93,7 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
 
                 alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        issues.child(issueID).removeValue();
+                        archives.child(issueID).removeValue();
                         Toast.makeText(getApplicationContext(), "Issue Deleted", LENGTH_SHORT).show();
                         finish();
                     }
@@ -110,7 +113,32 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
 
         unarchive.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                issues.child(issueID).child("archived").setValue(false);
+                final Issue unarchivedIssue = new Issue(name, summary);
+                archives.child(issueID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        String summary = snapshot.child("summary").getValue(String.class);
+                        String name = snapshot.child("title").getValue(String.class);
+                        String idNum = issueID;
+                        boolean archived = false;
+                        List<String> usersYay = snapshot.child("usersYay").getValue(List.class);
+                        List<String> usersNay = snapshot.child("usersNay").getValue(List.class);
+                        int votesNay = snapshot.child("votesNay").getValue(Integer.class);
+                        int votesYay = snapshot.child("votesYay").getValue(Integer.class);
+
+                        unarchivedIssue.idNum = idNum;
+                        unarchivedIssue.archived = archived;
+                        unarchivedIssue.usersYay = usersYay;
+                        unarchivedIssue.usersNay = usersNay;
+                        unarchivedIssue.votesNay = votesNay;
+                        unarchivedIssue.votesYay = votesYay;
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                dbRef.child("issues").child(unarchivedIssue.idNum.toString()).setValue(unarchivedIssue);
+                archives.child(issueID).removeValue();
                 finish();
             }
         });
@@ -134,8 +162,8 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
             if(summary.equals(null) || summary.equals("") || name.equals(null) || name.equals("") ) {
                 Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
             } else {
-                issues.child(issueID).child("summary").setValue(summary);
-                issues.child(issueID).child("title").setValue(name);
+                archives.child(issueID).child("summary").setValue(summary);
+                archives.child(issueID).child("title").setValue(name);
                 finish();
             }
 
