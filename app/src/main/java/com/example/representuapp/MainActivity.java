@@ -1,8 +1,10 @@
 package com.example.representuapp;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -15,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView emailView;
     EditText passwordView;
     Button signInButton;
-
+    ImageView image;
     public String adminUsername;
     public String adminPassword;
     public String userUsername;
@@ -61,6 +64,25 @@ public class MainActivity extends AppCompatActivity {
         emailView = findViewById(R.id.etEmail);
         passwordView = findViewById(R.id.etPassword);
         signInButton = findViewById(R.id.btnLogin);
+        image = findViewById(R.id.imageView2);
+
+//        if (getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL)){
+//            // on a large screen device ...
+//            Log.d("ADJUSTING?", "yes");
+//            image.setMaxWidth(350);
+//            image.setMaxHeight(350);
+//        }
+//        int screenSize = getResources().getConfiguration().screenLayout &
+//                Configuration.SCREENLAYOUT_SIZE_MASK;
+//        Log.d("hello", Integer.toString(screenSize));
+//        Log.d("S_HEIGHT", Integer.toString((getResources().getConfiguration().screenHeightDp)));
+//        Log.d("S_WIDTH", Integer.toString((getResources().getConfiguration().screenWidthDp)));
+//        if ((getResources().getConfiguration().screenHeightDp >= 700) || (getResources().getConfiguration().screenWidthDp >= 700)) {
+//            Log.d("ADJUSTING?", "yes");
+//            image.setMaxWidth(350);
+//            image.setMaxHeight(350);
+//        }
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference a_pass = database.getReference().child("adminPassword");
@@ -130,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //TODO: Write an if statement to adjust size of picture when the orientation is landscape
     }
 
     private void validate(String username, String password) {
