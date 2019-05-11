@@ -32,6 +32,8 @@ public class ManageIssuesActivity extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference issues = database.getReference().child("issues");
+    private DatabaseReference archiveDB = database.getReference().child("archived");
+
 
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> adapter;
@@ -56,15 +58,12 @@ public class ManageIssuesActivity extends AppCompatActivity {
         issuesList = (ListView) findViewById(R.id.issuesList);
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayList);
-        //issuesList.setAdapter(adapter);
-        //issuesList.setClickable(true);
 
 
         archives = (ListView) findViewById(R.id.archiveList);
 
         archAdapt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, archiveList);
-        //archives.setAdapter(archAdapt);
-        //archives.setClickable(true);
+
 
 
         issues.addValueEventListener(new ValueEventListener() {
@@ -74,22 +73,12 @@ public class ManageIssuesActivity extends AppCompatActivity {
                 idList.clear();
                 issuesList.setAdapter(adapter);
                 issuesList.setClickable(true);
-                archiveList.clear();
-                archivedIDs.clear();
-                archives.setAdapter(archAdapt);
-                archives.setClickable(true);
                 for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
                     String id = childDataSnapshot.getKey();
                     String string = childDataSnapshot.child("title").getValue(String.class);
-                    if (childDataSnapshot.child("archived").getValue(boolean.class)) {
-                        archiveList.add(string);
-                        archivedIDs.add(id);
-                        archAdapt.notifyDataSetChanged();
-                    } else {
-                        arrayList.add(string);
-                        idList.add(id);
-                        adapter.notifyDataSetChanged();
-                    }
+                    arrayList.add(string);
+                    idList.add(id);
+                    adapter.notifyDataSetChanged();
                 }
 
             }
@@ -97,6 +86,28 @@ public class ManageIssuesActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+        archiveDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                archiveList.clear();
+                archivedIDs.clear();
+                archives.setAdapter(archAdapt);
+                archives.setClickable(true);
+                for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
+                    String id = childDataSnapshot.getKey();
+                    String string = childDataSnapshot.child("title").getValue(String.class);
+                    archiveList.add(string);
+                    archivedIDs.add(id);
+                    archAdapt.notifyDataSetChanged();
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
 
 
         issuesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

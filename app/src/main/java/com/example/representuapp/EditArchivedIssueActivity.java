@@ -37,7 +37,7 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
     int colorPrimary;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference issues = database.getReference().child("issues");
+    private DatabaseReference issues = database.getReference().child("archives");
 
     public AlertDialog.Builder alertDialogBuilder;
 
