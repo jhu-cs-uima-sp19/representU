@@ -21,10 +21,12 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
+        android:id="@+id/layoutx"
         layout="@layout/content_user_feed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="64sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="56dp"
         app:layout_anchor="@id/toolbar"
         app:layout_dodgeInsetEdges="top" />
 

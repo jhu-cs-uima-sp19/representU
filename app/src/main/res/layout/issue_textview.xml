@@ -39,7 +39,6 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:contentDescription="mock picture"
-                android:cropToPadding="true"
                 android:foregroundGravity="clip_horizontal|center"
                 android:maxHeight="250dp"
                 android:scaleType="fitCenter"
