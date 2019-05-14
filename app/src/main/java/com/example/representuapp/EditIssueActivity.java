@@ -134,8 +134,9 @@ public class EditIssueActivity extends AppCompatActivity {
                 archivedIssue.votesNay = issueVN;
                 archivedIssue.votesYay = issueVY;
                 archivedIssue.archived = true;
-                dbRef.child("archived").child(archivedIssue.idNum.toString()).setValue(archivedIssue);
+                dbRef.child("archived").child(archivedIssue.idNum).setValue(archivedIssue);
                 dbRef.child("issues").child(issueID).removeValue();
+                Toast.makeText(getApplicationContext(), "Issue is now archived", LENGTH_SHORT).show();
                 finish();
             }
         });

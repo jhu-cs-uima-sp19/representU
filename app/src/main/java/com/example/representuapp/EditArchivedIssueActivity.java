@@ -133,6 +133,7 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
                 unarchivedIssue.archived = false;
                 dbRef.child("issues").child(unarchivedIssue.idNum).setValue(unarchivedIssue);
                 dbRef.child("archived").child(issueID).removeValue();
+                Toast.makeText(getApplicationContext(), "Issue is now active", LENGTH_SHORT).show();
                 finish();
             }
         });
