@@ -1,10 +1,12 @@
 package com.example.representuapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
@@ -32,9 +34,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +51,15 @@ public class UserFeedActivity extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseRecyclerAdapter adapter;
-    public SharedPreferences pass;
-    public SharedPreferences.Editor editor;
     public AlertDialog.Builder alertDialogBuilder;
     int white;
     int colorPrimary;
     int colorAccent;
     String JHED;
+    DatabaseReference connectedRef;
+    boolean connected;
+
+    private SharedPreferences myPrefs;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
@@ -134,11 +140,29 @@ public class UserFeedActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
+
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
-        pass = this.getPreferences(0);
-        editor = pass.edit();
+
+        Context context = getApplicationContext();  // app level storage
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        JHED = myPrefs.getString("JHED", "user");
+
         setSupportActionBar(toolbar);
 
         white = ContextCompat.getColor(this, R.color.white);
@@ -154,6 +178,9 @@ public class UserFeedActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView JH = headerView.findViewById(R.id.jhed);
+        JH.setText(JHED);
 
         loadIssues();
 

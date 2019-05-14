@@ -1,7 +1,9 @@
 package com.example.representuapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -11,6 +13,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +26,19 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class IssueVotingActivity extends AppCompatActivity {
 
@@ -43,17 +54,23 @@ public class IssueVotingActivity extends AppCompatActivity {
     public Integer nayNum = 0;
     public Button nayButton;
     public Button yeaButton;
+    public List<Comment> commentsList;
+    public List<String> votedYayList;
+    public List<String> votedNayList;
     public TextView summary;
     public String title;
     public String idString;
-    //public boolean yeaVotedAlready = false;
-    //public boolean nayVotedAlready = false;
+    public boolean hasVotedYay;
+    public boolean hasVotedNay;
     String name;
     String id;
     int colorPrimaryDark;
-    //int colorAccentDark = ContextCompat.getColor(this, R.color.colorAccentDark);
+    int colorAccentDark;
     int white;
     String JHED;
+
+    private SharedPreferences myPrefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,17 +79,21 @@ public class IssueVotingActivity extends AppCompatActivity {
         summary = findViewById(R.id.user_issue_summary);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
+
+        Context context = getApplicationContext();  // app level storage
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        JHED = myPrefs.getString("JHED", "user");
+
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
         yeaNum = intent.getIntExtra("yea", 0);
         nayNum = intent.getIntExtra("nay", 0);
-        yeaButton = (Button) findViewById(R.id.yay_user);
-        nayButton = (Button) findViewById(R.id.nay_user);
-        //TODO: if (user has voted yea) { nayButton.setVisibility(View.GONE); }
-        //TODO: if (user has voted nay) { yeaButton.setVisibility(View.GONE); }
+        yeaButton = findViewById(R.id.yay_user);
+        nayButton = findViewById(R.id.nay_user);
 
         //initialize colors
         colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
+        colorAccentDark = ContextCompat.getColor(this, R.color.colorAccentDark);
         white = ContextCompat.getColor(this, R.color.white);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,23 +101,31 @@ public class IssueVotingActivity extends AppCompatActivity {
         yeaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: if user has voted Yea, unvote, nayButton.setVisibility(View.VISIBLE) and Toast.maketext("You unvoted")
-                nayButton.setVisibility(View.GONE);
-                //TODO: Save user name in database as hasVotedYea
-                yeaNum++;
-                issues.child(id).child(name).child("votesYay").setValue(yeaNum);
 
-                // Starts stats activity and sends title, id, votes for/against, and how the user voted
-                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
-                intent.putExtra("title", name);
-                intent.putExtra("id", id);
-                intent.putExtra("yea", yeaNum);
-                intent.putExtra("nay", nayNum);
-                intent.putExtra("voted", "yea");
-                startActivity(intent);
+                if (hasVotedYay) {
+                    invalidateOptionsMenu();
+                    yeaNum--;
+                    issues.child(id).child("votesYay").setValue(yeaNum);
+                    votedYayList.remove(JHED);
+                    issues.child(id).child("usersYay").setValue(votedYayList);
+                    Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
+                } else {
+                    invalidateOptionsMenu();
+                    yeaNum++;
+                    issues.child(id).child("votesYay").setValue(yeaNum);
+                    votedYayList.add(JHED);
+                    issues.child(id).child("usersYay").setValue(votedYayList);
+                    Toast.makeText(IssueVotingActivity.this, "You voted Yea!", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(IssueVotingActivity.this,"You voted yea!", Toast.LENGTH_SHORT).show();
-
+                    // Starts stats activity and sends title, id, votes for/against, and how the user voted
+                    Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                    intent.putExtra("title", name);
+                    intent.putExtra("id", id);
+                    intent.putExtra("yea", yeaNum);
+                    intent.putExtra("nay", nayNum);
+                    intent.putExtra("voted", "Yea");
+                    startActivity(intent);
+                }
             }
         });
 
@@ -104,22 +133,31 @@ public class IssueVotingActivity extends AppCompatActivity {
         nayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: if user has voted Nay, unvote, yeaButton.setVisibility(View.VISIBLE) and Toast.maketext("You unvoted")
-                yeaButton.setVisibility(View.GONE);
-                //TODO: Save user name in database as hasVotedNay
-                nayNum++;
-                issues.child(id).child("votesNay").setValue(nayNum);
+                if (hasVotedNay) {
+                    invalidateOptionsMenu();
+                    nayNum--;
+                    issues.child(id).child("votesNay").setValue(nayNum);
+                    votedNayList.remove(JHED);
+                    issues.child(id).child("usersNay").setValue(votedNayList);
+                    Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
+                } else {
+                    invalidateOptionsMenu();
+                    nayNum++;
+                    issues.child(id).child("votesNay").setValue(nayNum);
+                    votedNayList.add(JHED);
+                    issues.child(id).child("usersNay").setValue(votedNayList);
+                    Toast.makeText(IssueVotingActivity.this, "You voted Nay!", Toast.LENGTH_SHORT).show();
 
-                // Starts stats activity and sends title, id, votes for/against, and how the user voted
-                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
-                intent.putExtra("title", name);
-                intent.putExtra("id", id);
-                intent.putExtra("yea", yeaNum);
-                intent.putExtra("nay", nayNum);
-                intent.putExtra("voted", "nay");
-                startActivity(intent);
+                    // Starts stats activity and sends title, id, votes for/against, and how the user voted
+                    Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                    intent.putExtra("title", name);
+                    intent.putExtra("id", id);
+                    intent.putExtra("yea", yeaNum);
+                    intent.putExtra("nay", nayNum);
+                    intent.putExtra("voted", "Nay");
 
-                Toast.makeText(IssueVotingActivity.this,"You voted nay!", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }
             }
         });
 
@@ -175,7 +213,7 @@ public class IssueVotingActivity extends AppCompatActivity {
                         })
                         .build();
 
-        adapter = new FirebaseRecyclerAdapter<Comment, IssueVotingActivity.ViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Comment, ViewHolder>(options) {
             @Override
             public IssueVotingActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
@@ -214,20 +252,47 @@ public class IssueVotingActivity extends AppCompatActivity {
 
 
     public void loadIssuePage() {
-        //String idString = pref.getString("idPass", "");
-        //String titleString = pref.getString("titlePass", "909090909090");
-        //summary.setText(id);
+
         issues.child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 summary.setText(snapshot.child("summary").getValue(String.class));
                 yeaNum = snapshot.child("votesYay").getValue(Integer.class);
                 nayNum = snapshot.child("votesNay").getValue(Integer.class);
+                GenericTypeIndicator<ArrayList<String>> gti =new GenericTypeIndicator<ArrayList<String>>(){};
+                votedYayList = snapshot.child("usersYay").getValue(gti);
+                votedNayList = snapshot.child("usersNay").getValue(gti);
+                if (votedNayList == null) {
+                    votedNayList = new ArrayList<>();
+                    votedYayList.add(" ");
+                    issues.child(id).child("usersNay").setValue(votedNayList);
+
+                }
+                if (votedYayList == null) {
+                    votedYayList = new ArrayList<>();
+                    votedYayList.add(" ");
+                    issues.child(id).child("usersYay").setValue(votedYayList);
+                }
+                hasVotedNay = checkVotedNay(JHED);
+                hasVotedYay = checkVotedYay(JHED);
+
+                //Check that visibility makes sense.
+                if (hasVotedYay) {
+                    nayButton.setVisibility(View.GONE);
+                    yeaButton.setVisibility(View.VISIBLE);
+                } else if(hasVotedNay) {
+                    nayButton.setVisibility(View.VISIBLE);
+                    yeaButton.setVisibility(View.GONE);
+                } else {
+                    nayButton.setVisibility(View.VISIBLE);
+                    yeaButton.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
         setTitle(name);
     }
 
@@ -257,5 +322,60 @@ public class IssueVotingActivity extends AppCompatActivity {
         fetch();
 
     }
+
+    public boolean checkVotedYay(String userName) {
+        if (votedYayList.contains(userName)) {
+            nayButton.setVisibility(View.GONE);
+            yeaButton.setVisibility(View.VISIBLE);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkVotedNay(String userName) {
+        if (votedNayList.contains(userName)) {
+            nayButton.setVisibility(View.VISIBLE);
+            yeaButton.setVisibility(View.GONE);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (checkVotedNay(JHED) || checkVotedYay(JHED)) {
+            getMenuInflater().inflate(R.menu.user_voting, menu);
+            MenuItem stats = menu.findItem(R.id.action_stats);
+            stats.setVisible(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_stats) {
+            if (checkVotedNay(JHED)) {
+                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                intent.putExtra("title", name);
+                intent.putExtra("id", id);
+                intent.putExtra("yea", yeaNum);
+                intent.putExtra("nay", nayNum);
+                intent.putExtra("voted", "Nay");
+                startActivity(intent);
+            } else if (checkVotedYay(JHED)) {
+                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                intent.putExtra("title", name);
+                intent.putExtra("id", id);
+                intent.putExtra("yea", yeaNum);
+                intent.putExtra("nay", nayNum);
+                intent.putExtra("voted", "Yea");
+                startActivity(intent);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

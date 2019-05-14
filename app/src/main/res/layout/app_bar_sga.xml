@@ -20,7 +20,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_sga" />
+    <include
+        layout="@layout/content_sga"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="64sp" />
 
 
 </android.support.design.widget.CoordinatorLayout>

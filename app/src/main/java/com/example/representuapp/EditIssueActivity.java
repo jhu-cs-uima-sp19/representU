@@ -2,9 +2,7 @@ package com.example.representuapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +41,6 @@ public class EditIssueActivity extends AppCompatActivity {
 
     public AlertDialog.Builder alertDialogBuilder;
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,9 +125,8 @@ public class EditIssueActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
             } else {
                 issues.child(issueID).child("summary").setValue(summary);
-                issues.child(issueID).setValue(name);
-                issues.child(issueID).child("summary").setValue(summary);
                 issues.child(issueID).child("title").setValue(name);
+                Toast.makeText(getApplicationContext(), "Edit Saved", LENGTH_SHORT).show();
                 finish();
             }
 

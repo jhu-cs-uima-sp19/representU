@@ -6,33 +6,47 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
-        android:label="@string/app_name"
-        android:icon="@drawable/repu_icon"
-        android:roundIcon="@drawable/repu_icon"
         android:allowBackup="true"
+        android:icon="@drawable/repu_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/repu_icon"
         android:supportsRtl="true"
-        android:windowSoftInputMode="adjustResize"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustResize">
+        <activity
+            android:name=".IssueStatisticsActivity"
+            android:label="@string/title_activity_issue_statistics"
+            android:parentActivityName=".SGAStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".SGAStatisticsActivity"
+            android:label="@string/title_activity_sgastatistics"
+            android:parentActivityName=".SGAFeedActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddCommentActivity"
             android:parentActivityName=".IssueVotingActivity" />
         <activity
             android:name=".AddMemberActivity"
+            android:configChanges="orientation"
             android:parentActivityName=".EditSGAActivity" />
         <activity
             android:name=".EditMemberActivity"
+            android:configChanges="orientation"
             android:parentActivityName=".EditSGAActivity" />
         <activity
             android:name=".SGAMemberActivity"
             android:label="@string/title_activity_sgamember"
-            android:parentActivityName=".MeetYourSGAActivity" />
+            android:parentActivityName=".MeetYourSGAActivity"/>
         <activity
             android:name=".MeetYourSGAActivity"
             android:label="@string/title_activity_meet_your_sga"
             android:parentActivityName=".UserFeedActivity" />
         <activity
             android:name=".UserStatisticsActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_user_statistics"
             android:parentActivityName=".IssueVotingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -48,12 +62,14 @@
             android:parentActivityName=".SGAFeedActivity" />
         <activity
             android:name=".EditIssueActivity"
+            android:configChanges="orientation"
             android:label="Edit Issue"
-            android:parentActivityName=".ManageIssuesActivity" />
+            android:parentActivityName=".ManageIssuesActivity"/>
         <activity
             android:name=".AddIssueActivity"
+            android:configChanges="orientation"
             android:label="Add Issue"
-            android:parentActivityName=".ManageIssuesActivity" />
+            android:parentActivityName=".ManageIssuesActivity"/>
         <activity
             android:name=".EditSGAActivity"
             android:label="Meet Your SGA"
@@ -64,20 +80,24 @@
             android:parentActivityName=".SGAFeedActivity" />
         <activity
             android:name=".MainActivity"
-            android:gravity="center_horizontal"
-            android:label="@string/login">
+            android:configChanges="orientation"
+            android:gravity="center_horizontal">
             <tools:validation testUrl="http://www.representu-app.com" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="http"
-                    android:host="www.representu-app.com" />
+                    android:host="www.representu-app.com"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity
@@ -89,4 +109,5 @@
             android:label="@string/title_activity_sga"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
+
 </manifest>

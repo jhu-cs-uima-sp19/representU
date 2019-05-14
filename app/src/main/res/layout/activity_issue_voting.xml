@@ -36,7 +36,7 @@
         android:layout_marginRight="16dp"
         android:drawableTop="@color/colorPrimaryDark"
         android:gravity="top|left"
-        android:lines="10"
+        android:lines="100"
         android:minHeight="100dp"
         android:minLines="5"
         android:text="@string/summary"
@@ -52,11 +52,10 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_width="match_parent"
+        android:layout_height="150sp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/LinearLayout02"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +63,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@drawable/mock_pic" />
+
 
     <LinearLayout
         android:id="@+id/LinearLayout02"
@@ -83,7 +83,7 @@
             android:layout_weight="1"
             android:background="@color/colorAccent"
             android:text="@string/yay"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/white"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/yay_user"
@@ -96,7 +96,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="@string/nay"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/yay_user"
@@ -110,10 +110,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="108dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:text="Comments"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
@@ -121,7 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_issue_summary" />
+        app:layout_constraintTop_toBottomOf="@+id/add_comment_button" />
 
     <LinearLayout
         android:id="@+id/comment_section_user"
@@ -136,12 +135,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="100"
         app:layout_constraintStart_toStartOf="parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comments"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button

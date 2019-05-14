@@ -23,7 +23,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class AddCommentActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference dbRef = database.getReference();
+    final private DatabaseReference dbRef = database.getReference();
 
     private ArrayList<Comment> comments;
     private String JHED;
@@ -46,13 +46,13 @@ public class AddCommentActivity extends AppCompatActivity {
         Button saveButton = findViewById(R.id.postButton);
 
 
-
+        //DataSnapshot x;
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if((comMainText.getText().toString()).equals(null) || (comMainText.getText().toString()).equals("") ) {
                     Toast.makeText(getApplicationContext(), "Error: Please Fill All Fields", LENGTH_SHORT).show();
                 } else {
-                    dbRef.child("comments").child(idString).child("comments").addValueEventListener(new ValueEventListener() {
+                    dbRef.child("comments").child(idString).child("comments").addListenerForSingleValueEvent(new ValueEventListener() {
                         @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
@@ -62,10 +62,14 @@ public class AddCommentActivity extends AppCompatActivity {
                                 comments = new ArrayList<>();
                                 comments.add(new Comment("", ""));
                             }
+                            //comments = arryalist that exists currently
+
                             Comment newCom = new Comment(JHED, comMainText.getText().toString());
                             comments.add(newCom);
-                            dbRef.child("comments").child(idString).child("comments").setValue(comments);
+                            dbRef.child("comments").child(idString).child("comments");
                         }
+//                        x.setValue(comments);
+                        //dbRef.child("comments").child(idString).child("comments").setValue(comments);
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                         }

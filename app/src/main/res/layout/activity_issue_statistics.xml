@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserFeedActivity">
+    tools:context=".IssueStatisticsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,11 +21,10 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        layout="@layout/content_user_feed"
+        layout="@layout/content_issue_statistics"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="64sp"
-        app:layout_anchor="@id/toolbar"
-        app:layout_dodgeInsetEdges="top" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        app:layout_anchorGravity="top" />
 
 </android.support.design.widget.CoordinatorLayout>

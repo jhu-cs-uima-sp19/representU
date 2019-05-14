@@ -33,6 +33,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="statistics">Statistics</string>
     <string name="stats_intro">This issue\'s statistics:</string>
     <string name="title_activity_user_feed">Your Feed</string>
     <string name="title_activity_sga">Your Feed</string>
@@ -44,4 +45,6 @@
     <string name="title_activity_user_statistics">Issue Statistics</string>
     <string name="title_activity_meet_your_sga">MeetYourSGAActivity</string>
     <string name="title_activity_sgamember">SGAMemberActivity</string>
+    <string name="title_activity_sgastatistics">SGAStatisticsActivity</string>
+    <string name="title_activity_issue_statistics">IssueStatisticsActivity</string>
 </resources>
