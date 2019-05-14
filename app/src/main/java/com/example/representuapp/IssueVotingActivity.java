@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class IssueVotingActivity extends AppCompatActivity {
 
@@ -64,7 +68,6 @@ public class IssueVotingActivity extends AppCompatActivity {
         myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         JHED = myPrefs.getString("JHED", "user");
 
-        Log.d("JHED", JHED);
         name = intent.getStringExtra("title");
         id = intent.getStringExtra("id");
         yeaNum = intent.getIntExtra("yea", 0);
@@ -84,12 +87,14 @@ public class IssueVotingActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (hasVotedYay) {
+                    invalidateOptionsMenu();
                     yeaNum--;
                     issues.child(id).child("votesYay").setValue(yeaNum);
                     votedYayList.remove(JHED);
                     issues.child(id).child("usersYay").setValue(votedYayList);
                     Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
                 } else {
+                    invalidateOptionsMenu();
                     yeaNum++;
                     issues.child(id).child("votesYay").setValue(yeaNum);
                     votedYayList.add(JHED);
@@ -113,12 +118,14 @@ public class IssueVotingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (hasVotedNay) {
+                    invalidateOptionsMenu();
                     nayNum--;
                     issues.child(id).child("votesNay").setValue(nayNum);
                     votedNayList.remove(JHED);
                     issues.child(id).child("usersNay").setValue(votedNayList);
                     Toast.makeText(IssueVotingActivity.this, "Vote Revoked", Toast.LENGTH_SHORT).show();
                 } else {
+                    invalidateOptionsMenu();
                     nayNum++;
                     issues.child(id).child("votesNay").setValue(nayNum);
                     votedNayList.add(JHED);
@@ -207,5 +214,42 @@ public class IssueVotingActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (checkVotedNay(JHED) || checkVotedYay(JHED)) {
+            getMenuInflater().inflate(R.menu.user_voting, menu);
+            MenuItem stats = menu.findItem(R.id.action_stats);
+            stats.setVisible(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_stats) {
+            if (checkVotedNay(JHED)) {
+                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                intent.putExtra("title", name);
+                intent.putExtra("id", id);
+                intent.putExtra("yea", yeaNum);
+                intent.putExtra("nay", nayNum);
+                intent.putExtra("voted", "Nay");
+                startActivity(intent);
+            } else if (checkVotedYay(JHED)) {
+                Intent intent = new Intent(IssueVotingActivity.this, UserStatisticsActivity.class);
+                intent.putExtra("title", name);
+                intent.putExtra("id", id);
+                intent.putExtra("yea", yeaNum);
+                intent.putExtra("nay", nayNum);
+                intent.putExtra("voted", "Yea");
+                startActivity(intent);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

@@ -2,7 +2,7 @@ package com.example.representuapp;
 
 import java.util.UUID;
 
-public class SGAMember {
+public class    SGAMember {
     String name;
     String position;
     String bio;

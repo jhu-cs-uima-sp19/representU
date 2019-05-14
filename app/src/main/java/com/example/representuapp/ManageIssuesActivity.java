@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +36,8 @@ public class ManageIssuesActivity extends AppCompatActivity {
     Button add;
     ListView issuesList;
     ListView archives;
+    boolean connected;
+    DatabaseReference connectedRef;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference issues = database.getReference().child("issues");
@@ -81,12 +84,23 @@ public class ManageIssuesActivity extends AppCompatActivity {
 
 
 
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
         issues.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                arrayList.clear();
-                idList.clear();
                 active.clear();
+                idList.clear();
+                arrayList.clear();
                 issuesList.setAdapter(adapter);
                 issuesList.setClickable(true);
                 for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
@@ -157,18 +171,22 @@ public class ManageIssuesActivity extends AppCompatActivity {
         issuesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ManageIssuesActivity.this, EditIssueActivity.class);
-                String title = arrayList.get(position);
-                String idNum = idList.get(position);
-                Issue i = active.get(position);
-                intent.putExtra("name", title);
-                intent.putExtra("id", idNum);;
-                intent.putExtra("sum", i.summary);
-                intent.putStringArrayListExtra("usersNay", (ArrayList<String>) i.usersNay);
-                intent.putStringArrayListExtra("usersYay", (ArrayList<String>) i.usersYay);
-                intent.putExtra("votesNay", i.votesNay);
-                intent.putExtra("votesYay", i.votesYay);
-                startActivity(intent);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(ManageIssuesActivity.this, EditIssueActivity.class);
+                    String title = arrayList.get(position);
+                    String idNum = idList.get(position);
+                    Issue i = active.get(position);
+                    intent.putExtra("name", title);
+                    intent.putExtra("id", idNum);
+                    intent.putExtra("sum", i.summary);
+                    intent.putStringArrayListExtra("usersNay", (ArrayList<String>) i.usersNay);
+                    intent.putStringArrayListExtra("usersYay", (ArrayList<String>) i.usersYay);
+                    intent.putExtra("votesNay", i.votesNay);
+                    intent.putExtra("votesYay", i.votesYay);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -176,18 +194,22 @@ public class ManageIssuesActivity extends AppCompatActivity {
         archives.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ManageIssuesActivity.this, EditArchivedIssueActivity.class);
-                String title = archiveList.get(position);
-                String idNum = archivedIDs.get(position);
-                Issue i = archiveAL.get(position);
-                intent.putExtra("name", title);
-                intent.putExtra("id", idNum);
-                intent.putExtra("sum", i.summary);
-                intent.putStringArrayListExtra("usersNay", (ArrayList<String>) i.usersNay);
-                intent.putStringArrayListExtra("usersYay", (ArrayList<String>) i.usersYay);
-                intent.putExtra("votesNay", i.votesNay);
-                intent.putExtra("votesYay", i.votesYay);
-                startActivity(intent);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(ManageIssuesActivity.this, EditArchivedIssueActivity.class);
+                    String title = archiveList.get(position);
+                    String idNum = archivedIDs.get(position);
+                    Issue i = archiveAL.get(position);
+                    intent.putExtra("name", title);
+                    intent.putExtra("id", idNum);
+                    intent.putExtra("sum", i.summary);
+                    intent.putStringArrayListExtra("usersNay", (ArrayList<String>) i.usersNay);
+                    intent.putStringArrayListExtra("usersYay", (ArrayList<String>) i.usersYay);
+                    intent.putExtra("votesNay", i.votesNay);
+                    intent.putExtra("votesYay", i.votesYay);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -206,14 +228,17 @@ public class ManageIssuesActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        if (!connected) {
+            Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+        } else {
+            int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            Intent intent = new Intent(ManageIssuesActivity.this, AddIssueActivity.class);
-            startActivity(intent);
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_add) {
+                Intent intent = new Intent(ManageIssuesActivity.this, AddIssueActivity.class);
+                startActivity(intent);
+            }
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

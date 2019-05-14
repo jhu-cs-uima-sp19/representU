@@ -32,9 +32,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,8 @@ public class UserFeedActivity extends AppCompatActivity
     int colorPrimary;
     int colorAccent;
     String JHED;
+    DatabaseReference connectedRef;
+    boolean connected;
 
     private SharedPreferences myPrefs;
 
@@ -133,6 +137,21 @@ public class UserFeedActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
+
+        connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                connected = snapshot.getValue(Boolean.class);
+                if (!connected) {
+                    Toast.makeText(getApplicationContext(), "Database Disconnected. Check internet connection!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");

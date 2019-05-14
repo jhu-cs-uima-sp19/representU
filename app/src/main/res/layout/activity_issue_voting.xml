@@ -53,7 +53,7 @@
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="150sp"
         android:layout_marginTop="8dp"
         android:scaleType="fitXY"
         android:visibility="visible"

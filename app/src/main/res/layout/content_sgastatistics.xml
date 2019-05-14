@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManageIssuesActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".SGAStatisticsActivity"
+    tools:showIn="@layout/activity_sgastatistics">
 
     <TextView
-        android:id="@+id/addIssue"
+        android:id="@+id/issueListText"
         android:layout_width="0sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8sp"
@@ -18,28 +20,28 @@
         android:text="Active Issues"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/issuesList"
+        app:layout_constraintBottom_toTopOf="@+id/issueList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/issuesList"
-        android:layout_width="0sp"
-        android:layout_height="0sp"
-        android:layout_marginTop="5sp"
+        android:id="@+id/issueList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
         android:scrollbars="vertical"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/archivedIssueL"
+        app:layout_constraintBottom_toTopOf="@id/archivedListText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addIssue" />
+        app:layout_constraintTop_toBottomOf="@+id/issueListText" />
+
 
     <TextView
-        android:id="@+id/archivedIssueL"
+        android:id="@+id/archivedListText"
         android:layout_width="0sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8sp"
@@ -50,15 +52,15 @@
         android:text="Archived Issues"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/archiveList"
+        app:layout_constraintBottom_toTopOf="@+id/archivesList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/issuesList" />
+        app:layout_constraintTop_toBottomOf="@+id/issueList" />
 
 
 
     <ListView
-        android:id="@+id/archiveList"
+        android:id="@+id/archivesList"
         android:layout_width="0dp"
         android:layout_height="296dp"
         android:layout_marginTop="8dp"
@@ -70,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/archivedIssueL"
+        app:layout_constraintTop_toBottomOf="@+id/archivedListText"
         app:layout_constraintVertical_bias="1.0"
         app:layout_optimizationLevel="dimensions" />
 
