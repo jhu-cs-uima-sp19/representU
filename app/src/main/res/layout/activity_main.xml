@@ -21,50 +21,71 @@
         android:fadeScrollbars="false"
         android:layout_width="match_parent"
         android:autoSizeTextType="uniform"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="23"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_gravity="top"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo" />
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="20"
+                android:layout_gravity="top"
+                android:layout_margin="0dp"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/logo" />
 
             <AutoCompleteTextView
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:autoSizeMaxTextSize="30sp"
-                android:autoSizeMinTextSize="14sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:allowUndo="true"
+                android:autoSizeMinTextSize="18sp"
                 android:autoSizeTextType="uniform"
+                android:cursorVisible="true"
+                android:elegantTextHeight="true"
+                android:fitsSystemWindows="true"
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
+                android:lineSpacingExtra="12sp"
+                android:lines="1"
                 android:maxLines="1"
+                android:minHeight="30dp"
+                android:padding="10dp"
+                android:paddingBottom="15dp"
                 android:singleLine="true"
-                android:cursorVisible="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/colorPrimary" />
 
 
             <EditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:autoSizeMaxTextSize="30sp"
-                android:autoSizeMinTextSize="14sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:allowUndo="true"
+                android:autoSizeMinTextSize="18sp"
                 android:autoSizeTextType="uniform"
+                android:autofillHints=""
+                android:cursorVisible="true"
+                android:elegantTextHeight="true"
+                android:fitsSystemWindows="true"
                 android:hint="@string/prompt_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
+                android:padding="10dp"
+                android:paddingTop="25dp"
                 android:singleLine="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="@color/colorPrimary" />
 
             <Button
@@ -72,10 +93,11 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginTop="16dp"
-                android:autoSizeMaxTextSize="20sp"
-                android:autoSizeMinTextSize="14sp"
+                android:layout_marginBottom="50dp"
                 android:autoSizeTextType="uniform"
+                android:autoSizeMaxTextSize="30sp"
                 android:background="@color/colorAccent"
                 android:text="@string/action_sign_in"
                 android:textColor="@color/colorPrimary" />

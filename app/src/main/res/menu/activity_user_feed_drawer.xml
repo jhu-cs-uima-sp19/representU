@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view"
-    tools:style="@android:style/TextAppearance.DeviceDefault.Medium">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" >
         <item
             android:title="@string/feed"
+            app:autoSizeTextType="uniform"
             android:textColor="@color/colorPrimary"
             android:id="@+id/userFeed"
             />
         <item
             android:title="@string/meet_sga"
+            app:autoSizeTextType="uniform"
             android:textColor="@color/colorPrimary"
             android:id="@+id/meet_your_sga"
             />
         <item
             android:title="@string/settings"
+            app:autoSizeTextType="uniform"
             android:textColor="@color/colorPrimary"
             android:id="@+id/settingsUser"
             />
         <item
             android:title="@string/logout"
+            app:autoSizeTextType="uniform"
             android:textColor="@color/colorPrimary"
             android:id="@+id/logout"
             />
