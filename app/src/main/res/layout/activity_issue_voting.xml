@@ -122,27 +122,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_comment_button" />
 
-    <LinearLayout
+    <ListView
         android:id="@+id/comment_section_user"
-        android:layout_width="0dp"
-        android:layout_height="273dp"
+        android:layout_width="395dp"
+        android:layout_height="224dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
+        android:scrollbars="vertical"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="100"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/comments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_optimizationLevel="dimensions" />
 
     <Button
         android:id="@+id/add_comment_button"

@@ -18,8 +18,10 @@ import android.view.MenuItem;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,20 +46,22 @@ public class IssueVotingActivity extends AppCompatActivity {
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference issues = db.getReference().child("issues");
+    private DatabaseReference comments = db.getReference().child("comments");
     public SharedPreferences pref;
     public SharedPreferences.Editor editor;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private FirebaseRecyclerAdapter adapter;
+    private ArrayAdapter<Comment> adapter;
     public Integer yeaNum = 0;
     public Integer nayNum = 0;
     public Button nayButton;
     public Button yeaButton;
-    public List<Comment> commentsList;
+    //public List<Comment> commentsList;
     public List<String> votedYayList;
     public List<String> votedNayList;
     public TextView summary;
+    public ListView commentsList;
     public String title;
     public String idString;
     public boolean hasVotedYay;
@@ -68,7 +72,7 @@ public class IssueVotingActivity extends AppCompatActivity {
     int colorAccentDark;
     int white;
     String JHED;
-
+    ArrayList<Comment> arrayList = new ArrayList<>();
     private SharedPreferences myPrefs;
 
 
@@ -79,6 +83,11 @@ public class IssueVotingActivity extends AppCompatActivity {
         summary = findViewById(R.id.user_issue_summary);
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
+
+        commentsList = (ListView) findViewById(R.id.comment_section_user);
+        adapter = new ArrayAdapter<Comment>(this, android.R.layout.simple_list_item_1, arrayList);
+        commentsList.setAdapter(adapter);
+        commentsList.setClickable(false);
 
         Context context = getApplicationContext();  // app level storage
         myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -171,7 +180,20 @@ public class IssueVotingActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         loadComments();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //adapter.startListening();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //adapter.stopListening();
+        adapter.notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -181,9 +203,10 @@ public class IssueVotingActivity extends AppCompatActivity {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            root = itemView.findViewById(R.id.comment_section_user);
+            root = itemView.findViewById(R.id.list_root);
             txtTitle = itemView.findViewById(R.id.commentUsr);
             mainText = itemView.findViewById(R.id.comment_text);
+            Log.d("Bye","Vivian");
         }
 
         public void setTxtTitle(String string) {
@@ -193,7 +216,7 @@ public class IssueVotingActivity extends AppCompatActivity {
         public void setMainTxt(String string) { mainText.setText(string); }
 
     }
-
+/*
     private void fetch() {
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
@@ -201,6 +224,7 @@ public class IssueVotingActivity extends AppCompatActivity {
                 .child(id)
                 .child("comments");
 
+        Log.d("idString", "Hi");
         FirebaseRecyclerOptions<Comment> options =
                 new FirebaseRecyclerOptions.Builder<Comment>()
                         .setQuery(query, new SnapshotParser<Comment>() {
@@ -208,54 +232,37 @@ public class IssueVotingActivity extends AppCompatActivity {
                             @NonNull
                             @Override
                             public Comment parseSnapshot(@NonNull DataSnapshot snapshot) {
-                                //remember to grab ID num for issue page
-                                String comName = "";
-                                String comText = "";
+                                Log.d("Millions will die","It must be done");
+                                String comName;
+                                String comText;
                                 comName = snapshot.child("userName").getValue(String.class);
-                                Log.d("comName:", comName);
                                 comText = snapshot.child("mainText").getValue(String.class);
-                                Log.d("comText:", comText);
                                 return new Comment(comName, comText);
                             }
                         })
                         .build();
 
-        adapter = new FirebaseRecyclerAdapter<Comment, ViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Comment, IssueVotingActivity.ViewHolder>(options) {
             @Override
             public IssueVotingActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.comment_textview, parent, false);
-
+                Log.d("There","Will");
                 return new IssueVotingActivity.ViewHolder(view);
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             protected void onBindViewHolder(IssueVotingActivity.ViewHolder holder, final int position, final Comment model) {
+                Log.d("ViewHolder", "Before");
                 holder.setTxtTitle(model.userName);
                 holder.setMainTxt(model.mainText);
-                //editor.putString("idPass", model.idNum.toString());
-                //editor.putString("titlePass", model.title);
-                //editor.apply();
-                //editor.commit();
-//                holder.root.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        //Toast.makeText(SGAFeedActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(UserFeedActivity.this, IssueVotingActivity.class);
-//                        intent.putExtra("title", model.title);
-//                        intent.putExtra("id", model.idNum.toString());
-//                        intent.putExtra("yea", model.votesYay);
-//                        intent.putExtra("nay", model.votesNay);
-//                        intent.putExtra("JHED", JHED);
-//                        startActivity(intent);
-//                    }
-//                });
+                Log.d("ViewHolder", "Before");
             }
 
         };
         recyclerView.setAdapter(adapter);
-    }
+    }*/
 
 
     public void loadIssuePage() {
@@ -317,17 +324,32 @@ public class IssueVotingActivity extends AppCompatActivity {
 
 
     public void loadComments() {
-        recyclerView = (RecyclerView) findViewById(R.id.comments);
+        //recyclerView = (RecyclerView) findViewById(R.id.comments);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        fetch();
+        //layoutManager = new LinearLayoutManager(this);
+        //recyclerView.setLayoutManager(layoutManager);
+        //fetch();
+        //Log.d("loadComments()", "After");
 
+        comments.child(id).child("comments").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                arrayList.clear();
+                for (DataSnapshot children : snapshot.getChildren()) {
+                    Comment com = children.getValue(Comment.class);
+                    arrayList.add(com);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     public boolean checkVotedYay(String userName) {

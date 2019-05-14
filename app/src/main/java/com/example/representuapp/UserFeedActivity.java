@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,7 +91,7 @@ public class UserFeedActivity extends AppCompatActivity
                             @Override
                             public Issue parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 //remember to grab ID num for issue page
-                                String title = "";
+                                String title;
                                 String summary = "";
                                 title = snapshot.child("title").getValue(String.class);
                                 return new Issue(title, summary, snapshot.getKey());
@@ -129,7 +130,6 @@ public class UserFeedActivity extends AppCompatActivity
                     }
                 });
             }
-
         };
         recyclerView.setAdapter(adapter);
     }
