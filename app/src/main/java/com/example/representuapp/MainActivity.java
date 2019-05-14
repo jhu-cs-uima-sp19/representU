@@ -71,33 +71,7 @@ public class MainActivity extends AppCompatActivity {
         image = findViewById(R.id.imageView2);
         image.setVisibility(View.VISIBLE);
         showSoftKeyboard(signInButton);
-
-        emailView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                image.setVisibility(View.GONE);
-                emailView.setCursorVisible(true);
-                passwordView.setCursorVisible(true);
-            }
-        });
-
-//        if (getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_NORMAL)){
-//            // on a large screen device ...
-//            Log.d("ADJUSTING?", "yes");
-//            image.setMaxWidth(350);
-//            image.setMaxHeight(350);
-//        }
-//        int screenSize = getResources().getConfiguration().screenLayout &
-//                Configuration.SCREENLAYOUT_SIZE_MASK;
-//        Log.d("hello", Integer.toString(screenSize));
-//        Log.d("S_HEIGHT", Integer.toString((getResources().getConfiguration().screenHeightDp)));
-//        Log.d("S_WIDTH", Integer.toString((getResources().getConfiguration().screenWidthDp)));
-//        if ((getResources().getConfiguration().screenHeightDp >= 700) || (getResources().getConfiguration().screenWidthDp >= 700)) {
-//            Log.d("ADJUSTING?", "yes");
-//            image.setMaxWidth(350);
-//            image.setMaxHeight(350);
-//        }
-
+        emailView.setCursorVisible(true);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference a_pass = database.getReference().child("adminPassword");
