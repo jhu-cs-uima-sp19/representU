@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.List;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +36,12 @@ public class EditIssueActivity extends AppCompatActivity {
     String name;
     String issueName;
     String issueID;
+    String issueSummary;
+    List<String> issueNayL;
+    List<String> issueYayL;
+    int issueVY;
+    int issueVN;
+
 
     int colorPrimary;
 
@@ -52,6 +59,11 @@ public class EditIssueActivity extends AppCompatActivity {
         Intent intent = getIntent();
         issueName = getIntent().getStringExtra("name");
         issueID = getIntent().getStringExtra("id");
+        issueSummary = getIntent().getStringExtra("sum");
+        issueNayL = getIntent().getStringArrayListExtra("usersNay");
+        issueYayL = getIntent().getStringArrayListExtra("usersYay");
+        issueVY = getIntent().getIntExtra("votesYay", 0);
+        issueVN = getIntent().getIntExtra("votesNay", 0);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -115,32 +127,15 @@ public class EditIssueActivity extends AppCompatActivity {
 
         archive.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final Issue archivedIssue = new Issue(name, summary);
-                issues.child(issueID).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        String summary = snapshot.child("summary").getValue(String.class);
-                        String name = snapshot.child("title").getValue(String.class);
-                        String idNum = issueID;
-                        boolean archived = true;
-                        List<String> usersYay = snapshot.child("usersYay").getValue(List.class);
-                        List<String> usersNay = snapshot.child("usersNay").getValue(List.class);
-                        int votesNay = snapshot.child("votesNay").getValue(Integer.class);
-                        int votesYay = snapshot.child("votesYay").getValue(Integer.class);
-
-                        archivedIssue.idNum = idNum;
-                        archivedIssue.archived = archived;
-                        archivedIssue.usersYay = usersYay;
-                        archivedIssue.usersNay = usersNay;
-                        archivedIssue.votesNay = votesNay;
-                        archivedIssue.votesYay = votesYay;
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+                Issue archivedIssue = new Issue(name, summary);
+                archivedIssue.idNum = issueID;
+                archivedIssue.usersYay = issueYayL;
+                archivedIssue.usersNay = issueNayL;
+                archivedIssue.votesNay = issueVN;
+                archivedIssue.votesYay = issueVY;
+                archivedIssue.archived = true;
                 dbRef.child("archived").child(archivedIssue.idNum.toString()).setValue(archivedIssue);
-                issues.child(issueID).removeValue();
+                dbRef.child("issues").child(issueID).removeValue();
                 finish();
             }
         });
