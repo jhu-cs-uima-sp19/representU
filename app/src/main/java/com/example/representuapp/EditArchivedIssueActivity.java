@@ -35,6 +35,11 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
     String name;
     String issueName;
     String issueID;
+    String issueSummary;
+    List<String> issueNayL;
+    List<String> issueYayL;
+    int issueVY;
+    int issueVN;
 
     int colorPrimary;
 
@@ -52,6 +57,11 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
         Intent intent = getIntent();
         issueName = getIntent().getStringExtra("name");
         issueID = getIntent().getStringExtra("id");
+        issueSummary = getIntent().getStringExtra("sum");
+        issueNayL = getIntent().getStringArrayListExtra("usersNay");
+        issueYayL = getIntent().getStringArrayListExtra("usersYay");
+        issueVY = getIntent().getIntExtra("votesYay", 0);
+        issueVN = getIntent().getIntExtra("votesNay", 0);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -64,7 +74,8 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 desc.setText(snapshot.child("summary").getValue(String.class));
                 title.setText(snapshot.child("title").getValue(String.class));
-
+                summary = snapshot.child("summary").getValue(String.class);
+                name = snapshot.child("title").getValue(String.class);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -113,32 +124,15 @@ public class EditArchivedIssueActivity extends AppCompatActivity {
 
         unarchive.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final Issue unarchivedIssue = new Issue(name, summary);
-                archives.child(issueID).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        String summary = snapshot.child("summary").getValue(String.class);
-                        String name = snapshot.child("title").getValue(String.class);
-                        String idNum = issueID;
-                        boolean archived = false;
-                        List<String> usersYay = snapshot.child("usersYay").getValue(List.class);
-                        List<String> usersNay = snapshot.child("usersNay").getValue(List.class);
-                        int votesNay = snapshot.child("votesNay").getValue(Integer.class);
-                        int votesYay = snapshot.child("votesYay").getValue(Integer.class);
-
-                        unarchivedIssue.idNum = idNum;
-                        unarchivedIssue.archived = archived;
-                        unarchivedIssue.usersYay = usersYay;
-                        unarchivedIssue.usersNay = usersNay;
-                        unarchivedIssue.votesNay = votesNay;
-                        unarchivedIssue.votesYay = votesYay;
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-                dbRef.child("issues").child(unarchivedIssue.idNum.toString()).setValue(unarchivedIssue);
-                archives.child(issueID).removeValue();
+                Issue unarchivedIssue = new Issue(name, summary);
+                unarchivedIssue.idNum = issueID;
+                unarchivedIssue.usersYay = issueYayL;
+                unarchivedIssue.usersNay = issueNayL;
+                unarchivedIssue.votesNay = issueVN;
+                unarchivedIssue.votesYay = issueVY;
+                unarchivedIssue.archived = false;
+                dbRef.child("issues").child(unarchivedIssue.idNum).setValue(unarchivedIssue);
+                dbRef.child("archived").child(issueID).removeValue();
                 finish();
             }
         });
