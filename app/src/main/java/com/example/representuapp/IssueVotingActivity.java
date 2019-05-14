@@ -167,6 +167,13 @@ public class IssueVotingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadComments();
+
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout root;
         public TextView txtTitle;

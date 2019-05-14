@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,11 +63,13 @@ public class AddCommentActivity extends AppCompatActivity {
                                 comments = new ArrayList<>();
                                 comments.add(new Comment("", ""));
                             }
+
+                            Log.d("HELLO", comments.toString());
                             //comments = arryalist that exists currently
 
                             Comment newCom = new Comment(JHED, comMainText.getText().toString());
                             comments.add(newCom);
-                            dbRef.child("comments").child(idString).child("comments");
+                            dbRef.child("comments").child(idString).child("comments").setValue(comments);
                         }
 //                        x.setValue(comments);
                         //dbRef.child("comments").child(idString).child("comments").setValue(comments);
@@ -75,6 +78,7 @@ public class AddCommentActivity extends AppCompatActivity {
                         }
                     });
                 }
+                finish();
             }
         });
     }
