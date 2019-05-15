@@ -51,14 +51,14 @@
         android:layout_marginRight="44dp"
         android:layout_marginBottom="25dp"
         android:text="Switch"
-        app:layout_constraintBottom_toTopOf="@+id/switch2"
+        app:layout_constraintBottom_toTopOf="@+id/anon_switch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
-        android:id="@+id/switch2"
+        android:id="@+id/anon_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="81dp"
@@ -79,9 +79,8 @@
         android:layout_width="163dp"
         android:layout_height="24dp"
         android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
         android:layout_marginTop="44dp"
-        android:text="TextView"
+        android:text="Send to SGA"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,10 +89,9 @@
         android:layout_width="161dp"
         android:layout_height="22dp"
         android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
         android:layout_marginTop="28dp"
         android:layout_marginBottom="31dp"
-        android:text="TextView"
+        android:text="Anonymous"
         app:layout_constraintBottom_toTopOf="@+id/mainText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />

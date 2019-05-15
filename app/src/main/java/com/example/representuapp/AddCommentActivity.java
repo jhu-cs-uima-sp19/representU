@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +45,10 @@ public class AddCommentActivity extends AppCompatActivity {
 
     public void saveComment() {
         final EditText comMainText = findViewById(R.id.mainText);
+        final Switch anon = findViewById(R.id.anon_switch);
         Button saveButton = findViewById(R.id.postButton);
+
+
 
 
         //DataSnapshot x;
@@ -67,8 +71,13 @@ public class AddCommentActivity extends AppCompatActivity {
                             Log.d("HELLO", comments.toString());
                             //comments = arryalist that exists currently
 
-                            Comment newCom = new Comment(JHED, comMainText.getText().toString());
-                            comments.add(newCom);
+                            if (anon.isChecked()) {
+                                Comment newCom = new Comment("Anonymous", comMainText.getText().toString());
+                                comments.add(newCom);
+                            } else {
+                                Comment newCom = new Comment(JHED, comMainText.getText().toString());
+                                comments.add(newCom);
+                            }
                             dbRef.child("comments").child(idString).child("comments").setValue(comments);
                         }
 //                        x.setValue(comments);

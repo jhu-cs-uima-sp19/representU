@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,10 +103,12 @@ public class IssueVotingActivity extends AppCompatActivity {
         }
 
         public int getCount() {
+            Log.d("Size", "" + objects.size());
             return objects.size();
         }
 
         public Comment getItem(int position) {
+            Log.d("Positon", "" + position);
             return objects.get(position);
         }
 
@@ -124,7 +128,8 @@ public class IssueVotingActivity extends AppCompatActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position == 0) { position++; }
+//            if (position == 0) { position++; }
+            Log.d("GetView Position", "" + position);
             holder.textView1.setText(objects.get(position).userName);
             holder.textView2.setText(objects.get(position).mainText);
             return convertView;
@@ -132,6 +137,27 @@ public class IssueVotingActivity extends AppCompatActivity {
     }
 
     public CustomAdapter adapter;
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 1)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +185,16 @@ public class IssueVotingActivity extends AppCompatActivity {
 //        commentsList.setAdapters(adapter1, adapter2);
         commentsList.setAdapter(adapter);
         commentsList.setClickable(false);
+        commentsList.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        setListViewHeightBasedOnChildren(commentsList);
 
         Context context = getApplicationContext();  // app level storage
         myPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -345,6 +381,9 @@ public class IssueVotingActivity extends AppCompatActivity {
                 for (DataSnapshot children : snapshot.getChildren()) {
                     String name = children.child("userName").getValue(String.class);
                     String text = children.child("mainText").getValue(String.class);
+                    if (name.equals("")) {
+                        continue;
+                    }
                     Comment com = new Comment(name, text);
                     arrayList.add(com);
                     adapter.notifyDataSetChanged();
