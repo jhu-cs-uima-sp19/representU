@@ -22,9 +22,9 @@ public class Issue {
     public int votesNay;
     private Instant createTime;
     private List<Comment> comments; // lists of comments made by users
-    private List<String> usersYay; // Users that voted yay
-    private List<String> usersNay; // Users that voted nay
-    private boolean archived;
+    public List<String> usersYay; // Users that voted yay
+    public List<String> usersNay; // Users that voted nay
+    public boolean archived;
 
     public Issue() {
         // Default constructor required for calls to DataSnapshot.getValue(Issue.class)

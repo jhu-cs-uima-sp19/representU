@@ -50,6 +50,7 @@ public class IssueStatisticsActivity extends AppCompatActivity {
         nayNum = intent.getIntExtra("nayNum", 0);
         yeaNum = intent.getIntExtra("yeaNum", 0);
 
+        setTitle(issueTitle + " Statistics");
 
 
         youVotedX = findViewById(R.id.statistics_title);
