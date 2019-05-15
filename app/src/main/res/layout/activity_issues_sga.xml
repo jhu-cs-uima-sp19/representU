@@ -79,7 +79,6 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="8dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/nay_sga"
         app:layout_constraintEnd_toEndOf="parent"
