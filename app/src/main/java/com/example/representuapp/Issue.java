@@ -22,9 +22,10 @@ public class Issue {
     public int votesNay;
     private Instant createTime;
     //private List<Comment> comments; // lists of comments made by users
-    private List<String> usersYay; // Users that voted yay
-    private List<String> usersNay; // Users that voted nay
-    private boolean archived;
+    public List<String> usersYay; // Users that voted yay
+    public List<String> usersNay; // Users that voted nay
+    public List<Comment> comments; // lists of comments made by users
+    public boolean archived;
 
     public Issue() {
         // Default constructor required for calls to DataSnapshot.getValue(Issue.class)
@@ -47,7 +48,6 @@ public class Issue {
         //Firebase wont add an empty arrayList, adding empty strings
         this.usersNay.add("");
         this.usersYay.add("");
-        //this.comments.add(new Comment("", ""));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -67,7 +67,6 @@ public class Issue {
         //Firebase wont add an empty arrayList, adding empty strings
         this.usersNay.add("");
         this.usersYay.add("");
-        //this.comments.add(new Comment("", ""));
     }
 
     public void changeTitle(String newTitle) {
