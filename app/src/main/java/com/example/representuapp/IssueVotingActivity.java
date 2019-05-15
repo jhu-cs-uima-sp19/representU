@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,7 +55,9 @@ public class IssueVotingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayAdapter<Comment> adapter;
+    private HeaderViewListAdapter adapter_wrapper;
+    private ArrayAdapter<String> adapter1;
+    private ArrayAdapter<String> adapter2;
     public Integer yeaNum = 0;
     public Integer nayNum = 0;
     public Button nayButton;
@@ -60,6 +65,8 @@ public class IssueVotingActivity extends AppCompatActivity {
     //public List<Comment> commentsList;
     public List<String> votedYayList;
     public List<String> votedNayList;
+    public ArrayList<String> textComList;
+    public ArrayList<String> userComList;
     public TextView summary;
     public ListView commentsList;
     public String title;
@@ -73,19 +80,83 @@ public class IssueVotingActivity extends AppCompatActivity {
     int white;
     String JHED;
     ArrayList<Comment> arrayList = new ArrayList<>();
+    TextView comUser;
+    TextView comText;
     private SharedPreferences myPrefs;
+    Layout comment_layout;
 
+    public class CustomAdapter extends BaseAdapter {
+
+        private LayoutInflater inflater;
+        private ArrayList<Comment> objects;
+
+        private class ViewHolder {
+            TextView textView1;
+            TextView textView2;
+        }
+
+        public CustomAdapter(Context context, ArrayList<Comment> objects) {
+            inflater = LayoutInflater.from(context);
+            this.objects = objects;
+        }
+
+        public int getCount() {
+            return objects.size();
+        }
+
+        public Comment getItem(int position) {
+            return objects.get(position);
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if(convertView == null) {
+                holder = new ViewHolder();
+                convertView = inflater.inflate(R.layout.comment_textview, null);
+                holder.textView1 = (TextView) convertView.findViewById(R.id.commentUsr);
+                holder.textView2 = (TextView) convertView.findViewById(R.id.comment_text);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            if (position == 0) { position++; }
+            holder.textView1.setText(objects.get(position).userName);
+            holder.textView2.setText(objects.get(position).mainText);
+            return convertView;
+        }
+    }
+
+    public CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_voting);
         summary = findViewById(R.id.user_issue_summary);
+        comUser = findViewById(R.id.commentUsr);
+        comText = findViewById(R.id.comment_text);
+
+//        = new ListView.FixedViewInfo(comUser);
+
+        //comment_layout = R.layout.comment_textview;
+
+
         Intent intent = getIntent();
         JHED = intent.getStringExtra("JHED");
 
+
+
         commentsList = (ListView) findViewById(R.id.comment_section_user);
-        adapter = new ArrayAdapter<Comment>(this, android.R.layout.simple_list_item_1, arrayList);
+        adapter = new CustomAdapter(this, arrayList);
+//        adapter_wrapper = new HeaderViewListAdapter(userComList, textComList);
+//        adapter1 = new ArrayAdapter<String>(this, R.layout.comment_textview, R.id.commentUsr, userComList);
+//        adapter2 = new ArrayAdapter<String>(this, R.layout.comment_textview, R.id.comment_text, userComList);
+//        commentsList.setAdapters(adapter1, adapter2);
         commentsList.setAdapter(adapter);
         commentsList.setClickable(false);
 
@@ -196,75 +267,6 @@ public class IssueVotingActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout root;
-        public TextView txtTitle;
-        public TextView mainText;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            root = itemView.findViewById(R.id.list_root);
-            txtTitle = itemView.findViewById(R.id.commentUsr);
-            mainText = itemView.findViewById(R.id.comment_text);
-            Log.d("Bye","Vivian");
-        }
-
-        public void setTxtTitle(String string) {
-            txtTitle.setText(string);
-        }
-
-        public void setMainTxt(String string) { mainText.setText(string); }
-
-    }
-/*
-    private void fetch() {
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("comments")
-                .child(id)
-                .child("comments");
-
-        Log.d("idString", "Hi");
-        FirebaseRecyclerOptions<Comment> options =
-                new FirebaseRecyclerOptions.Builder<Comment>()
-                        .setQuery(query, new SnapshotParser<Comment>() {
-                            @RequiresApi(api = Build.VERSION_CODES.O)
-                            @NonNull
-                            @Override
-                            public Comment parseSnapshot(@NonNull DataSnapshot snapshot) {
-                                Log.d("Millions will die","It must be done");
-                                String comName;
-                                String comText;
-                                comName = snapshot.child("userName").getValue(String.class);
-                                comText = snapshot.child("mainText").getValue(String.class);
-                                return new Comment(comName, comText);
-                            }
-                        })
-                        .build();
-
-        adapter = new FirebaseRecyclerAdapter<Comment, IssueVotingActivity.ViewHolder>(options) {
-            @Override
-            public IssueVotingActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.comment_textview, parent, false);
-                Log.d("There","Will");
-                return new IssueVotingActivity.ViewHolder(view);
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            protected void onBindViewHolder(IssueVotingActivity.ViewHolder holder, final int position, final Comment model) {
-                Log.d("ViewHolder", "Before");
-                holder.setTxtTitle(model.userName);
-                holder.setMainTxt(model.mainText);
-                Log.d("ViewHolder", "Before");
-            }
-
-        };
-        recyclerView.setAdapter(adapter);
-    }*/
-
-
     public void loadIssuePage() {
 
         issues.child(id).addValueEventListener(new ValueEventListener() {
@@ -341,7 +343,9 @@ public class IssueVotingActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 arrayList.clear();
                 for (DataSnapshot children : snapshot.getChildren()) {
-                    Comment com = children.getValue(Comment.class);
+                    String name = children.child("userName").getValue(String.class);
+                    String text = children.child("mainText").getValue(String.class);
+                    Comment com = new Comment(name, text);
                     arrayList.add(com);
                     adapter.notifyDataSetChanged();
                 }
