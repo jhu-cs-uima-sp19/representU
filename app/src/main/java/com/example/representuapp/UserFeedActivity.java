@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -55,6 +56,7 @@ public class UserFeedActivity extends AppCompatActivity
     public AlertDialog.Builder alertDialogBuilder;
     int white;
     int colorPrimary;
+    int colorPrimaryDark;
     int colorAccent;
     String JHED;
     DatabaseReference connectedRef;
@@ -91,7 +93,7 @@ public class UserFeedActivity extends AppCompatActivity
                             @Override
                             public Issue parseSnapshot(@NonNull DataSnapshot snapshot) {
                                 //remember to grab ID num for issue page
-                                String title;
+                                String title = "";
                                 String summary = "";
                                 title = snapshot.child("title").getValue(String.class);
                                 return new Issue(title, summary, snapshot.getKey());
@@ -130,6 +132,7 @@ public class UserFeedActivity extends AppCompatActivity
                     }
                 });
             }
+
         };
         recyclerView.setAdapter(adapter);
     }
@@ -168,6 +171,7 @@ public class UserFeedActivity extends AppCompatActivity
         white = ContextCompat.getColor(this, R.color.white);
         colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
         colorAccent = ContextCompat.getColor(this, R.color.colorAccent);
+        colorPrimaryDark = ContextCompat.getColor(this, R.color.colorPrimaryDark);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -177,6 +181,12 @@ public class UserFeedActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setItemTextColor(ColorStateList.valueOf(colorPrimaryDark));
+        //navigationView.s
+        //navigationView.setItemTextAppearance(View.resolveSize(12,2000));
+        //navigationView.setPaddingRelative(0,0,0,0);
+        navigationView.setFitsSystemWindows(true);
+
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView JH = headerView.findViewById(R.id.jhed);
