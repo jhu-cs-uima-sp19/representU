@@ -30,10 +30,10 @@
         android:id="@+id/user_issue_summary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:drawableTop="@color/colorPrimaryDark"
         android:gravity="top|left"
         android:lines="100"
@@ -116,16 +116,17 @@
         android:text="Comments"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/comment_section_user"
+        app:layout_constraintBottom_toTopOf="@+id/add_comment_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_comment_button" />
+        app:layout_constraintTop_toBottomOf="@+id/user_issue_summary" />
 
     <ListView
         android:id="@+id/comment_section_user"
-        android:layout_width="395dp"
-        android:layout_height="224dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
@@ -138,22 +139,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_comment_button"
         app:layout_optimizationLevel="dimensions" />
 
     <Button
         android:id="@+id/add_comment_button"
-        android:layout_width="302dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="ADD A COMMENT"
-        app:layout_constraintBottom_toTopOf="@+id/comments_user"
+        app:layout_constraintBottom_toTopOf="@+id/comment_section_user"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_issue_summary" />
+        app:layout_constraintTop_toBottomOf="@+id/comments_user" />
 
 </android.support.constraint.ConstraintLayout>
