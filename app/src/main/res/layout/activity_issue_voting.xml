@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:autoSizeTextType="uniform"
+    android:clipToPadding="false"
+    android:fillViewport="true"
     tools:context=".IssueVotingActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -18,7 +19,7 @@
         <LinearLayout
             android:id="@+id/layout_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
             android:orientation="vertical"
             android:weightSum="10"
@@ -30,34 +31,23 @@
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_weight="4"
-                android:cropToPadding="true"
-                android:maxHeight="200dp"
-                android:scaleType="centerCrop"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/button_layout"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toTopOf="@+id/nay_sga"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintVertical_chainStyle="spread_inside"
                 app:srcCompat="@drawable/mock_pic" />
 
             <LinearLayout
                 android:id="@+id/button_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
                 android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:orientation="horizontal"
                 android:weightSum="2"
                 app:layout_constraintBottom_toTopOf="@+id/info_layout"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,17 +92,17 @@
                 android:id="@+id/info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
                 android:orientation="vertical"
                 android:weightSum="5"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/title_summary_user"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4"
-                app:layout_constraintHorizontal_chainStyle="packed">
+                app:layout_constraintTop_toBottomOf="@+id/imageView4">
 
                 <TextView
                     android:id="@+id/title_summary_user"
@@ -196,7 +186,7 @@
             <LinearLayout
                 android:id="@+id/comment_section_user"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
