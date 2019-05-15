@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -81,6 +82,12 @@ public class UserStatisticsActivity extends AppCompatActivity {
 
         DecimalFormat df = new DecimalFormat("##");
         PercentFormatter pf = new PercentFormatter(df);
+
+        YAxis yAxis = chart.getAxisLeft();
+        yAxis.setGranularity(1f); // interval 1
+        yAxis.setLabelCount(100, true);
+
+        chart.invalidate();
 
         BARDATA = new BarData(BarEntryLabels, Bardataset);
         BARDATA.setValueFormatter(pf);
