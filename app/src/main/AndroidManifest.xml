@@ -31,6 +31,9 @@
             android:parentActivityName=".SGAFeedActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".AddCommentActivity"
+            android:parentActivityName=".IssueVotingActivity" />
+        <activity
             android:name=".AddMemberActivity"
             android:parentActivityName=".EditSGAActivity" />
         <activity

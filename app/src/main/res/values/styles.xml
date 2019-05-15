@@ -13,12 +13,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Custom">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
-        <item name="android:autoSizeTextType">uniform</item>
-        <item name="android:autoSizeMinTextSize">50dp</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

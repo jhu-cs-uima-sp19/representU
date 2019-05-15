@@ -11,26 +11,31 @@ import java.util.Date;
 public class Comment {
     public String userName;
     public String mainText;
-    public Instant createTime = Instant.now();
+    //public String issueID;
+    //public Instant createTime = Instant.now();
 
     public Comment(String name, String text) {
         this.userName = name;
         this.mainText = text;
     }
 
-    /** Returns the creation time of this User. */
-    public Instant getCreationTime() {
-        return createTime;
+    public Comment() {
+        // Default constructor required for calls to DataSnapshot.getValue(Issue.class)
     }
 
-    /** Returns Instant time in MM/DD/YYYY HH:MM:SS timeFormat. */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String timeFormat() {
-        Date myDate = Date.from(this.getCreationTime());
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        String formattedDate = formatter.format(myDate);
-        return formattedDate;
-    }
+//    /** Returns the creation time of this User. */
+//    public Instant getCreationTime() {
+//        return createTime;
+//    }
+
+//    /** Returns Instant time in MM/DD/YYYY HH:MM:SS timeFormat. */
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public String timeFormat() {
+//        //Date myDate = Date.from(this.getCreationTime());
+//        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+//        String formattedDate = formatter.format(myDate);
+//        return formattedDate;
+//    }
 
 //    @Override
 //    /** Compares Activities based on their creation time.

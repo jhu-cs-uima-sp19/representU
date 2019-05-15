@@ -21,9 +21,10 @@ public class Issue {
     public int votesYay;
     public int votesNay;
     private Instant createTime;
-    private List<Comment> comments; // lists of comments made by users
+    //private List<Comment> comments; // lists of comments made by users
     public List<String> usersYay; // Users that voted yay
     public List<String> usersNay; // Users that voted nay
+    public List<Comment> comments; // lists of comments made by users
     public boolean archived;
 
     public Issue() {
@@ -41,7 +42,7 @@ public class Issue {
         this.votesNay = 0;
         this.usersNay = new ArrayList<>();
         this.usersYay = new ArrayList<>();
-        this.comments = new ArrayList<>();
+        //this.comments = new ArrayList<>();
         this.createTime = Instant.now();
         this.archived = false;
         //Firebase wont add an empty arrayList, adding empty strings
@@ -60,7 +61,7 @@ public class Issue {
         this.votesNay = 0;
         this.usersNay = new ArrayList<>();
         this.usersYay = new ArrayList<>();
-        this.comments = new ArrayList<>();
+        //this.comments = new ArrayList<>();
         this.createTime = Instant.now();
         this.archived = false;
         //Firebase wont add an empty arrayList, adding empty strings
@@ -104,9 +105,9 @@ public class Issue {
         return this.usersNay;
     }
 
-    public void addComments(Comment e) {
-        comments.add(e);
-    }
+    //public void addComments(Comment e) {
+      //  comments.add(e);
+    //}
 
     /** Returns the creation time of this User. */
     private Instant getCreationTime() {

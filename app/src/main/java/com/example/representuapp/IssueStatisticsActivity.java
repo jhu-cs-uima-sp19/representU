@@ -6,9 +6,13 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -69,9 +73,12 @@ public class IssueStatisticsActivity extends AppCompatActivity {
         AddValuesToBARENTRY();
         AddValuesToBarEntryLabels();
 
+        //Toast.makeText(getApplicationContext(), YAxis.AxisDependency.values().toString(), Toast.LENGTH_LONG).show();
+        //System.out.print(YAxis.AxisDependency.values().toString());
+
         Bardataset = new BarDataSet(BARENTRY, "");
         Bardataset.setColors(new int[] {Color.parseColor("#EC940F"), Color.parseColor("#002D72")});
-
+        //Bardataset.setAxisDependency(chart.setY(100));
         DecimalFormat df = new DecimalFormat("##");
         com.github.mikephil.charting.formatter.PercentFormatter pf = new PercentFormatter(df);
 
@@ -79,12 +86,32 @@ public class IssueStatisticsActivity extends AppCompatActivity {
         BARDATA.setValueFormatter(pf);
         BARDATA.setHighlightEnabled(false);
 
+        chart.setY(100);
+        chart.setVisibleYRangeMaximum(100,chart.getAxisLeft().getAxisDependency());
+
         chart.setData(BARDATA);
         chart.setDescription("");
         chart.getLegend().setEnabled(false);
         chart.setDrawValueAboveBar(false);
         chart.setDrawGridBackground(false);
         chart.setClickable(false);
+        chart.getAxisLeft().setLabelCount(10,true);
+        chart.getAxisRight().setLabelCount(10,true);
+        //chart.getAxisRight().setGranularityEnabled(true);
+        //chart.getAxisLeft().setGranularityEnabled(true);
+        //chart.getAxisRight().setGranularity(10);
+        //chart.getAxisLeft().setGranularity(10);
+        chart.setAutoScaleMinMaxEnabled(false);
+        //chart.setScaleY(100);
+        //chart.setVisibleYRangeMaximum(100,chart.getAxisRight().getAxisDependency());
+        //chart.setMaxVisibleValueCount(100);
+        //chart.setScaleYEnabled(true);
+        //chart.setScaleY(10);
+        //chart.setScaleMinima(0,0);
+        //chart.setVisibleYRangeMaximum(100,chart.getAxisRight().getAxisDependency());
+        chart.setAutoScaleMinMaxEnabled(false);
+        chart.setVisibleYRangeMaximum(100,chart.getAxisRight().getAxisDependency());
+        chart.getAxisLeft().setGranularity(1);
 
         chart.getBarData().setValueTextColor(Color.parseColor("#ffffff"));
         chart.getBarData().setValueTextSize(18);
