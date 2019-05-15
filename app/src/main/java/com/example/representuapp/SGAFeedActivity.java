@@ -200,6 +200,8 @@ public class SGAFeedActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setFitsSystemWindows(true);
+        navigationView.setItemTextColor(ColorStateList.valueOf(colorPrimaryDark));
 
         loadIssues();
     }
