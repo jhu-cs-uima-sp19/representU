@@ -101,8 +101,8 @@ public class SGAStatisticsActivity extends AppCompatActivity {
 
         archivesList = (ListView) findViewById(R.id.archivesList);
 
-        archAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayList);
-        archivesList.setAdapter(adapter);
+        archAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, archList);
+        archivesList.setAdapter(archAdapter);
         archivesList.setClickable(true);
 
         archives.addValueEventListener(new ValueEventListener() {
@@ -114,10 +114,10 @@ public class SGAStatisticsActivity extends AppCompatActivity {
                 archNayList.clear();
                 for (DataSnapshot childDataSnapshot : snapshot.getChildren()) {
                     String id = childDataSnapshot.getKey();
-                    String string = childDataSnapshot.child("title").getValue(String.class);
+                    String s = childDataSnapshot.child("title").getValue(String.class);
                     int yeaNum = childDataSnapshot.child("votesYay").getValue(Integer.class);
                     int nayNum = childDataSnapshot.child("votesNay").getValue(Integer.class);
-                    archList.add(string);
+                    archList.add(s);
                     archIDList.add(id);
                     archYeaList.add(yeaNum);
                     archNayList.add(nayNum);
