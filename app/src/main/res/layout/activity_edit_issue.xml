@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,6 +29,7 @@
         android:ems="10"
         android:inputType="textMultiLine"
         android:lines="2"
+        android:textSize="18dp"
         android:padding="5dp"
         android:paddingLeft="0dp"
         android:paddingTop="0dp"
@@ -37,7 +46,7 @@
     <EditText
         android:id="@+id/edit_issue_summary"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
@@ -52,7 +61,7 @@
         android:lines="10"
         android:padding="5dp"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
+        android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/deleteButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +79,7 @@
         android:layout_marginBottom="16dp"
         android:text="@string/issue_summary"
         android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/edit_issue_summary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +112,7 @@
         android:layout_marginBottom="16dp"
         android:text="@string/issue_title"
         android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/edit_issue_title_"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -147,4 +156,6 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_issue_summary"
         app:layout_constraintVertical_bias="1.0" />
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
